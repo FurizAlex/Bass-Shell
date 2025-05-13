@@ -12,13 +12,53 @@
 
 NAME = minishell
 
+#/*~			Standard			~*/#
+
 RM = rm -rf
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g -I(HEADER_DIRECTORY)
 
 HEADER = $(HEADER_DIRECTORY)/minishell.h
 
-HEADER_DIRECTORY = include
+SOURCE_DIRECTORY = #$todo()!
+LIBFT_DIRECTORY = libft
+HEADER_DIRECTORY = includes
 OBJECT_DIRECTORY = object
 
 SOURCE = \
+
+#/*~		Terminals Colors		~*/#
+
+DEFAULT := \033[1;39m
+RESET := \033[0m
+GREEN := \033[1;32m
+YELLOW := \033[1;33m
+CYAN := \033[1;36m
+
+#/*~			Main				~*/#
+
+all: $(NAME)
+
+$(OBJECT_DIRECTORY)/%.o: $(SOURCE_DIRECTORY)/%.c:
+	@mkdir -p $(dir $@)
+	@echo "\n$(YELLOW)Compiling bass shell$(RESET)"
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	@$(RM) $(OBJECT_DIRECTORY)
+	@echo "$(CYAN)\nSuccessfully cleaned all .o files...$(RESET)"
+
+fclean: clean
+	@clear
+	@$(RM) $(NAME)
+	@echo "$(CYAN)\nSuccessfully cleaned all makefiles files...$(RESET)"
+
+clear:
+	@clear
+
+re: clear fclean all
+
+valgrind:
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes
+
+.PHONY: all clean fclean re valgrind
