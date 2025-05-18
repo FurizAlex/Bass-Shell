@@ -16,13 +16,13 @@ NAME = minishell
 
 RM = rm -rf
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -I(HEADER_DIRECTORY)
+CFLAGS = -Wall -Wextra -Werror -g -I(MINISHELL_HEADER_DIRECTORY)
 
-HEADER = $(HEADER_DIRECTORY)/minishell.h
+MINISHELL_HEADER = $(MINISHELL_HEADER_DIRECTORY)/minishell.h
 
 SOURCE_DIRECTORY = #$todo()!
 LIBFT_DIRECTORY = libft
-HEADER_DIRECTORY = includes
+MINISHELL_HEADER_DIRECTORY = includes
 OBJECT_DIRECTORY = object
 
 SOURCE = \
@@ -41,8 +41,13 @@ all: $(NAME)
 
 $(OBJECT_DIRECTORY)/%.o: $(SOURCE_DIRECTORY)/%.c:
 	@mkdir -p $(dir $@)
-	@echo "\n$(YELLOW)Compiling bass shell$(RESET)"
+	@echo "\n$(YELLOW)Compiling bass shell .c files...$(RESET)"
 	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(LIBFT):
+	@echo "$(YELLOW)\nCompiling libft files... $(RESET)"
+	@make -C $(LIBFT_PATH) all --no-print-directory > /dev/null
+	@echo "$(GREEN)\nSuccessfully compiled libft...$(RESET)"
 
 clean:
 	@$(RM) $(OBJECT_DIRECTORY)
