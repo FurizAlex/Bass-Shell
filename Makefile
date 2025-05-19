@@ -16,7 +16,9 @@ NAME = minishell
 
 RM = rm -rf
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -I(MINISHELL_HEADER_DIRECTORY)
+CFLAGS = -g -I(MINISHELL_HEADER_DIRECTORY)
+
+#-Wall -Wextra -Werror 
 
 MINISHELL_HEADER = $(MINISHELL_HEADER_DIRECTORY)/minishell.h
 

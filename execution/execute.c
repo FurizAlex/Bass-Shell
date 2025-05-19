@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 10:24:19 by alechin           #+#    #+#             */
-/*   Updated: 2025/05/19 10:39:13 by alechin          ###   ########.fr       */
+/*   Updated: 2025/05/19 15:18:14 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,7 @@
 
 int	execution(int argc, char *argv[])
 {
-	return (0);
+	int	*line;
+	
+	
 }
