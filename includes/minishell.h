@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:16:24 by alechin           #+#    #+#             */
-/*   Updated: 2025/05/19 15:15:29 by alechin          ###   ########.fr       */
+/*   Updated: 2025/05/19 15:33:11 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,25 @@
 # include "libft/libft.h"
 # include "libft/ft_printf/ft_printf.h"
 
+# define STDIN 0
+# define STDOUT 1
+# define STDDER 2
+
 /*	todo!() -> Data Structures	*/
 typedef struct s_minishell
 {
 	/* data */
 }	t_minishell;
+
+typedef struct	s_base
+{
+	char			**argv;
+	int				size;
+	int				type;
+	int				fd[2];
+	struct s_base	*next;
+	struct s_base	*prev;
+}	t_base;
 
 typedef struct s_pipe
 {
