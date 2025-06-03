@@ -2,6 +2,10 @@
 	"C_Cpp.errorSquiggles": "disabled",
 	"files.associations": {
 		"execution.h": "c",
+<<<<<<< HEAD
 		"ft_printf.h": "c"
+=======
+		"minishell.h": "c"
+>>>>>>> 1d49e4f6b0c4e6406cf02451664ea30e499b506b
 	}
 }
