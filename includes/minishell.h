@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:16:24 by alechin           #+#    #+#             */
-/*   Updated: 2025/05/19 15:33:11 by alechin          ###   ########.fr       */
+/*   Updated: 2025/05/23 14:56:47 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,18 @@
 # define STDOUT 1
 # define STDDER 2
 
+# define MAX_COMMAND_LINE 1024
+
 /*	todo!() -> Data Structures	*/
+typedef enum e_status
+{
+	NORMAL,
+}	t_status
+
 typedef struct s_minishell
 {
-	/* data */
+	struct s_base *base;
+	struct s_pipe *pipe;
 }	t_minishell;
 
 typedef struct	s_base
