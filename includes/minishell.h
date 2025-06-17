@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:16:24 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/17 13:04:40 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/17 15:28:40 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,10 @@
 # include "parsing.h"
 
 # define SHELL_NAME "bass shell"
-# define PROMPT "[FISH BITE] o> "
-# define SUCCESS 0
-# define FAILURE 0
+# define STDIN 0
+# define STDOUT 1
+# define STDERR 2
 
-# define MAX_COMMAND_LINE 1024
-
-/*	todo!() -> Data Structures	*/
 typedef enum e_status
 {
 	NORMAL,

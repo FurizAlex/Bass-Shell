@@ -1,34 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.c                                          :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/19 10:24:19 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/17 14:45:12 by alechin          ###   ########.fr       */
+/*   Created: 2025/06/17 13:40:34 by alechin           #+#    #+#             */
+/*   Updated: 2025/06/17 15:25:42 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
-int	execute_cmd(t_exec *exec)
+int error2exit(char *msg, int status)
 {
-	int	i;
-	int	*cmd;
-	
-	if (!cmd || !exec->cmd_path)
-		return (FAILURE);
-	while (cmd[i])
-	{
-		
-		return (0);
-	}
-}
-
-int	execution(int argc, char *argv[])
-{
-	int	*line;
-	
+	ft_printf("%s\n", msg);
+	exit(status);
 }
