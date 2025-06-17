@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:16:24 by alechin           #+#    #+#             */
-/*   Updated: 2025/05/23 14:56:47 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/17 12:27:42 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,13 @@
 # include "libft/libft.h"
 # include "libft/ft_printf/ft_printf.h"
 
-# define STDIN 0
-# define STDOUT 1
-# define STDDER 2
+# include "execution.h"
+# include "parsing.h"
+
+# define SHELL_NAME "bass shell"
+# define PROMPT "[FISH BITE] o> "
+# define SUCCESS 0
+# define FAILURE 0
 
 # define MAX_COMMAND_LINE 1024
 
@@ -33,12 +37,16 @@
 typedef enum e_status
 {
 	NORMAL,
+	QUOTE,
+	DOUBLE_QUOTE,
 }	t_status
 
 typedef struct s_minishell
 {
-	struct s_base *base;
-	struct s_pipe *pipe;
+	t_env			*env_list;
+	t_command		*cmds;
+	struct s_base	*base;
+	int				last_exit_stat;
 }	t_minishell;
 
 typedef struct	s_base
@@ -50,10 +58,5 @@ typedef struct	s_base
 	struct s_base	*next;
 	struct s_base	*prev;
 }	t_base;
-
-typedef struct s_pipe
-{
-	/* todo!() */
-}	t_pipe;
 
 #endif
