@@ -13,7 +13,7 @@ int main(void) {
         "grep pattern << EOF",
         "echo $HOME && ls",
         "echo 'single quotes' \"double quotes\"",
-        "command with    multiple   spaces",
+        "cat yum.txt | grep idk",
         NULL
     };
 
