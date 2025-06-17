@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:33:54 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/17 12:23:18 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/17 13:03:29 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "minishell.h"
 
-typedef enum	e_redir_t
+typedef enum e_redir_t
 {
 	REDIR_IN,
 	REDIR_OUT,
@@ -23,19 +23,7 @@ typedef enum	e_redir_t
 	REDIR_HEREDOC
 }	t_redir_t;
 
-typedef struct	s_exec
-{
-	char			**argv;
-	char			*cmd_path;
-	int				infile;
-	int				outfile;
-	int				has_pipe;
-	int				is_builtin;
-	t_redir			*redirs;
-	struct s_exec	*next;
-}	t_exec;
-
-typedef struct	s_env
+typedef struct s_env
 {
 	char			*key;
 	char			*value;
@@ -48,5 +36,17 @@ typedef struct s_redir
 	char			*file;
 	struct s_redir	*next;
 }	t_redir;
+
+typedef struct s_exec
+{
+	char			**argv;
+	char			*cmd_path;
+	int				infile;
+	int				outfile;
+	bool			has_pipe;
+	bool			is_builtin;
+	t_redir			*redirs;
+	struct s_exec	*next;
+}	t_exec;
 
 #endif

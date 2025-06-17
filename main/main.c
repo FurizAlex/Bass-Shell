@@ -6,35 +6,23 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 13:59:16 by alechin           #+#    #+#             */
-/*   Updated: 2025/05/23 15:52:24 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/17 13:24:53 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "execution.h"
-#include "parsing.h"
+#include "../includes/minishell.h"
+#include "../includes/execution.h"
+#include "../includes/parsing.h"
 
-/*
-int	loop(char *line, char *argv[], int status)
+int	main(int argc, char **argv, char **envp)
 {
-	while (status == NORMAL)
-	{
-		ft_printf("[FISH REPORT!] > ");
-	}
-	return (0);
-}*/
-
-int	main(int argc, char **argv)
-{
-	char	*line;
+	char	*cmd;
 	int		status;
 
 	status = NORMAL;
-	//loop(line, argv, status);
 	while (1)
 	{
-		ft_printf("[FISH REPORT!] > ");
-		if (!)
+		cmd = readline("\033[33m-- BASS AMATEUR SHELL --\033[36m\n[🐡 FISH BITES] o->\033[0m ");
 	}
 	return (0);
 }

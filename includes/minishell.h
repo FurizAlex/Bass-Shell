@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:16:24 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/17 12:27:42 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/17 13:04:40 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <termios.h>
+# include <stdbool.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "libft/libft.h"
-# include "libft/ft_printf/ft_printf.h"
+# include "../libft/libft.h"
+# include "../libft/ft_printf/ft_printf.h"
 
 # include "execution.h"
 # include "parsing.h"
@@ -39,17 +40,17 @@ typedef enum e_status
 	NORMAL,
 	QUOTE,
 	DOUBLE_QUOTE,
-}	t_status
+}	t_status;
 
 typedef struct s_minishell
 {
 	t_env			*env_list;
-	t_command		*cmds;
+	t_exec			*cmds;
 	struct s_base	*base;
 	int				last_exit_stat;
 }	t_minishell;
 
-typedef struct	s_base
+typedef struct s_base
 {
 	char			**argv;
 	int				size;
