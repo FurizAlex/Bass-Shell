@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:16:24 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/18 15:55:25 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/18 16:39:43 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,10 @@ typedef struct s_base
 	struct s_base	*next;
 	struct s_base	*prev;
 }	t_base;
+
+/* -- Error Handling -- */
+int error2exit(char *msg, int status);
+int error4exit(char *msg, int status);
+int error6exit(char *msg, int status);
 
 #endif
