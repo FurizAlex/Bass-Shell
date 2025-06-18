@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 12:08:17 by alechin           #+#    #+#             */
-/*   Updated: 2025/03/14 11:50:51 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/18 12:45:01 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,7 @@ void		ft_lstiter(t_list *lst, void (*f)(void *));
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 char		*get_next_line(int fd);
 int			ft_printf(const char *str, ...);
+char		*getxenv(char **envp, const char *key);
+void		xprompt(char **envp);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:16:24 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/17 15:28:40 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/18 15:55:25 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <readline/history.h>
 # include "../libft/libft.h"
 # include "../libft/ft_printf/ft_printf.h"
+# include "../libft/Wglbx/wglbx.h"
 
 # include "execution.h"
 # include "parsing.h"
@@ -31,6 +32,9 @@
 # define STDIN 0
 # define STDOUT 1
 # define STDERR 2
+
+# define PIPE_LEFT 0
+# define PIPE_RIGHT 0
 
 typedef enum e_status
 {
