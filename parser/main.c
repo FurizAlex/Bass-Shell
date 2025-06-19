@@ -1,28 +1,38 @@
-
 #include "../includes/parsing.h"
 
 int main(void) {
-    // Test cases
-    char *test_cases[] = {
-        "ls -la",
-        "echo 'hello world'",
-        "cat file.txt | grep pattern",
-        "echo \"Hello $USER\"",
-        "command > output.txt",
-        "cat < input.txt >> output.txt",
-        "grep pattern << EOF",
-        "echo $HOME && ls",
-        "echo 'single quotes' \"double quotes\"",
-        "cat yum.txt | grep idk",
-        NULL
-    };
+    // Example test cases showing the tree structure
+    printf("=== PARSER EXAMPLES ===\n\n");
 
-    for (int i = 0; test_cases[i]; i++) {
-        printf("\n--- Testing: %s ---\n", test_cases[i]);
-        t_token *tokens = tokenize(test_cases[i]);
-        print_tokens(tokens);
-        free_tokens(tokens);
-    }
+    printf("Command: 'ls -la'\n");
+    printf("AST Structure:\n");
+    printf("  COMMAND [ls, -la]\n\n");
+
+    printf("Command: 'cat file.txt | grep pattern'\n");
+    printf("AST Structure:\n");
+    printf("  PIPE\n");
+    printf("    LEFT:\n");
+    printf("      COMMAND [cat, file.txt]\n");
+    printf("    RIGHT:\n");
+    printf("      COMMAND [grep, pattern]\n\n");
+
+    printf("Command: 'cat < input.txt > output.txt'\n");
+    printf("AST Structure:\n");
+    printf("  REDIRECT_OUT -> output.txt\n"); 
+    printf("    LEFT:\n");
+    printf("      REDIRECT_IN -> input.txt\n");
+    printf("        LEFT:\n");
+    printf("          COMMAND [cat]\n\n");
+
+    printf("Command: 'ls | grep pattern > results.txt'\n");
+    printf("AST Structure:\n");
+    printf("  PIPE\n");
+    printf("    LEFT:\n");
+    printf("      COMMAND [ls]\n");
+    printf("    RIGHT:\n");
+    printf("      REDIRECT_OUT -> results.txt\n");
+    printf("        LEFT:\n");
+    printf("          COMMAND [grep, pattern]\n\n");
 
     return 0;
 }

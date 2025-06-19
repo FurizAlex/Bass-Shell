@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_pipes.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpadasia <rpadasia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 14:20:48 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/06/17 15:09:00 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/06/19 16:36:45 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ t_ast_node	*parse_pipeline(t_parser *parser)
 			free_ast(left);
 			return (NULL);
 		}
-		pipe_node->left;
-		pipe_node->parse_command(parser);
+		pipe_node->left = left;
+		pipe_node->right = parse_command(parser);
 		if (!pipe_node->right)
 		{
 			free_ast(pipe_node);

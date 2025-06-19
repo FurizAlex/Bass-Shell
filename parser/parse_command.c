@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   transition.c                                       :+:      :+:    :+:   */
+/*   parse_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/17 16:42:44 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/06/19 16:36:15 by rpadasia         ###   ########.fr       */
+/*   Created: 2025/06/18 21:32:17 by rpadasia          #+#    #+#             */
+/*   Updated: 2025/06/19 15:24:51 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
 
-char	**collect_command_args(t_parser *parser, int *arg_counter)
+t_ast_node	*parse_command(t_parser *parser)
 {
-	char	**args;
-	int		count;
+	t_ast_node	*cmd_node;
+	int			arg_count;
 
-	args = malloc(sizeof(char *) * 64);
-	count = 0;
-	while (parser->current_token
-		&& parser->current_token->type == TOKEN_WORD)
+	if (!parser->current_token || parser->current_token->type != TOKEN_WORD)
+		return (NULL);
+	cmd_node = create_ast_node(NODE_COMMAND);
+	if (!cmd_node)
+		return (NULL);
+	cmd_node->args = collect_command_args(parser, &arg_count);
+	if (arg_count == 0)
 	{
-		args[count] = ft_strdup(parser->current_token->value);
-		count++;
-		advance_parser(parser);
+		free_ast(cmd_node);
+		return (NULL);
 	}
-	args[count] = NULL;
-	*arg_counter = count;
-	return (args);
+	return (parse_redirection(parser, cmd_node));
 }

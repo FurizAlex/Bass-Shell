@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 00:57:53 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/06/13 00:51:07 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/06/19 16:47:50 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ t_token	*create_token(t_token_type type, char *value, bool has_expansion)
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
-
 	token->type = type;
 	if (value)
 		token->value = ft_strdup(value);
@@ -27,7 +26,6 @@ t_token	*create_token(t_token_type type, char *value, bool has_expansion)
 		token->value = NULL;
 	token->has_expansion = has_expansion;
 	token->next = NULL;
-
 	return (token);
 }
 

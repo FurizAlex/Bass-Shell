@@ -1,32 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   transition.c                                       :+:      :+:    :+:   */
+/*   freeing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/17 16:42:44 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/06/19 16:36:15 by rpadasia         ###   ########.fr       */
+/*   Created: 2025/06/17 14:00:58 by rpadasia          #+#    #+#             */
+/*   Updated: 2025/06/19 16:22:06 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
 
-char	**collect_command_args(t_parser *parser, int *arg_counter)
+void	free_lexer(t_lexer *lexer)
 {
-	char	**args;
-	int		count;
-
-	args = malloc(sizeof(char *) * 64);
-	count = 0;
-	while (parser->current_token
-		&& parser->current_token->type == TOKEN_WORD)
+	if (lexer)
 	{
-		args[count] = ft_strdup(parser->current_token->value);
-		count++;
-		advance_parser(parser);
+		free(lexer->input);
+		free(lexer);
 	}
-	args[count] = NULL;
-	*arg_counter = count;
-	return (args);
+}
+
+void	free_ast(t_ast_node *node)
+{
+	int	i;
+
+	if (!node)
+		return ;
+	if (node->args)
+	{
+		while (node->args[i])
+		{
+			free(node->args[i]);
+			i++;
+		}
+		free(node->args);
+	}
+	free(node->filename);
+	free(node->left);
+	free(node->right);
+	free(node);
+}
+
+void	free_parser(t_parser *parser)
+{
+	if (parser)
+		free(parser);
 }

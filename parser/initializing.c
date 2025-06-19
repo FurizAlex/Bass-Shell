@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initializing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpadasia <rpadasia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 23:18:38 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/06/17 14:03:08 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:48:08 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ t_lexer	*init_lexer(char *input)
 	lexer->current_char = lexer->input[0];
 	lexer->in_single_quote = false;
 	lexer->in_double_quote = false;
-
 	return (lexer);
 }
 
@@ -35,9 +34,20 @@ t_parser	*init_parser(t_token *tokens)
 	parser = malloc(sizeof(t_parser));
 	if (!parser)
 		return (NULL);
-
 	parser->tokens = tokens;
 	parser->current_token = tokens;
 	return (parser);
 }
 
+t_ast_node	*parse(t_token *tokens)
+{
+	t_parser	*parser;
+	t_ast_node	*ast;
+
+	parser = init_parser(tokens);
+	if (!parser)
+		return (NULL);
+	ast = parse_pipeline(parser);
+	free_parser(parser);
+	return (ast);
+}
