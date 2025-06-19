@@ -6,9 +6,19 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:33 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/03 10:16:58 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/19 11:16:35 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
+
+void	free_ast(void)
+{
+	/* todo!() */
+}
+
+int	_unset(t_env *env)
+{
+	return (0);
+}

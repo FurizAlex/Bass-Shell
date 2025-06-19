@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:16:24 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/18 16:39:43 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/19 10:52:30 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@
 # define STDERR 2
 
 # define PIPE_LEFT 0
-# define PIPE_RIGHT 0
+# define PIPE_RIGHT 1
+
+# define SUCCESS 0
+# define FAILURE 1
 
 typedef enum e_status
 {
@@ -48,7 +51,7 @@ typedef struct s_minishell
 	t_env			*env_list;
 	t_exec			*cmds;
 	struct s_base	*base;
-	int				last_exit_stat;
+	int				status;
 }	t_minishell;
 
 typedef struct s_base

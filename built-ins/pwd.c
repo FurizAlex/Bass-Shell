@@ -6,9 +6,14 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:31 by alechin           #+#    #+#             */
-/*   Updated: 2025/05/23 14:54:31 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/19 10:34:03 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
+
+int	pwd(t_env *env)
+{
+	return (0);
+}
