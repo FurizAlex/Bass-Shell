@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:15:10 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/19 15:23:19 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/20 16:04:02 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,58 +14,60 @@
 #include "execution.h"
 #include "parsing.h"
 
-int	in(char *filename, int *fd, char **env)
+int	in(char *filename)
 {
-	int	infile;
+	int	*fd;
 	
-	infile = open(filename, O_RDONLY);
-	if (!infile || infile == -1)
+	fd = open(filename, O_RDONLY);
+	if (!fd || fd < 0)
 		error2exit("🍥 Fishy Error: Could not get infile", 1);
-	dup2(infile, 0);
-	dup2(fd[1], 1);
-	close(fd[0]);
-	close(fd[1]);
-	/* execute the command */
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
+	return (0);
 }
 
-int	out(char *filename, int *fd, char **env)
+int	out(char *filename)
 {
-	int	outfile;
+	int *fd;
 
-	outfile = open(filename, O_WRONLY, O_CREAT, O_TRUNC, 0777);
-	if (!outfile || !outfile == -1)
-		error2exit("🍥 Fishy Error: Could not get infile", 1);
-	dup2(fd[0], 0);
-	dup2(outfile, 1);
-	close(fd[0]);
-	close(fd[1]);
-	close(outfile);
-	/* execute the command */
+	fd = open(filename, O_WRONLY, O_CREAT, O_TRUNC, 0777);
+	if (!fd || fd < 0)
+		error2exit("🍥 Fishy Error: Could not get outfile", 1);
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
+	return (0);
 }
 
-int	append(char *filename, int *fd, char **env)
+int	append(char *filename)
 {
-	int	outfile;
+	int *fd;
 
-	outfile = open(filename, O_WRONLY, O_CREAT, O_APPEND, 0777);
-	if (!outfile || !outfile == -1)
+	fd = open(filename, O_WRONLY, O_CREAT, O_APPEND, 0777);
+	if (!fd || !fd == -1)
 		error2exit("🍥 Fishy Error: Couldn't append file", 1);
-	dup2(fd[0], 0);
-	dup2(outfile, 1);
-	close(fd[0]);
-	close(fd[1]);
-	close(outfile);
-	/* execute the command */
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
+	return (0);
 }
 
-int	heredoc(char *filename, int *fd, char **env, char *limiter)
+int	heredoc(char *filename, char *limiter)
 {
-	char *line;
+	int 	*pipex;
+	char	*str;
+	t_lexer	*lexer;
+	bool	is_expansion;
 
-	if (pipe(fd) == -1)
+	if (pipe(pipex) <= -1)
 		error2exit("🍥 Fishy Error: Could not get infile", 1);
-	while (1)
-	{
-		
-	}
+	is_expansion = false;
+	if (lexer->in_double_quote || lexer->in_single_quote)
+		is_expansion = true;
+	if (is_expansion)
+		/* expand dollar sign */
+	ft_putstr_fd(str, pipex[1]);
+	dup2(pipex[0], STDOUT_FILENO);
+	close(pipex[0]);
+	close(pipex[1]);
+	free(str);
+	return (0);
 }

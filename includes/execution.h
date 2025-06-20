@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:33:54 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/17 13:03:29 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/20 14:44:00 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,6 @@
 # define EXECUTION_H
 
 # include "minishell.h"
-
-typedef enum e_redir_t
-{
-	REDIR_IN,
-	REDIR_OUT,
-	REDIR_APPEND,
-	REDIR_HEREDOC
-}	t_redir_t;
 
 typedef struct s_env
 {
@@ -32,7 +24,7 @@ typedef struct s_env
 
 typedef struct s_redir
 {
-	t_redir_t		type;
+	int				type;
 	char			*file;
 	struct s_redir	*next;
 }	t_redir;
