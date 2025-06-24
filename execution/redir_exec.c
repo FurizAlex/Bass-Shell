@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:12:56 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/20 15:03:41 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/24 15:17:38 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int redir_type(int type)
 		|| TOKEN_HEREDOC);
 }
 
-int	exec_redirection(t_redir *redir, t_token *token)
+int	redirection(t_redir *redir, t_token *token)
 {
 	int		types;
 	char	*filename;
@@ -32,7 +32,9 @@ int	exec_redirection(t_redir *redir, t_token *token)
 	filename = NULL;
 	if (token->type != TOKEN_HEREDOC)
 	{
-		/* expand str, remove quotes, free*/
+		expand_string(filename);
+		remove_quotes(filename);
+		free(filename);
 	}
 	if (token->type == TOKEN_REDIRECT_IN)
 		types = in(filename);

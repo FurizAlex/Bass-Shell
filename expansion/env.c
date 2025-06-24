@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:13:55 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/24 10:46:44 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/24 13:59:56 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ int	variable_len(char *start)
 	return (len);
 }
 
-char	*to_get_env(char *start, int len, t_root *root)
+char	*to_get_env(char *start, int len)
 {
+	t_root	*root;
 	char	*variable_name;
 	char	*env_value;
 

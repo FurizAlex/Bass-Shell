@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:15:10 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/20 16:04:02 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/24 15:43:38 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ int	heredoc(char *filename, char *limiter)
 	is_expansion = false;
 	if (lexer->in_double_quote || lexer->in_single_quote)
 		is_expansion = true;
-	if (is_expansion)
-		/* expand dollar sign */
+	if (is_expansion != false)
+		expand_dollar(filename);
 	ft_putstr_fd(str, pipex[1]);
 	dup2(pipex[0], STDOUT_FILENO);
 	close(pipex[0]);

@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:41:40 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/18 16:00:02 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/24 14:14:27 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	close_pipe(int *pipe, int n)
 	int	i;
 
 	i = 0;
-	while (i < 2 * (n - 1))
+	while (i < n)
 		close(pipe[i++]);
 }
 

@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:16:24 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/24 13:38:25 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/24 17:35:19 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ typedef struct s_root
 	t_token			**tokens;
 	t_minishell		*msh;
 	struct s_root	*origin;
-	struct s_root	*next;
-	struct s_root	*prev;
+	struct s_root	*left;
+	struct s_root	*right;
 }	t_root;
 
 typedef struct s_minishell
@@ -80,21 +80,51 @@ int 	error2exit(char *msg, int status);
 int 	error4exit(char *msg, int status);
 int 	error6exit(char *msg, int status);
 
+/* -- Branching -- */
+int		is_fork(t_root *root);
+int		execute_status(t_root *root);
+void	dup2io(int io_in, int io_out);
+
+/* -- Execution Main -- */
+int		execution(t_root *root);
+
+/* -- Execution Path -- */
+char	*exec_path(char *cmd, char **env);
+
+/* -- Pipe -- */
+
+/* -- Redirections Exec -- */
+int 	redir_type(int type);
+int		redirection(t_redir *redir, t_token *token);
+
 /* -- Redirections Operations -- */
 int		in(char *filename);
 int		out(char *filename);
 int		append(char *filename);
 int		heredoc(char *filename, char *limiter);
 
-/* Expansion Helper */
+/* -- Expansion Main -- */
+char	*remove_quotes(char *str);
+char	**join_commands(t_root *root);
+char	**expand_commands(char **cmd, t_root *root);
+char	*expand_string(char *str);
+
+/* -- Expansion Helper -- */
 char	**remainder(char **cmd, t_root *root, int box, int keep);
 char	*remove_quotes_size(char *str, char *i);
 char	**remove_null(char **cmd, t_root *root);
 char	*get_raw_area(char *str, int *i);
 char	*get_next_area(char *str, int *i);
 
-/* Env */
+/* -- Env -- */
 int		variable_len(char *start);
-char	*to_get_env(char *start, int len, t_root *root);
+char	*to_get_env(char *start, int len);
+
+/* -- Dollar -- */
+char	*expand_dollar(char *prompt);
+
+/* -- Termination -- */
+void	terminate_ast(t_root **root);
+void	terminate_tokens(t_token **tokens);
 
 #endif
