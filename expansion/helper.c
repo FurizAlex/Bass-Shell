@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:13:38 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/20 17:46:22 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/20 18:13:05 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 char	**remainder(char **cmd, t_root *root, int box, int keep)
 {
 	char	**new;
-	int			i;
-	int			j;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
@@ -28,7 +28,7 @@ char	**remainder(char **cmd, t_root *root, int box, int keep)
 	while (cmd[i])
 	{
 		if (!(i < box && root->tokens[i]->type == TOKEN_WORD
-			&& cmd[i][0] == '\0'))
+				&& cmd[i][0] == '\0'))
 		{
 			new[j] = cmd[i];
 			j++;
@@ -85,7 +85,7 @@ char	**remove_null(char **cmd, t_root *root)
 	while (cmd[i])
 	{
 		if (!(i < box && root->tokens[i]->type == TOKEN_WORD
-			&& cmd[i][0] == '\0'))
+				&& cmd[i][0] == '\0'))
 			keep++;
 		i++;
 	}
@@ -124,7 +124,7 @@ char	*get_next_area(char *str, int *i)
 {
 	char	*raw;
 	char	*res;
-	
+
 	raw = get_raw_area(s, i);
 	if (raw[0] == '\'')
 		result = raw;

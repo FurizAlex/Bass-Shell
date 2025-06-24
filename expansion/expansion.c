@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:13:24 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/20 18:02:07 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/20 18:11:55 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,32 +34,12 @@ char	*remove_quotes(char *str)
 	return (token);
 }
 
-char	*expand_string(char *str)
-{
-	int		i;
-	char	*token;
-	char	*size;
-	char	*temp;
-
-	token = ft_strdup("");
-	i = 0;
-	while (str[i] != '\0')
-	{
-		chunk = get_next_area(s, &i);
-		temp = ft_strjoin(token, size);
-		free(token);
-		free(chunk);
-		token = temp;
-	}
-	return (token);
-}
-
 char	**join_commands(t_root *root)
 {
 	int		i;
 	int		count;
 	char	**cmd;
-	
+
 	i = 0;
 	count = 0;
 	if (!root->tokens)
@@ -83,7 +63,7 @@ char	**expand_commands(char **cmd, t_root *root)
 	int		i;
 	char	*temp;
 	char	*quoted;
-	
+
 	i = -1;
 	while (cmd[++i])
 	{
@@ -101,4 +81,24 @@ char	**expand_commands(char **cmd, t_root *root)
 	}
 	cmd = remove_null(cmd, root);
 	return (cmd);
+}
+
+char	*expand_string(char *str)
+{
+	int		i;
+	char	*token;
+	char	*size;
+	char	*temp;
+
+	token = ft_strdup("");
+	i = 0;
+	while (str[i] != '\0')
+	{
+		chunk = get_next_area(s, &i);
+		temp = ft_strjoin(token, size);
+		free(token);
+		free(chunk);
+		token = temp;
+	}
+	return (token);
 }
