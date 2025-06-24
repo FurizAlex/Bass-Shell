@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:16:24 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/20 17:48:27 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/24 13:38:25 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_root
 {
 	int				level;
 	t_token			**tokens;
+	t_minishell		*msh;
 	struct s_root	*origin;
 	struct s_root	*next;
 	struct s_root	*prev;
@@ -75,15 +76,15 @@ typedef struct s_base
 }	t_base;
 
 /* -- Error Handling -- */
-int error2exit(char *msg, int status);
-int error4exit(char *msg, int status);
-int error6exit(char *msg, int status);
+int 	error2exit(char *msg, int status);
+int 	error4exit(char *msg, int status);
+int 	error6exit(char *msg, int status);
 
 /* -- Redirections Operations -- */
-int	in(char *filename);
-int	out(char *filename);
-int	append(char *filename);
-int	heredoc(char *filename, char *limiter);
+int		in(char *filename);
+int		out(char *filename);
+int		append(char *filename);
+int		heredoc(char *filename, char *limiter);
 
 /* Expansion Helper */
 char	**remainder(char **cmd, t_root *root, int box, int keep);
@@ -91,5 +92,9 @@ char	*remove_quotes_size(char *str, char *i);
 char	**remove_null(char **cmd, t_root *root);
 char	*get_raw_area(char *str, int *i);
 char	*get_next_area(char *str, int *i);
+
+/* Env */
+int		variable_len(char *start);
+char	*to_get_env(char *start, int len, t_root *root);
 
 #endif
