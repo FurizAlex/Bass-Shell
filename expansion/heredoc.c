@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:25:49 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/20 18:13:11 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/26 14:51:47 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	read_heredoc(char *line, int fd, char *delimiter)
 		error2exit("🍥 Fishy Error: No line in heredoc\n", 1);
 	while (1)
 	{
-		line = readline("> ");
+		line = readline("o-> ");
 		if (!line)
 			error2exit("🍥 Fishy Warning: Heredoc delimited by EOF\n", 2);
 		if (!line || !comp(line, delimiter))

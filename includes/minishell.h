@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:16:24 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/24 17:35:19 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/26 16:15:33 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_root
 typedef struct s_minishell
 {
 	int				status;
+	char			**env;
 	t_env			*env_list;
 	t_exec			*cmds;
 	struct s_base	*base;
@@ -80,12 +81,24 @@ int 	error2exit(char *msg, int status);
 int 	error4exit(char *msg, int status);
 int 	error6exit(char *msg, int status);
 
+/* -- Built-ins -- */
+int 	_cd(char **path);
+int		_echo(char **cmd);
+int		_env(char **cmd);
+int		_exit(char **cmd);
+int		_export(char **cmd);
+int		_pwd(char **cmd);
+int		_unset(t_env *env);
+
 /* -- Branching -- */
 int		is_fork(t_root *root);
 int		execute_status(t_root *root);
 void	dup2io(int io_in, int io_out);
 
 /* -- Execution Main -- */
+void	close_fds(void);
+void	handle_single(t_exec *exec);
+char	type_null(t_root *root);
 int		execution(t_root *root);
 
 /* -- Execution Path -- */
@@ -95,7 +108,8 @@ char	*exec_path(char *cmd, char **env);
 
 /* -- Redirections Exec -- */
 int 	redir_type(int type);
-int		redirection(t_redir *redir, t_token *token);
+int		redirect_prompt(t_root *root);
+int		redirection(t_root *root);
 
 /* -- Redirections Operations -- */
 int		in(char *filename);

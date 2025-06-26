@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:13:38 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/24 15:36:20 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/26 10:45:15 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,35 +40,6 @@ char	**remainder(char **cmd, t_root *root, int box, int keep)
 	new[j] = '\0';
 	free(cmd);
 	return (new);
-}
-
-char	*remove_quotes_size(char *str, char *i)
-{
-	int		start;
-	int		end;
-	char	quote;
-	char	*size;
-
-	quote = 0;
-	if (str[*i] == '"' || str[*i] == "'")
-	{
-		quote = s[*i];
-		(*i)++;
-	}
-	start = *i;
-	end = *i;
-	if (!quote)
-	{
-		while (str[end] && str[end] != '"' && str[end] != '\'')
-			end++;
-	}
-	while (s[end] && s[end] != quote)
-		end++;
-	if (quote && str[end == quote])
-		end++;
-	str = dupnxtra(str + start, end - start);
-	*i = end;
-	return (size);
 }
 
 char	**remove_null(char **cmd, t_root *root)

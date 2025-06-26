@@ -6,33 +6,13 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:13:24 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/20 18:11:55 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/26 10:44:59 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 #include "parsing.h"
-
-char	*remove_quotes(char *str)
-{
-	int		i;
-	char	*size;
-	char	*temp;
-	char	*token;
-
-	i = 0;
-	token = ft_strdup("");
-	while (str[i])
-	{
-		size = remove_quotes_size(str, &i);
-		temp = ft_strjoin(token, size);
-		free(token);
-		free(size);
-		token = temp;
-	}
-	return (token);
-}
 
 char	**join_commands(t_root *root)
 {

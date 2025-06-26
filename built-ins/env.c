@@ -6,15 +6,17 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:25 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/19 10:52:43 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/26 15:50:28 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
-int	_env(t_env *env)
+int	_env(char **cmd)
 {
+	t_env	*env;
+	
 	while (env && env != NULL)
 	{
 		ft_printf("%s\n", env->value);

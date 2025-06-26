@@ -21,7 +21,7 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
-	bool			has_expansion;/*marks if token contains $ for expansion*/
+	bool			has_expansion; /*marks if token contains $ for expansion*/
 	struct s_token	*next;
 }	t_token;
 

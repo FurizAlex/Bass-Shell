@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:41:25 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/24 17:20:10 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/26 10:37:19 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	is_fork(t_root *root)
 	int		root_level;
 	int		stat;
 
-	pid	= fork();
+	pid = fork();
 	root_level = 0;
 	if (root->origin)
 		root_level = root->level;
@@ -41,7 +41,7 @@ int	is_fork(t_root *root)
 		exit(stat);
 	}
 	waitpid(pid, &stat, 0);
-	if (WIFEXITED(stat));
+	if (WIFEXITED(stat))
 		return (WIFEXITED(stat));
 	return (0);
 }

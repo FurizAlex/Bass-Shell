@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:41:40 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/24 14:14:27 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/26 13:57:24 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	close_pipe(int *pipe, int n)
 		close(pipe[i++]);
 }
 
-int	child(char **argv, int *fd)
+void	initalize_pipes(int	*pipe)
 {
-	return (0);
+	return ;
 }
 
 int	pipe(t_exec *exec)
