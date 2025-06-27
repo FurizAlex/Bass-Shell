@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir_operation.c                                  :+:      :+:    :+:   */
+/*   operation.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:15:10 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/26 11:47:42 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/27 15:50:14 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 int	in(char *filename)
 {
 	int	*fd;
-	
+
 	fd = open(filename, O_RDONLY);
 	if (!fd || fd < 0)
 		error2exit("🍥 Fishy Error: Could not get infile", 1);
@@ -28,7 +28,7 @@ int	in(char *filename)
 
 int	out(char *filename)
 {
-	int *fd;
+	int	*fd;
 
 	fd = open(filename, O_WRONLY, O_CREAT, O_TRUNC, 0777);
 	if (!fd || fd < 0)
@@ -40,7 +40,7 @@ int	out(char *filename)
 
 int	append(char *filename)
 {
-	int *fd;
+	int	*fd;
 
 	fd = open(filename, O_WRONLY, O_CREAT, O_APPEND, 0777);
 	if (!fd || !fd == -1)
@@ -52,7 +52,7 @@ int	append(char *filename)
 
 int	heredoc(char *filename, char *limiter)
 {
-	int 	*pipex;
+	int		*pipex;
 	char	*str;
 	t_lexer	*lexer;
 	bool	is_expansion;

@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:36:14 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/26 18:07:44 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/27 15:45:18 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	is_builtin(char **cmd, t_minishell *std)
 			return (1);
 		while (cmd[++i])
 			std->env = _export(cmd);
-		if (std->env = env_cpy)
+		if (std->env == env_cpy)
 			return (1);
 		return (0);
 	}

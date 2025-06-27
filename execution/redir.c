@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:12:56 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/27 12:02:05 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/27 15:51:56 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	redirection(t_root *root)
 	int		types;
 	char	*filename;
 	char	*quote_filename;
-	t_redir *redir
+	t_redir	*redir;
 
 	types = NULL;
 	filename = NULL;

@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:16:24 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/27 11:58:49 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/27 15:46:30 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_root
 typedef struct s_minishell
 {
 	int				status;
+	int				*export;
 	char			**env;
 	t_env			*env_list;
 	t_exec			*cmds;
@@ -101,7 +102,6 @@ void	dup2io(int io_in, int io_out);
 
 /* -- Execution Main -- */
 void	close_fds(void);
-void	handle_single(t_exec *exec);
 char	type_null(t_root *root);
 int		execution(t_root *root);
 
@@ -112,6 +112,7 @@ char	*exec_path(char *cmd, char **env);
 int		external(char **cmd, t_minishell *msh);
 
 /* -- Pipe -- */
+int		pipe(char **cmd, char n, t_root *root);
 
 /* -- Redirections Exec -- */
 int 	redir_type(int type);

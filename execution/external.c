@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 11:14:25 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/27 11:58:13 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/27 15:49:11 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	search(char **cmd, t_minishell *msh)
 
 	cut_point = ft_strjoin("/", cmd[0]);
 	if (!getxenv("PATH", msh))
-		return (free(cmd), error6exit("Fishy Error: Couldn't get path", 2), 127);
+		return (free(cmd), error6exit("Fishy Error: Can't get path", 2), 127);
 	paths = ft_split(getxenv("PATH", msh), ':');
 	count = countword(paths);
 	pathcmd = malloc((count + 1) * sizeof(char *));

@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 10:24:19 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/27 11:59:42 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/27 15:48:19 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,6 @@ void	close_fds(void)
 	close(base->fd[0]);
 	close(base->fd[1]);
 	close(base->fd);
-}
-
-void	handle_single(t_exec *exec)
-{
-	/* to handle singles commands */
-	return (0);
 }
 
 char	type_null(t_root *root)
@@ -69,7 +63,7 @@ int	execution(t_root *root)
 	if (!root || !*root)
 		return_value = NULL;
 	if (root->tokens[0]->type == TOKEN_PIPE)
-		/* execute pipe */
+		pipe(root);
 	else
 		redirect_prompt(root);
 	return (dup2io(in, out), close(in), close(out), return_value);
