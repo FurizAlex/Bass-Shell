@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:12:56 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/26 16:27:46 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/27 12:02:05 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	redirect_prompt(t_root *root)
 	if (status)
 		return (status);
 	if (!redir_type(root->tokens[0]->type))
-		/* execute the command */
+		execution(root);
 	return (0);
 }
 

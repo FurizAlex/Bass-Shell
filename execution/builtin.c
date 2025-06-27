@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:36:14 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/26 17:46:15 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/26 18:07:44 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	specify(char **cmd)
 	else if (ft_strncmp(cmd[0], "echo", 5) == 0)
 		return (_echo(cmd));
 	else if (ft_strncmp(cmd[0], "env", 4) == 0)
-		return (_env(cmd));
+		return (_env());
 	else if (ft_strncmp(cmd[0], "exit", 5) == 0)
 		return (_exit(cmd));
 	else if (ft_strncmp(cmd[0], "pwd", 4) == 0)
@@ -43,6 +43,8 @@ int	is_builtin(char **cmd, t_minishell *std)
 	{
 		if (!cmd[1])
 			/* return no arguments */
+		else if (ft_strlen(cmd[1]) > 8000)
+			return (1);
 		while (cmd[++i])
 			std->env = _export(cmd);
 		if (std->env = env_cpy)

@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 10:24:19 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/26 15:35:27 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/27 11:59:42 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,21 @@ char	type_null(t_root *root)
 	return (result);
 }
 
-int	execute_prompt(t_root *root)
+int	execute_prompt(t_root *root, t_minishell *msh)
 {
 	int		value;
 	char	**cmd;
-	t_exec	*e;
 
 	if (!root || !root->tokens[0])
 		return (0);
 	cmd = join_commands(root);
 	cmd = expand_commands(cmd, root);
-	
+	value = is_builtin(cmd, msh);
+	if (value == -1)
+		return (array2clear(cmd), value);
+	value = external(cmd, msh);
+	array2clear(cmd);
+	return (value);
 }
 
 int	execution(t_root *root)

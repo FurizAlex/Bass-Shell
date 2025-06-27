@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:16:24 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/26 16:15:33 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/27 11:58:49 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,10 @@ int		_export(char **cmd);
 int		_pwd(char **cmd);
 int		_unset(t_env *env);
 
+/* -- Execution Built-ins -- */
+int		specify(char **cmd);
+int		is_builtin(char **cmd, t_minishell *std);
+
 /* -- Branching -- */
 int		is_fork(t_root *root);
 int		execute_status(t_root *root);
@@ -103,6 +107,9 @@ int		execution(t_root *root);
 
 /* -- Execution Path -- */
 char	*exec_path(char *cmd, char **env);
+
+/* -- Execution External -- */
+int		external(char **cmd, t_minishell *msh);
 
 /* -- Pipe -- */
 
