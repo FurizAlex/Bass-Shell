@@ -6,12 +6,13 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 14:14:42 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/06/19 16:38:24 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/06/30 22:31:33 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
 
+/*Allocates AST node, initializes all fields to NULL/appropriate defaults*/
 t_ast_node	*create_ast_node(t_node_type type)
 {
 	t_ast_node	*node;

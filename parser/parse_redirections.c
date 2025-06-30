@@ -6,12 +6,13 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:29:56 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/06/19 16:38:40 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/06/29 21:45:24 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
 
+/*Maps token types to AST node types for redirections*/
 static t_node_type	get_redirect_type(t_token_type	token_type)
 {
 	if (token_type == TOKEN_REDIRECT_IN)
@@ -25,6 +26,7 @@ static t_node_type	get_redirect_type(t_token_type	token_type)
 	return (-1);
 }
 
+/*Checks if token is any redirection operator, duh*/
 static bool	is_redirect_token(t_token *token)
 {
 	if (!token)
@@ -35,6 +37,7 @@ static bool	is_redirect_token(t_token *token)
 		|| token->type == TOKEN_HEREDOC);
 }
 
+/*Processes redirection operators and filenames, chains multiple redirections*/
 t_ast_node	*parse_redirection(t_parser *parser, t_ast_node *cmd_node)
 {
 	t_ast_node	*current;

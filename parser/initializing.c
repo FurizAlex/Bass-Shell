@@ -6,12 +6,14 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 23:18:38 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/06/19 15:48:08 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/06/29 21:20:55 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
 
+/*Creates lexer state, duplicates input string,
+initializes position and quote flags*/
 t_lexer	*init_lexer(char *input)
 {
 	t_lexer	*lexer;
@@ -27,6 +29,7 @@ t_lexer	*init_lexer(char *input)
 	return (lexer);
 }
 
+/*Creates parser state pointing to token list*/
 t_parser	*init_parser(t_token *tokens)
 {
 	t_parser	*parser;
@@ -39,6 +42,7 @@ t_parser	*init_parser(t_token *tokens)
 	return (parser);
 }
 
+/*Entry point: validates → creates parser → builds AST → cleans up*/
 t_ast_node	*parse(t_token *tokens)
 {
 	t_parser	*parser;

@@ -6,12 +6,13 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 14:20:48 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/06/19 16:36:45 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/06/29 21:43:47 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
 
+/*Handles pipe operator precedence: command | command | command*/
 t_ast_node	*parse_pipeline(t_parser *parser)
 {
 	t_ast_node	*left;

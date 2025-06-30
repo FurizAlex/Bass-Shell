@@ -6,12 +6,14 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 00:57:53 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/06/19 16:47:50 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/06/29 21:54:03 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
 
+/* Allocates token struct, sets type/value/expansion flag,
+duplicates string values*/
 t_token	*create_token(t_token_type type, char *value, bool has_expansion)
 {
 	t_token	*token;
@@ -29,6 +31,8 @@ t_token	*create_token(t_token_type type, char *value, bool has_expansion)
 	return (token);
 }
 
+/*Main tokenizer dispatcher:
+skips whitespace → identifies token type → calls appropriate reader*/
 t_token	*get_next_token(t_lexer *lexer)
 {
 	while (lexer->current_char != '\0')
@@ -55,6 +59,7 @@ t_token	*get_next_token(t_lexer *lexer)
 	return (create_token(TOKEN_EOF, NULL, false));
 }
 
+/*deallocates token linked list im getting tired of being formal*/
 void	free_tokens(t_token *tokens)
 {
 	t_token	*temp;
@@ -68,7 +73,7 @@ void	free_tokens(t_token *tokens)
 	}
 }
 
-/*TEMPORARY MEASURE*/
+/*TEMPORARY MEASURE SO THAT WE CAN CONFIRM IT WORKS*/
 void	print_tokens(t_token *tokens)
 {
 	t_token		*current;

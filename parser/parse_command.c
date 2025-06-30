@@ -6,12 +6,13 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 21:32:17 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/06/19 15:24:51 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/06/29 21:36:22 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
 
+/*Parses simple commands, collects arguments, handles redirections*/
 t_ast_node	*parse_command(t_parser *parser)
 {
 	t_ast_node	*cmd_node;

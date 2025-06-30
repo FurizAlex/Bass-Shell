@@ -6,12 +6,13 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:42:44 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/06/19 16:36:15 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/06/29 21:54:53 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
 
+/*Gathers consecutive WORD tokens into NULL-terminated string array*/
 char	**collect_command_args(t_parser *parser, int *arg_counter)
 {
 	char	**args;

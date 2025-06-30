@@ -6,26 +6,11 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 21:27:14 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/06/22 00:44:11 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/06/29 21:51:40 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
-
-// char	*remove_quotes(char *raw_word, bool *has_expansion)
-// {
-// 	char	*processed;
-// 	int		proc_len;
-// 	int		i;
-
-// 	processed = malloc(1024);
-// 	proc_len = 0;
-// 	i = 0;
-// 	while (raw_word[i])
-// 	{
-
-// 	}
-// }
 
 static void	update_quote_state(char c, bool *in_s, bool *in_d)
 {
@@ -49,6 +34,8 @@ static bool	should_skip_char(char c, bool in_s, bool in_d)
 	return (false);
 }
 
+/*My quote removal macro/engine:
+strips quote characters while preserving content and tracking quote state*/
 char	*process_word_content(char *raw)
 {
 	char	*processed;

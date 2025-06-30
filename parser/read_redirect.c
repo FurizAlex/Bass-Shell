@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 23:59:27 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/06/13 01:18:13 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/06/29 21:46:25 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 /*  char current = lexer->current_char;
     char next = peek_char(lexer);
+	Recognizes <, >, <<, >> operators, advances lexer appropriately
 */
+
 t_token	*read_redirect(t_lexer *lexer)
 {
 	char	current;

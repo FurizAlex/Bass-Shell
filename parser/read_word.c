@@ -6,12 +6,13 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 01:08:21 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/06/22 00:43:58 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/06/29 21:50:50 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
 
+/*Checks if character is |<> when not quoted*/
 static bool	is_special(t_lexer *lexer)
 {
 	char	c;
@@ -58,6 +59,8 @@ static bool	handle_dollar(t_lexer *lexer, char *word, int *len, bool *exp)
 	return (false);
 }
 
+/* Handles word tokens with quote state tracking,
+calls helper functions for quotes/dollars, processes final word content*/
 t_token	*read_word(t_lexer *lexer)
 {
 	char	*word;

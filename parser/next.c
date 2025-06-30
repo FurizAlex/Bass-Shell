@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   next.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpadasia <rpadasia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 23:26:42 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/06/17 14:10:30 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/06/29 21:35:35 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
 
+/*Moves to next character, handles end-of-string detection*/
 void	advance_lexer(t_lexer *lexer)
 {
 	lexer->pos++;
@@ -21,6 +22,7 @@ void	advance_lexer(t_lexer *lexer)
 		lexer->current_char = lexer->input[lexer->pos];
 }
 
+/*Looks ahead one character without advancing position*/
 char	peek_char(t_lexer *lexer)
 {
 	int	peek_pos;
@@ -31,6 +33,7 @@ char	peek_char(t_lexer *lexer)
 	return (lexer->input[peek_pos]);
 }
 
+/*Moves to next token in list*/
 void	advance_parser(t_parser *parser)
 {
 	if (parser->current_token && parser->current_token->next)

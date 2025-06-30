@@ -6,39 +6,60 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 01:06:26 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/06/13 01:14:52 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/06/29 22:53:47 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
 
-t_token	*tokenize(char *input)
+void	add_eof_token(t_token **tokens, t_token **current, t_token *token)
 {
-	t_lexer	*lexer;
+	if (current)
+		current->next = eof_token;
+	else
+		*tokens = eof_token;
+}
+
+/*link first token (if (!tokens))
+link_next_token(otherwise)*/
+t_token	*build_token_list(t_lexer *lexer)
+{
 	t_token	*tokens;
 	t_token	*current;
 	t_token	*token;
 
-	lexer = init_lexer(input);
 	tokens = NULL;
 	current = NULL;
-	while ((token = get_next_token(lexer)) && token->type != TOKEN_EOF)
+	token = get_next_token(lexer);
+	while (token && token->type != TOKEN_EOF)
 	{
 		if (!tokens)
 		{
-			tokens = token;
-			current = token;
+			*tokens = token;
+			*current = token;
 		}
 		else
 		{
-			current->next = token;
-			current = token;
+			(*current)->next = token;
+			*current = token;
 		}
+		token = get_next_token(lexer);
 	}
-	if (current)
-		current->next = token;
-	else
-		tokens = token;
+	add_eof_token(&tokens, current, token);
+	return (tokens);
+}
+
+/*Orchestrates full tokenization:
+creates lexer → builds token list → adds EOF → cleans up*/
+t_token	*tokenize(char *input)
+{
+	t_lexer	*lexer;
+	t_token	*tokens;
+
+	lexer = init_lexer(input);
+	if (!lexer)
+		return (NULL);
+	tokens = build_token_list(lexer);
 	free_lexer(lexer);
 	return (tokens);
 }
