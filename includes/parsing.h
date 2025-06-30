@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpadasia <rpadasia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 23:03:49 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/06/17 13:58:36 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/06/30 22:38:32 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdbool.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <signal.h>
 #include "../libft/libft.h"
 
 typedef enum s_token_type
@@ -52,7 +55,7 @@ typedef enum s_node_type
 	NODE_PIPE,
 	NODE_REDIRECT_IN,
 	NODE_REDIRECT_OUT,
-	NODE_REIRECT_APPEND,
+	NODE_REDIRECT_APPEND,
 	NODE_HEREDOC
 }	t_node_type;
 
@@ -85,6 +88,7 @@ void		print_tokens(t_token *tokens);
 void		free_tokens(t_token *tokens);
 void		free_lexer(t_lexer *lexer);
 t_token		*tokenize(char *input);
+char		*process_word_content(char *raw);
 
 /*PARSING FUNCTIONS*/
 
@@ -95,6 +99,19 @@ t_ast_node	*parse_pipeline(t_parser *parser);
 t_ast_node	*parse_command(t_parser *parser);
 t_ast_node	*parse_redirection(t_parser *parser, t_ast_node *cmd_node);
 char		**collect_command_args(t_parser *parser, int *arg_count);
-void		print_ast(t_ast_node *node, int depth);
+// void		print_ast(t_ast_node *node, int depth);
 void		free_ast(t_ast_node *node);
 void		free_parser(t_parser *parser);
+t_ast_node	*parse(t_token *tokens);
+
+char		*get_history_path(void);
+void		setup_history(void);
+void		cleanup_history(void);
+void		load_history_file(void);
+void		save_history_file(void);
+
+void		setup_signals(void);
+void		handle_sigint(int sig);
+void		handle_sigquit(int sig);
+
+void		shell_loop(void);
