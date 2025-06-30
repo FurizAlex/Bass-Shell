@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:16:24 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/27 15:46:30 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/30 17:49:45 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,17 +83,20 @@ int 	error4exit(char *msg, int status);
 int 	error6exit(char *msg, int status);
 
 /* -- Built-ins -- */
-int 	_cd(char **path);
-int		_echo(char **cmd);
-int		_env(char **cmd);
-int		_exit(char **cmd);
-int		_export(char **cmd);
-int		_pwd(char **cmd);
-int		_unset(t_env *env);
+int		koi_cd(char **path);
+int		koi_echo(char **cmd);
+int		koi_env(void);
+int		koi_exit(char **cmd, t_root *root);
+int		koi_export(char **cmd);
+int		koi_pwd(void);
+int		koi_unset(char **cmd, t_root *root);
 
 /* -- Execution Built-ins -- */
 int		specify(char **cmd);
 int		is_builtin(char **cmd, t_minishell *std);
+
+/* -- Export Helper -- */
+void	no_args(t_minishell *e);
 
 /* -- Branching -- */
 int		is_fork(t_root *root);

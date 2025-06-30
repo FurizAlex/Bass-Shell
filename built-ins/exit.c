@@ -6,14 +6,14 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:27 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/30 11:20:21 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/30 17:18:50 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
-int	_exit(char **cmd, t_root *root)
+int	koi_exit(char **cmd, t_root *root)
 {
 	int			argc;
 	t_minishell	*msh;

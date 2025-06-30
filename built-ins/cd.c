@@ -6,16 +6,16 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:19 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/26 15:49:24 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/30 17:18:39 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
-int _cd(char **path)
+int	koi_cd(char **path)
 {
 	char	*env[];
-	
+
 	return (0);
 }

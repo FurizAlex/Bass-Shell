@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:22 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/30 13:41:38 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/30 17:18:43 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	dash_n(char **cmd)
 	return (1);
 }
 
-int	_echo(char **cmd)
+int	koi_echo(char **cmd)
 {
 	int	i;
 

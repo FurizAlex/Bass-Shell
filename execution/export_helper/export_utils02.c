@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   export_utils02.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/23 14:54:29 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/30 17:16:32 by alechin          ###   ########.fr       */
+/*   Created: 2025/06/30 17:57:54 by alechin           #+#    #+#             */
+/*   Updated: 2025/06/30 18:08:54 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
-char	**no_equal(t_minishell *e, char *key)
+int	valid_name(t_minishell *e)
 {
-	int		i;
-	char	*list;
+	return (0);
+}
 
-	i = 0;
+int	valid_environment(t_minishell *e)
+{
+	return (0);
+}
+
+char	**append(t_minishell *e)
+{
+	return (0);
 }
