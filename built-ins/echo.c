@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:22 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/26 10:24:23 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/30 13:41:38 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,6 @@ int main(int argc, char **argv)
 {
 	if (argc == 2)
 	{
-		echo(argv);
+		_echo(argv);
 	}
 }*/

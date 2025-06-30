@@ -6,19 +6,39 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:33 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/26 15:53:09 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/30 14:54:15 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
-void	free_ast(void)
+int	_unset(char **cmd, t_root *root)
 {
-	/* todo!() */
-}
+	int		i;
+	int		len;
+	int		*export;
+	char	*temp;
+	char	**env;
 
-int	_unset(char **cmd)
-{
+	i = 0;
+	len = ft_strlen(cmd);
+	temp = ft_strjoin(cmd[0], "=");
+	env = root->msh->env;
+	export = root->msh->export;
+	while (env[i] && ft_strncmp(env, temp, len - 1) != 0)
+		i++;
+	while (env[i++])
+	{
+		free(env[i]);
+		if (env[i + 1] == NULL)
+			env[i] = NULL;
+		else if (env[i + 1] != NULL)
+		{
+			env[i] = ft_strdup(env[i + 1]);
+			export[i] = export[i + 1];
+		}
+	}
+	free(temp);
 	return (0);
 }

@@ -6,14 +6,14 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:27 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/18 17:28:55 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/30 11:20:21 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
-int	_exit(char **cmd)
+int	_exit(char **cmd, t_root *root)
 {
 	int			argc;
 	t_minishell	*msh;
@@ -30,6 +30,9 @@ int	_exit(char **cmd)
 		msh->status = 2;
 	}
 	msh->status = ft_atoi(cmd[1]) & 255;
-	/* Todo()! -- Add the rest l8r*/
+	array2clear(cmd);
+	array2clear(msh->env);
+	terminate_ast(root);
+	terminate_tokens(root);
 	exit(msh->status);
 }
