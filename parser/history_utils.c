@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 22:28:55 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/06/30 22:37:20 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/06/30 22:45:08 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ static void	process_input(char *input)
 	ast = parse(tokens);
 	if (ast)
 	{
-		//ALEX THIS PART IS YOURS
-		//
+		//ALEX THIS PART IS YOURS, add EXECUTION HERE
 		free_ast(ast);
 	}
 	free_tokens(tokens);
