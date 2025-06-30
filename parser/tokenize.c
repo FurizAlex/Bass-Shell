@@ -6,13 +6,14 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 01:06:26 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/06/29 22:53:47 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/07/01 00:45:03 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
 
-void	add_eof_token(t_token **tokens, t_token **current, t_token *token)
+
+void	add_eof_token(t_token **tokens, t_token *current, t_token *eof_token)
 {
 	if (current)
 		current->next = eof_token;
@@ -35,13 +36,13 @@ t_token	*build_token_list(t_lexer *lexer)
 	{
 		if (!tokens)
 		{
-			*tokens = token;
-			*current = token;
+			tokens = token;
+			current = token;
 		}
 		else
 		{
-			(*current)->next = token;
-			*current = token;
+			current->next = token;
+			current = token;
 		}
 		token = get_next_token(lexer);
 	}

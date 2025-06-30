@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 21:57:04 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/06/30 22:03:27 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/07/01 00:46:00 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,18 @@ char	*get_history_path(void)
 	char	*home;
 	char	*path;
 	int		home_len;
+	int		total_len;
 
 	home = getenv("HOME");
 	if (!home)
 		return (NULL);
 	home_len = ft_strlen(home);
-	path = malloc(home_len + 20);
+	total_len = home_len + 20;
+	path = malloc(total_len);
 	if (!path)
 		return (NULL);
-	ft_strcpy(path, home);
-	ft_strcat(path, "/.minishell_history");
+	ft_strlcpy(path, home, total_len);
+	ft_strlcat(path, "/.minishell_history", total_len);
 	return (path);
 }
 
