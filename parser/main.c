@@ -1,35 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isascii.c                                       :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 14:20:37 by alechin           #+#    #+#             */
-/*   Updated: 2024/11/29 12:17:31 by alechin          ###   ########.fr       */
+/*   Created: 2025/06/30 22:31:54 by rpadasia          #+#    #+#             */
+/*   Updated: 2025/06/30 22:32:27 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-ASCII ART
-*/
+#include "../includes/parsing.h"
 
-#include "libft.h"
-
-int	ft_isascii(int c)
-{
-	return ((c >= 0 && c <= 127));
-}
-/*
-#include <stdio.h>
 int	main(void)
 {
-	char	a = 'a';
-	char	b = '1';
-	int	c = 128;
-
-	printf("%d\n", ft_isascii(a));
-	printf("%d\n", ft_isascii(b));
-	printf("%d\n", ft_isascii(c));
+	setup_signals();
+	setup_history();
+	shell_loop();
+	cleanup_history();
 	return (0);
-}*/
+}
