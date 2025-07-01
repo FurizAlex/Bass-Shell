@@ -12,6 +12,7 @@ SOURCE = \
 				ft_printf/ft_printf.c			ft_printf/ft_printf_utils.c							\
 				ft_printf/ft_printf_second_utils.c													\
 				get_next_line/get_next_line.c	get_next_line/get_next_line_utils.c					\
+				Wglbx/getxenv.c					Wglbx/xprompt.c										\
 
 BONUS = \
 				ft_lstadd_back.c	ft_lstclear.c		ft_lstiter.c	ft_lstmap.c \

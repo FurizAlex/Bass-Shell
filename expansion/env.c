@@ -1,42 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/23 14:54:33 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/30 17:18:57 by alechin          ###   ########.fr       */
+/*   Created: 2025/06/17 11:13:55 by alechin           #+#    #+#             */
+/*   Updated: 2025/06/24 13:59:56 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
+#include "parsing.h"
 
-int	koi_unset(char **cmd, t_root *root)
+int	variable_len(char *start)
 {
-	int		i;
 	int		len;
-	char	*temp;
-	char	**env;
+	char	*pointer;
 
-	i = 0;
-	len = ft_strlen(cmd);
-	temp = ft_strjoin(cmd[0], "=");
-	env = root->msh->env;
-	while (env[i] && ft_strncmp(env, temp, len - 1) != 0)
-		i++;
-	while (env[i++])
+	len = 0;
+	pointer = start;
+	while (*pointer && valid_env_ch(*pointer))
 	{
-		free(env[i]);
-		if (env[i + 1] == NULL)
-			env[i] = NULL;
-		else if (env[i + 1] != NULL)
-		{
-			env[i] = ft_strdup(env[i + 1]);
-			root->msh->export[i] = root->msh->export[i + 1];
-		}
+		len++;
+		pointer++;
 	}
-	free(temp);
-	return (0);
+	return (len);
+}
+
+char	*to_get_env(char *start, int len)
+{
+	t_root	*root;
+	char	*variable_name;
+	char	*env_value;
+
+	variable_name = ft_strdup(start, len);
+	env_value = getxenv(variable_name, root);
+	if (!variable_name)
+		return (NULL);
+	if (!env_value)
+		env = "";
+	free(variable_name);
+	return (env_value);
 }

@@ -1,42 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/23 14:54:33 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/30 17:18:57 by alechin          ###   ########.fr       */
+/*   Created: 2025/06/19 15:25:49 by alechin           #+#    #+#             */
+/*   Updated: 2025/06/26 14:51:47 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
-int	koi_unset(char **cmd, t_root *root)
+void	read_heredoc(char *line, int fd, char *delimiter)
 {
+	char	*doc;
 	int		i;
-	int		len;
-	char	*temp;
-	char	**env;
 
 	i = 0;
-	len = ft_strlen(cmd);
-	temp = ft_strjoin(cmd[0], "=");
-	env = root->msh->env;
-	while (env[i] && ft_strncmp(env, temp, len - 1) != 0)
-		i++;
-	while (env[i++])
+	doc = ft_strdup("");
+	if (!line)
+		error2exit("🍥 Fishy Error: No line in heredoc\n", 1);
+	while (1)
 	{
-		free(env[i]);
-		if (env[i + 1] == NULL)
-			env[i] = NULL;
-		else if (env[i + 1] != NULL)
+		line = readline("o-> ");
+		if (!line)
+			error2exit("🍥 Fishy Warning: Heredoc delimited by EOF\n", 2);
+		if (!line || !comp(line, delimiter))
 		{
-			env[i] = ft_strdup(env[i + 1]);
-			root->msh->export[i] = root->msh->export[i + 1];
+			free(line);
+			break ;
 		}
+		write(fd[1], line, ft_strlen(line));
+		dup2(fd[0], 0);
+		close(fd[0], 0);
 	}
-	free(temp);
-	return (0);
 }

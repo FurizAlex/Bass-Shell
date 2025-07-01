@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:33:54 by alechin           #+#    #+#             */
-/*   Updated: 2025/05/18 12:35:14 by alechin          ###   ########.fr       */
+/*   Updated: 2025/06/24 15:42:42 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,30 @@
 
 # include "minishell.h"
 
-typedef struct	s_exec
+typedef struct s_env
 {
-	//todo!();
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+
+typedef struct s_redir
+{
+	int				type;
+	char			*file;
+	struct s_redir	*next;
+}	t_redir;
+
+typedef struct s_exec
+{
+	char			**argv;
+	char			*cmd_path;
+	int				infile;
+	int				outfile;
+	bool			has_pipe;
+	bool			is_builtin;
+	t_redir			*redirs;
+	struct s_exec	*next;
 }	t_exec;
 
 #endif
