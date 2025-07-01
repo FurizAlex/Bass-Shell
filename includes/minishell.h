@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:16:24 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/30 17:49:45 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/01 14:55:09 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,9 @@ int		is_builtin(char **cmd, t_minishell *std);
 
 /* -- Export Helper -- */
 void	no_args(t_minishell *e);
+int		valid_name(char *env, t_minishell *e);
+int		valid_environment(char **env, t_minishell *e);
+char	**appends(char **env, t_minishell *e, int not_equals);
 
 /* -- Branching -- */
 int		is_fork(t_root *root);
