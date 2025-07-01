@@ -1,37 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 12:20:54 by alechin           #+#    #+#             */
-/*   Updated: 2024/11/29 12:16:55 by alechin          ###   ########.fr       */
+/*   Created: 2025/06/12 01:21:34 by rpadasia          #+#    #+#             */
+/*   Updated: 2025/06/12 01:23:17 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-no-alt-text
-*/
-
 #include "libft.h"
 
-int	ft_isalpha(int c)
+int	ft_isspace(char c)
 {
-	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
-	{
+	if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\r')
 		return (1);
-	}
-	return (0);
+	else
+		return (0);
 }
-/*
-#include <stdio.h>
-int	main(void)
-{
-	char a = '9';
-	char b = 'a';
-
-	printf("%d\n", ft_isalpha(a));
-	printf("%d\n", ft_isalpha(n));
-	return (0);
-}*/

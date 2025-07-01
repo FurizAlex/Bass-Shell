@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 12:08:17 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/18 12:45:01 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/01 16:20:09 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,7 @@ char		*get_next_line(int fd);
 int			ft_printf(const char *str, ...);
 char		*getxenv(char **envp, const char *key);
 void		xprompt(char **envp);
+
+int			ft_isspace(char c);
 
 #endif
