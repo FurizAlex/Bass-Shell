@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:13:38 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/26 10:45:15 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/02 11:39:11 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "minishell.h"
 #include "execution.h"
 
-char	**remainder(char **cmd, t_root *root, int box, int keep)
+char	**remainders(char **cmd, t_root *root, int box, int keep)
 {
 	char	**new;
 	int		i;
@@ -60,7 +60,7 @@ char	**remove_null(char **cmd, t_root *root)
 			keep++;
 		i++;
 	}
-	return (remainder(cmd, root, box, keep));
+	return (remainders(cmd, root, box, keep));
 }
 
 char	*get_raw_area(char *str, int *i)

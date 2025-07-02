@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
+/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 22:28:55 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/07/01 00:46:03 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/07/02 11:11:38 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,25 +42,4 @@ static void	process_input(char *input)
 		free_ast(ast);
 	}
 	free_tokens(tokens);
-}
-
-void	shell_loop(void)
-{
-	char	*input;
-
-	while (1)
-	{
-		input = readline("minishell$ ");
-		if (!input)
-		{
-			write(1, "exit\n", 5);
-			break ;
-		}
-		if (!is_empty_input(input))
-		{
-			add_history(input);
-			process_input(input);
-		}
-		free(input);
-	}
 }

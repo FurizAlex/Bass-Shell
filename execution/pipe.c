@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:41:40 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/27 15:51:08 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/02 11:37:10 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	initalize_pipes(int **pipex, int n)
 	return ;
 }
 
-int	pipe(t_root *root)
+int	pipex(t_root *root)
 {
 	int		i;
 	int		*pid;

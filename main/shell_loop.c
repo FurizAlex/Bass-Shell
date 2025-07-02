@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_node.c                                      :+:      :+:    :+:   */
+/*   shell_loop.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/17 14:14:42 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/07/02 09:59:31 by alechin          ###   ########.fr       */
+/*   Created: 2025/07/02 10:28:17 by alechin           #+#    #+#             */
+/*   Updated: 2025/07/02 15:02:17 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parsing.h"
+#include "../includes/minishell.h"
 
-/*Allocates AST node, initializes all fields to NULL/appropriate defaults*/
-t_ast_node	*create_ast_node(t_node_type type)
+void	shell_loop(void)
 {
-	t_ast_node	*node;
+	char	*cmd;
 
-	node = malloc(sizeof(t_ast_node));
-	if (!node)
-		return (NULL);
-	node->type = type;
-	node->args = NULL;
-	node->filename = NULL;
-	node->left = NULL;
-	node->right = NULL;
-	return (node);
+	while (1)
+	{
+		cmd = readline("\033[33m-- BASS AMATEUR SHELL --\033[36m\n[🐡 FISH BITES] o->\033[0m ");
+		if (!cmd)
+		{
+			write(1, "exit\n", 5);
+			break ;
+		}
+		if (!is_empty_input(cmd))
+		{
+			add_history(cmd);
+			process_input(cmd);
+		}
+		free(cmd);
+	}
 }

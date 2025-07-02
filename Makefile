@@ -16,18 +16,62 @@ NAME = minishell
 
 RM = rm -rf
 CC = cc
-CFLAGS = -g -I(MINISHELL_HEADER_DIRECTORY)
+CFLAGS = -Wall -Wextra -Werror -g -I(MINISHELL_HEADER_DIRECTORY)
 
 #-Wall -Wextra -Werror 
 
 MINISHELL_HEADER = $(MINISHELL_HEADER_DIRECTORY)/minishell.h
 
-SOURCE_DIRECTORY = #$todo()!
 LIBFT_DIRECTORY = libft
 MINISHELL_HEADER_DIRECTORY = includes
 OBJECT_DIRECTORY = object
 
-SOURCE = \
+SOURCE = 											\
+	built-ins/cd.c									\
+	built-ins/echo.c								\
+	built-ins/env.c									\
+	built-ins/exit.c								\
+	built-ins/export.c								\
+	built-ins/pwd.c									\
+	built-ins/unset.c								\
+	execution/export_helper/export_utils01.c		\
+	execution/export_helper/export_utils02.c		\
+	execution/branching.c							\
+	execution/builtin.c								\
+	execution/execute.c								\
+	execution/external.c							\
+	execution/operation.c							\
+	execution/path.c								\
+	execution/pipe.c								\
+	execution/redir.c								\
+	expansion/dollar.c								\
+	expansion/env.c									\
+	expansion/expansion.c							\
+	expansion/helper.c								\
+	expansion/heredoc.c								\
+	expansion/quotes.c								\
+	lexer/read_redirect.c							\
+	lexer/read_word.c								\
+	lexer/remove_quotes.c							\
+	lexer/token_utils.c								\
+	lexer/tokenize.c								\
+	main/error.c									\
+	main/main.c										\
+	main/shell_loop.c								\
+	main/termination.c								\
+	misc/history_utils.c							\
+	misc/history.c									\
+	misc/signalling.c								\
+	parser/create_node.c							\
+	parser/freeing.c								\
+	parser/initializing.c							\
+	parser/next.c									\
+	parser/parse_command.c							\
+	parser/parse_pipes.c							\
+	parser/parse_redirections.c						\
+	parser/transition.c								\
+
+OBJECTS = $(addprefix $(OBJECT_DIRECTORY)/, $(SOURCE:.c=.o))
 
 #/*~		Terminals Colors		~*/#
 
@@ -41,9 +85,14 @@ CYAN := \033[1;36m
 
 all: $(NAME)
 
-$(OBJECT_DIRECTORY)/%.o: $(SOURCE_DIRECTORY)/%.c:
-	@mkdir -p $(dir $@)
+$(NAME): $(OBJECTS)
 	@echo "\n$(YELLOW)Compiling bass shell .c files...$(RESET)"
+	@$(CC) $(CFLAGS) $(OBJECTS) -L$(LIBFT_DIRECTORY) -lft -o $(NAME)
+	@echo "\n$(GREEN)The bassiest shell has been completed...$(RESET)"
+
+$(OBJECT_DIRECTORY)/%.o: %.c
+	@mkdir -p $(dir $@)
+	@echo "$(YELLOW)Compiling $<...$(RESET)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT):

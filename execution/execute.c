@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 10:24:19 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/27 15:48:19 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/02 11:37:24 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	execution(t_root *root)
 	if (!root || !*root)
 		return_value = NULL;
 	if (root->tokens[0]->type == TOKEN_PIPE)
-		pipe(root);
+		pipex(root);
 	else
 		redirect_prompt(root);
 	return (dup2io(in, out), close(in), close(out), return_value);
