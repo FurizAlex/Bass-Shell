@@ -6,20 +6,18 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:41:25 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/27 15:44:55 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/08 17:57:30 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
-static void	kill_branch_shell(t_root *root)
+static void	kill_branch_shell(t_root *root, t_minishell *msh)
 {
-	t_minishell	*msh;
-
 	free(msh->export);
-	terminate_ast(&(root));
-	terminate_tokens(&(root->tokens));
+	terminate_ast(&root);
+	terminate_tokens(root->tokens);
 	array2clear(msh->env);
 }
 
@@ -31,7 +29,7 @@ void	dup2io(int io_in, int io_out)
 
 int	is_fork(t_root *root)
 {
-	int		*pid;
+	pid_t	pid;
 	int		root_level;
 	int		stat;
 
@@ -39,7 +37,7 @@ int	is_fork(t_root *root)
 	root_level = 0;
 	if (root->origin)
 		root_level = root->level;
-	if (root.origin == root_level)
+	if (root->origin->level == root_level)
 		return (-1);
 	if (pid < 0)
 		return (-1);
@@ -47,7 +45,7 @@ int	is_fork(t_root *root)
 	{
 		root->origin = root;
 		stat = execute_status(root);
-		kill_branch_shell(root);
+		kill_branch_shell(root, root->msh);
 		exit(stat);
 	}
 	waitpid(pid, &stat, 0);

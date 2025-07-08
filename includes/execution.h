@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:33:54 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/08 16:38:13 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/08 18:00:25 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ int		koi_unset(char **cmd, t_root *root);
 char	**koi_export(char *env, t_minishell *e);
 
 /* -- Execution Built-ins -- */
-int		specify(char **cmd);
+int		specify(char **cmd, t_minishell *e);
 int		is_builtin(char **cmd, t_minishell *std);
 
 /* -- Export Helper -- */
 void	no_args(t_minishell *e);
-int		valid_name(char *env, t_minishell *e);
+int		valid_name(char *env);
 int		valid_environment(char *env, t_minishell *e);
 char	**appends(char **env, t_minishell *e, int not_equals);
 

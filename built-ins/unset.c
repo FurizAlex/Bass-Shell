@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:33 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/30 17:18:57 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/08 17:20:27 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ int	koi_unset(char **cmd, t_root *root)
 	char	**env;
 
 	i = 0;
-	len = ft_strlen(cmd);
+	len = ft_strlen(*cmd);
 	temp = ft_strjoin(cmd[0], "=");
 	env = root->msh->env;
-	while (env[i] && ft_strncmp(env, temp, len - 1) != 0)
+	while (env[i] && ft_strncmp(*env, temp, len - 1) != 0)
 		i++;
 	while (env[i++])
 	{

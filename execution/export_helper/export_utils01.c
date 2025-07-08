@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 17:22:42 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/30 17:50:14 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/08 17:23:12 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ static void	bubble_sort(char **env, int *flags)
 				temp = env[i];
 				env[i] = env[i + 1];
 				env[i + 1] = temp;
-				temp_flags[i] = flags[i];
+				temp_flags = flags[i];
 				flags[i] = flags[i + 1];
-				flags[i + 1] = temp_flags[i];
+				flags[i + 1] = temp_flags;
 			}
 			i++;
 		}
@@ -47,7 +47,7 @@ static void	singularity(char *str, bool is_equals)
 	char	*equal;
 	int		length;
 
-	equal = ft_strchr(str, "=");
+	equal = ft_strchr(str, '=');
 	length = equal - str;
 	if (!is_equals)
 	{
