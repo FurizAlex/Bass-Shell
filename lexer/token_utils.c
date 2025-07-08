@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
+/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 00:57:53 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/06/29 21:54:03 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/07/08 11:24:20 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	free_tokens(t_token *tokens)
 	}
 }
 
-/*TEMPORARY MEASURE SO THAT WE CAN CONFIRM IT WORKS*/
+/*TEMPORARY MEASURE SO THAT WE CAN CONFIRM IT WORKS
 void	print_tokens(t_token *tokens)
 {
 	t_token		*current;
@@ -92,4 +92,4 @@ void	print_tokens(t_token *tokens)
         current = current->next;
     }
     printf("==============\n");
-}
+}*/

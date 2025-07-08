@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:33:54 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/02 14:59:18 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/08 16:38:13 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@
 # include "minishell.h"
 
 /* -- Error Handling -- */
-int 	error2exit(char *msg, int status);
-int 	error4exit(char *msg, int status);
-int 	error6exit(char *msg, int status);
+int		error2exit(char *msg, int status);
+int		error4exit(char *msg, int status);
+int		error6exit(char *msg, int status);
 
 /* -- Built-ins -- */
-int		koi_cd(char **path);
+int		koi_cd(char **cmd, t_minishell *e);
 int		koi_echo(char **cmd);
-int		koi_env(void);
-int		koi_exit(char **cmd, t_root *root);
+int		koi_env(t_env *env);
+int		koi_exit(char **cmd, t_root *root, t_token *token, t_minishell *msh);
 int		koi_pwd(void);
 int		koi_unset(char **cmd, t_root *root);
 char	**koi_export(char *env, t_minishell *e);
@@ -36,7 +36,7 @@ int		is_builtin(char **cmd, t_minishell *std);
 /* -- Export Helper -- */
 void	no_args(t_minishell *e);
 int		valid_name(char *env, t_minishell *e);
-int		valid_environment(char **env, t_minishell *e);
+int		valid_environment(char *env, t_minishell *e);
 char	**appends(char **env, t_minishell *e, int not_equals);
 
 /* -- Shell Loop -- */
@@ -62,7 +62,7 @@ int		external(char **cmd, t_minishell *msh);
 int		pipex(t_root *root);
 
 /* -- Redirections Exec -- */
-int 	redir_type(int type);
+int		redir_type(int type);
 int		redirect_prompt(t_root *root);
 int		redirection(t_root *root);
 

@@ -6,17 +6,15 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:25 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/30 17:18:46 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/08 11:32:08 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
-int	koi_env(void)
+int	koi_env(t_env *env)
 {
-	t_env	*env;
-
 	while (env && env != NULL)
 	{
 		ft_printf("%s\n", env->value);

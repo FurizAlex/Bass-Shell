@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 17:57:54 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/01 14:55:00 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/08 16:37:10 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	valid_name(char *env, t_minishell *e)
 	return (0);
 }
 
-int	valid_environment(char **env, t_minishell *e)
+int	valid_environment(char *env, t_minishell *e)
 {
 	int	i;
 	int	nc;
@@ -44,7 +44,7 @@ int	valid_environment(char **env, t_minishell *e)
 	while (e->env)
 	{
 		if (ft_strncmp(e->env, env, nc == 0
-			&& e->env[i][nc] == "="))
+				&& e->env[i][nc] == "="))
 		{
 			free(e->env[i]);
 			e->env[i] = ft_strdup(env);

@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   printtemp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
+/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:48:52 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/06/19 15:49:07 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:30:34 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
+
+/*
 
 void print_ast(t_ast_node *node, int depth) {
     if (!node)
@@ -58,3 +60,5 @@ void print_ast(t_ast_node *node, int depth) {
         print_ast(node->right, depth + 2);
     }
 }
+
+*/
