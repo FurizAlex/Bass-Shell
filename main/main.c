@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 13:59:16 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/02 15:39:16 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/09 18:13:58 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ int	main(int argc, char **argv, char **envp)
 	char	*cmd;
 	int		status;
 
+	(void)cmd;
+	(void)argc;
+	(void)argv;
+	(void)envp;
 	status = NORMAL;
 	setup_signals();
 	setup_history();

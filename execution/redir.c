@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:12:56 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/27 15:51:56 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/09 18:05:26 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 int	redir_type(int type)
 {
 	return (type == TOKEN_REDIRECT_IN
-		|| TOKEN_REDIRECT_OUT
-		|| TOKEN_REDIRECT_APPEND
-		|| TOKEN_HEREDOC);
+		|| type == TOKEN_REDIRECT_OUT
+		|| type == TOKEN_REDIRECT_APPEND
+		|| type == TOKEN_HEREDOC);
 }
 
 int	redirect_prompt(t_root *root)
@@ -52,14 +52,14 @@ int	redirection(t_root *root)
 {
 	int		types;
 	char	*filename;
-	char	*quote_filename;
 	t_redir	*redir;
 
-	types = NULL;
+	types = 0;
+	redir = NULL;
 	filename = NULL;
 	if (root->tokens[0]->type != TOKEN_HEREDOC)
 	{
-		expand_string(filename);
+		expand_string(filename, root);
 		remove_quotes(filename);
 		free(filename);
 	}
@@ -70,7 +70,7 @@ int	redirection(t_root *root)
 	if (root->tokens[0]->type == TOKEN_REDIRECT_APPEND)
 		types = append(filename);
 	if (root->tokens[0]->type == TOKEN_HEREDOC)
-		types = heredoc(filename, redir->type);
+		types = heredoc(filename, root, root->lexer);
 	free(filename);
 	return (types);
 }

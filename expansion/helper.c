@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:13:38 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/02 11:39:11 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/09 18:07:27 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	**remainders(char **cmd, t_root *root, int box, int keep)
 			free(cmd[i]);
 		i++;
 	}
-	new[j] = '\0';
+	new[j] = NULL;
 	free(cmd);
 	return (new);
 }
@@ -88,20 +88,20 @@ char	*get_raw_area(char *str, int *i)
 		while (str[end] && str[end] != '\'' && str[end] != '"')
 			end++;
 	*i = end;
-	return (dupnxtra(s + start, end - start));
+	return (dupnxtra(str + start, end - start));
 }
 
-char	*get_next_area(char *str, int *i)
+char	*get_next_area(char *str, int *i, t_root *root)
 {
 	char	*raw;
 	char	*res;
 
-	raw = get_raw_area(s, i);
+	raw = get_raw_area(str, i);
 	if (raw[0] == '\'')
-		result = raw;
+		res = raw;
 	else
 	{
-		expand_dollar(str);
+		res = expand_dollar(str, root);
 		free(raw);
 	}
 	return (res);

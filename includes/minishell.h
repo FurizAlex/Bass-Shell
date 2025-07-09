@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:16:53 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/08 16:17:35 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/09 17:43:37 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <fcntl.h>
 # include <termios.h>
 # include <stdbool.h>
 # include <readline/readline.h>
@@ -93,14 +94,26 @@ typedef struct s_minishell
 	char			**env;
 	t_env			*env_list;
 	t_exec			*cmds;
+	struct s_env	*lcl_env;
+	struct s_root	*root;
 	struct s_base	*base;
 }	t_minishell;
+
+typedef struct s_lexer
+{
+	char		*input;
+	int			pos;
+	char		current_char;
+	bool		in_single_quote;
+	bool		in_double_quote;
+}	t_lexer;
 
 typedef struct s_root
 {
 	int				level;
 	t_token			**tokens;
 	t_minishell		*msh;
+	t_lexer			*lexer;
 	struct s_root	*origin;
 	struct s_root	*left;
 	struct s_root	*right;
@@ -116,15 +129,6 @@ typedef struct s_base
 	struct s_base	*next;
 	struct s_base	*prev;
 }	t_base;
-
-typedef struct s_lexer
-{
-	char		*input;
-	int			pos;
-	char		current_char;
-	bool		in_single_quote;
-	bool		in_double_quote;
-}	t_lexer;
 
 typedef enum s_node_type
 {

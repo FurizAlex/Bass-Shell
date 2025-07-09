@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:40:34 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/26 10:26:15 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/09 18:13:21 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ int	error4exit(char *msg, int status)
 
 int	error6exit(char *msg, int status)
 {
-	return (ft_putstr_fd(msg, status));
+	ft_putstr_fd(msg, status);
+	return (status);
 }

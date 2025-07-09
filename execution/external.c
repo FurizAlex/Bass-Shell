@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 11:14:25 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/27 15:49:11 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/09 11:47:22 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	search(char **cmd, t_minishell *msh)
 	int		count;
 	char	**paths;
 	char	**pathcmd;
-	char	**cut_point;
+	char	*cut_point;
 
 	cut_point = ft_strjoin("/", cmd[0]);
 	if (!getxenv("PATH", msh))
@@ -41,7 +41,7 @@ static int	search(char **cmd, t_minishell *msh)
 	pathcmd[count] = NULL;
 	i = -1;
 	while (pathcmd[++i] != NULL)
-		pathcmd = ft_strjoin(paths[i], cut_point);
+		pathcmd[i] = ft_strjoin(paths[i], cut_point);
 	i = -1;
 	while (pathcmd[++i] != NULL)
 		if (access(pathcmd[i], X_OK) == 0)
@@ -69,14 +69,15 @@ int	external(char **cmd, t_minishell *msh)
 	pid_t	pid;
 
 	pid = fork();
+	status = 0;
 	if (pid == -1)
-		return (error2exit("Fishy Error: Couldn't fork pid"), 1);
+		return (error2exit("Fishy Error: Couldn't fork pid", 1), 1);
 	if (pid == 0)
 	{
 		value = child(cmd, msh);
 		exit(value);
 	}
-	waitpid(&status, pid, 0);
+	waitpid(status, &pid, 0);
 	if (WIFEXITED(status))
 		return (WIFEXITED(status));
 	return (1);

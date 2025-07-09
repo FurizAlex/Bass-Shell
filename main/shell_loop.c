@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 10:28:17 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/02 15:02:17 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/09 18:14:14 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	shell_loop(void)
 		if (!is_empty_input(cmd))
 		{
 			add_history(cmd);
-			process_input(cmd);
+			//process_input(cmd);
 		}
 		free(cmd);
 	}

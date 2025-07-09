@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:29 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/08 17:22:35 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/09 11:51:30 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	**without_equals(t_minishell *e, char *sbl)
 	list = ft_strjoin("=", sbl);
 	if (!list)
 		error2exit("Fishy Error: Couldn't join keys's in list", 1);
-	if (valid_name(sbl, e))
+	if (valid_name(e->lcl_env->value))
 		return (&e->env[i]);
 	while (e->env[i])
 	{
@@ -69,7 +69,7 @@ char	**with_equals(t_minishell *e, char *env)
 	sbl = dupnxtra(env, i);
 	if (!sbl)
 		return (NULL);
-	if (valid_name(sbl, e))
+	if (valid_name(e->lcl_env->value))
 	{
 		free(sbl);
 		return (e->env);

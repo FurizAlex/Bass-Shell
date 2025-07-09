@@ -6,22 +6,13 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 10:24:19 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/02 11:37:24 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/09 11:42:18 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 #include "parsing.h"
-
-void	close_fds(void)
-{
-	t_base	*base;
-
-	close(base->fd[0]);
-	close(base->fd[1]);
-	close(base->fd);
-}
 
 char	type_null(t_root *root)
 {
@@ -39,12 +30,14 @@ int	execute_prompt(t_root *root, t_minishell *msh)
 {
 	int		value;
 	char	**cmd;
+	char	*env;
 
+	env = NULL;
 	if (!root || !root->tokens[0])
 		return (0);
 	cmd = join_commands(root);
 	cmd = expand_commands(cmd, root);
-	value = is_builtin(cmd, msh);
+	value = is_builtin(cmd, msh, env);
 	if (value == -1)
 		return (array2clear(cmd), value);
 	value = external(cmd, msh);
@@ -60,8 +53,9 @@ int	execution(t_root *root)
 
 	in = dup(STDIN_FILENO);
 	out = dup(STDOUT_FILENO);
-	if (!root || !*root)
-		return_value = NULL;
+	return_value = 0;
+	if (!root)
+		return_value = -1;
 	if (root->tokens[0]->type == TOKEN_PIPE)
 		pipex(root);
 	else

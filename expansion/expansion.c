@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:13:24 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/26 10:44:59 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/09 18:05:50 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	**join_commands(t_root *root)
 		cmd[i] = ft_strdup(root->tokens[i]->value);
 		i++;
 	}
-	cmd[i] = '\0';
+	cmd[i] = NULL;
 	return (cmd);
 }
 
@@ -48,7 +48,7 @@ char	**expand_commands(char **cmd, t_root *root)
 	while (cmd[++i])
 	{
 		temp = cmd[i];
-		quoted = expand_string(temp);
+		quoted = expand_string(temp, root);
 		free(temp);
 		cmd[i] = quoted;
 	}
@@ -63,19 +63,19 @@ char	**expand_commands(char **cmd, t_root *root)
 	return (cmd);
 }
 
-char	*expand_string(char *str)
+char	*expand_string(char *str, t_root *root)
 {
 	int		i;
+	char	*chunk;
 	char	*token;
-	char	*size;
 	char	*temp;
 
 	token = ft_strdup("");
 	i = 0;
 	while (str[i] != '\0')
 	{
-		chunk = get_next_area(s, &i);
-		temp = ft_strjoin(token, size);
+		chunk = get_next_area(str, &i, root);
+		temp = ft_strjoin(token, chunk);
 		free(token);
 		free(chunk);
 		token = temp;
