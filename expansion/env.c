@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:13:55 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/24 13:59:56 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/09 17:57:15 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,13 @@ char	*to_get_env(char *start, int len)
 	char	*variable_name;
 	char	*env_value;
 
-	variable_name = ft_strdup(start, len);
-	env_value = getxenv(variable_name, root);
+	root = NULL;
+	variable_name = dupnxtra(start, len);
+	env_value = getxenv(variable_name, root->msh);
 	if (!variable_name)
 		return (NULL);
 	if (!env_value)
-		env = "";
+		env_value = "";
 	free(variable_name);
 	return (env_value);
 }

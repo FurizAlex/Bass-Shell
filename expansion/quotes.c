@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 10:44:13 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/27 15:52:49 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/09 18:12:28 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*remove_quotes(char *str)
 	return (token);
 }
 
-char	*remove_quotes_size(char *str, char *i)
+char	*remove_quotes_size(char *str, int *i)
 {
 	int		start;
 	int		end;
@@ -41,9 +41,9 @@ char	*remove_quotes_size(char *str, char *i)
 	char	*size;
 
 	quote = 0;
-	if (str[*i] == '"' || str[*i] == "'")
+	if (str[*i] == '"' || str[*i] == '\'')
 	{
-		quote = s[*i];
+		quote = str[*i];
 		(*i)++;
 	}
 	start = *i;
@@ -53,11 +53,11 @@ char	*remove_quotes_size(char *str, char *i)
 		while (str[end] && str[end] != '"' && str[end] != '\'')
 			end++;
 	}
-	while (s[end] && s[end] != quote)
+	while (str[end] && str[end] != quote)
 		end++;
 	if (quote && str[end == quote])
 		end++;
-	str = dupnxtra(str + start, end - start);
+	size = dupnxtra(str + start, end - start);
 	*i = end;
 	return (size);
 }

@@ -6,17 +6,18 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 17:57:54 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/01 14:55:00 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/08 17:27:19 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
-int	valid_name(char *env, t_minishell *e)
+int	valid_name(char *env)
 {
 	int	i;
 
+	i = 0;
 	if (!env || !*env)
 		return (1);
 	if (!isalpha(env[0] || env[0] == '_'))
@@ -30,21 +31,21 @@ int	valid_name(char *env, t_minishell *e)
 	return (0);
 }
 
-int	valid_environment(char **env, t_minishell *e)
+int	valid_environment(char *env, t_minishell *e)
 {
 	int	i;
 	int	nc;
 
 	i = 0;
 	nc = 0;
-	while (env[nc] && env[nc] != "=")
+	while (env[nc] && env[nc] != '=')
 		nc++;
-	if (valid_name(env, e) == 1)
+	if (valid_name(env) == 1)
 		return (1);
 	while (e->env)
 	{
-		if (ft_strncmp(e->env, env, nc == 0
-			&& e->env[i][nc] == "="))
+		if (ft_strncmp(*e->env, env, nc == 0
+				&& e->env[i][nc] == '='))
 		{
 			free(e->env[i]);
 			e->env[i] = ft_strdup(env);
@@ -77,16 +78,16 @@ char	**appends(char **env, t_minishell *e, int not_equals)
 	env_copy = malloc(oc + 2 * sizeof(char *));
 	flag_copy = malloc(oc + 2 * sizeof(int *));
 	if (!env_copy || !flag_copy)
-		return (free(env), free(env_copy), free(flag_copy, NULL));
+		return (free(env), free(env_copy), free(flag_copy), NULL);
 	while (i < oc)
 	{
-		env_copy[i] = e->env;
-		flag_copy[i] = e->export;
+		env_copy[i] = *e->env;
+		flag_copy[i] = *e->export;
 		i++;
 	}
-	env_copy[i] = env;
+	env_copy[i] = *env;
 	env_copy[i + 1] = NULL;
-	flag_copy = not_equals;
+	flag_copy = &not_equals;
 	append_aux(env_copy, flag_copy, e);
 	return (env_copy);
 }

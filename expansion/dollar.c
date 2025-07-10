@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:52:13 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/24 14:01:26 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/09 17:55:14 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 #include "execution.h"
 #include "parsing.h"
 
-static bool	has_question_mark(char	*dollar)
+static bool	has_question_mark(char	*dollar, t_minishell *msh)
 {
-	char		*length;
+	int			length;
 	char		*env_value;
-	t_minishell	*msh;
 
 	if (*(dollar + 1) == '?')
 	{
@@ -29,7 +28,7 @@ static bool	has_question_mark(char	*dollar)
 	return (false);
 }
 
-static char	*invalid(char *prefix, char *dollar)
+static char	*invalid(char *prefix, char *dollar, t_root *root)
 {
 	char	*literal;
 	char	*temp;
@@ -37,13 +36,13 @@ static char	*invalid(char *prefix, char *dollar)
 
 	literal = ft_strdup("$");
 	temp = ft_strjoin(prefix, literal);
-	res = ft_strjoin(temp, expand_dollar(dollar));
+	res = ft_strjoin(temp, expand_dollar(dollar, root));
 	free(literal);
 	free(temp);
 	return (res);
 }
 
-static char	*valid(char *prefix, char *dollar)
+static char	*valid(char *prefix, char *dollar, t_root *root)
 {
 	int		len;
 	char	*end;
@@ -51,17 +50,18 @@ static char	*valid(char *prefix, char *dollar)
 	char	*temp;
 	char	*env_value;
 
+	end = NULL;
 	len = variable_len(dollar + 1);
 	env_value = to_get_env(dollar + 1, len);
 	temp = ft_strjoin(prefix, env_value);
-	res = ft_strjoin(temp, expand_dollar(dollar));
+	res = ft_strjoin(temp, expand_dollar(dollar, root));
 	free(prefix);
 	free(temp);
-	free(tail);
+	free(end);
 	return (res);
 }
 
-char	*expand_dollar(char *prompt)
+char	*expand_dollar(char *prompt, t_root *root)
 {
 	int		i;
 	char	*res;
@@ -71,15 +71,15 @@ char	*expand_dollar(char *prompt)
 
 	i = 0;
 	is_valid = false;
-	prefix = dupnxtra(prompt, dollar - prompt);
 	dollar = ft_strchr(prompt, '$');
+	prefix = dupnxtra(prompt, dollar - prompt);
 	if (!dollar)
-		return (ft_strdup(cmd));
-	res = invalid(prefix, dollar);
+		return (ft_strdup(dollar));
+	res = invalid(prefix, dollar, root);
 	if (*(dollar + 1) != '\0' || valid_env_ch(*(dollar + 1)))
 	{
 		if (has_question_mark(dollar, root->msh))
-			valid(prefix, dollar);
+			valid(prefix, dollar, root);
 	}
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:41:40 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/27 15:51:08 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/09 15:58:56 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	close_pipe(int *pipe, int n)
 		close(pipe[i++]);
 }
 
-static void	initalize_pipes(int **pipex, int n)
+static void	initalize_pipes(int *pipex, int n)
 {
 	int	i;
 	int	total;
@@ -35,23 +35,24 @@ static void	initalize_pipes(int **pipex, int n)
 	pipex = malloc(sizeof(int) * total);
 	while (i < n - 1)
 	{
-		if (pipe(&total[i * 2]) == -1)
-			error2exit("Fishy Error: Couldn't get pipe");
+		if (pipe(&total) == -1)
+			error2exit("Fishy Error: Couldn't get pipe", 1);
 		i++;
 	}
 	return ;
 }
 
-int	pipe(t_root *root)
+void	pipex(t_root *root)
 {
-	int		i;
-	int		*pid;
-	int		*pipex;
-	char	**cmd;
 	char	n;
+	int		i;
+	int		*pipex;
+	pid_t	pid;
 
-	initalize_pipes(&pipex, n);
 	i = 0;
+	n = 0;
+	pipex = NULL;
+	initalize_pipes(pipex, n);
 	while (i < n)
 	{
 		pid = fork();

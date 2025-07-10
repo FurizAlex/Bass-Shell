@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 16:45:18 by alechin           #+#    #+#             */
-/*   Updated: 2024/11/29 15:19:23 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/08 16:09:37 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ to match, or be greater than s2.
 
 #include "libft.h"
 
-int	ft_strncmp(const char *str1, const char *str2, size_t n)
+int	ft_strncmp(char *str1, char *str2, size_t n)
 {
 	size_t	i;
 

@@ -6,14 +6,14 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:25:49 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/26 14:51:47 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/09 18:08:16 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
-void	read_heredoc(char *line, int fd, char *delimiter)
+void	read_heredoc(char *line, int *fd, char *delimiter)
 {
 	char	*doc;
 	int		i;
@@ -34,6 +34,6 @@ void	read_heredoc(char *line, int fd, char *delimiter)
 		}
 		write(fd[1], line, ft_strlen(line));
 		dup2(fd[0], 0);
-		close(fd[0], 0);
+		close(fd[0]);
 	}
 }

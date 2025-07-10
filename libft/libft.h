@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 12:08:17 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/01 16:20:09 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/08 16:10:19 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int			ft_toupper(int c);
 int			ft_tolower(int c);
 char		*ft_strchr(const char *str, int c);
 char		*ft_strrchr(const char *str, int c);
-int			ft_strncmp(const char *str1, const char *str2, size_t n);
+int			ft_strncmp(char *str1, char *str2, size_t n);
 void		*ft_memchr(const void *s, int c, size_t n);
 int			ft_memcmp(const void *ptr1, const void *ptr2, size_t num); //
 char		*ft_strnstr(const char *haystack, const char *needle, size_t num);
@@ -67,8 +67,6 @@ void		ft_lstiter(t_list *lst, void (*f)(void *));
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 char		*get_next_line(int fd);
 int			ft_printf(const char *str, ...);
-char		*getxenv(char **envp, const char *key);
-void		xprompt(char **envp);
 
 int			ft_isspace(char c);
 

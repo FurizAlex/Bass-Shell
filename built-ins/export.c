@@ -6,21 +6,21 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:29 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/01 15:33:38 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/09 11:51:30 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
-void	equal_checker(char **env, t_minishell *e)
+void	equal_checker(char *env, t_minishell *e)
 {
 	int	i;
 
 	i = 0;
 	while (e->env[i])
 	{
-		if (ft_strncmp(e->env, env, ft_strlen(env) == 0))
+		if (ft_strncmp(*e->env, env, ft_strlen(env) == 0))
 		{
 			e->export[i] = 0;
 			break ;
@@ -37,13 +37,13 @@ char	**without_equals(t_minishell *e, char *sbl)
 	i = 0;
 	list = ft_strjoin("=", sbl);
 	if (!list)
-		error2exit("Fishy Error: Couldn't join keys's in list");
-	if (valid_name(sbl, e))
-		return (e->env[i]);
+		error2exit("Fishy Error: Couldn't join keys's in list", 1);
+	if (valid_name(e->lcl_env->value))
+		return (&e->env[i]);
 	while (e->env[i])
 	{
 		if (ft_strncmp(e->env[i], sbl, ft_strlen(sbl) == 0
-			&& e->env[i][ft_strlen(sbl)] == "="))
+				&& sbl[i] == '='))
 			return (e->env);
 		i++;
 	}
@@ -61,21 +61,21 @@ char	**with_equals(t_minishell *e, char *env)
 	if (status == 0)
 		return (e->env);
 	if (status == 1)
-		return (equal_checker(env, e));
-	while (env[i] && env[i] == "=")
+		return (equal_checker(env, e), e->env);
+	while (env[i] && env[i] == '=')
 		i++;
 	if (i == 0)
 		return (e->env);
 	sbl = dupnxtra(env, i);
 	if (!sbl)
 		return (NULL);
-	if (valid_name(sbl))
+	if (valid_name(e->lcl_env->value))
 	{
 		free(sbl);
 		return (e->env);
 	}
 	free(sbl);
-	return (appends(env, e, 1));
+	return (appends(&env, e, 1));
 }
 
 char	**koi_export(char *env, t_minishell *e)

@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:41:06 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/26 16:27:52 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/09 15:50:22 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	free_pipex(char **paths)
 
 	i = -1;
 	while (paths[++i])
-		free(path[i]);
+		free(paths[i]);
 	free(paths);
 }
 
