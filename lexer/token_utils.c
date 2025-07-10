@@ -6,11 +6,22 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 00:57:53 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/07/08 11:24:20 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/10 13:12:20 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
+
+void	skip_whitespace(t_lexer *lexer)
+{
+	while (lexer->current_char != '\0'
+		&& ft_isspace(lexer->current_char)
+		&& !lexer->in_single_quote
+		&& !lexer->in_double_quote)
+	{
+		advance_lexer(lexer);
+	}
+}
 
 /* Allocates token struct, sets type/value/expansion flag,
 duplicates string values*/

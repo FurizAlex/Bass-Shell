@@ -18,7 +18,9 @@ RM = rm -rf
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g -I$(MINISHELL_HEADER_DIRECTORY)
 
-#-Wall -Wextra -Werror 
+#-Wall -Wextra -Werror
+
+LIBFT = $(LIBFT_DIRECTORY)/libft.a
 
 MINISHELL_HEADER = $(MINISHELL_HEADER_DIRECTORY)/minishell.h
 
@@ -59,7 +61,6 @@ SOURCE = 											\
 	main/main.c										\
 	main/shell_loop.c								\
 	main/termination.c								\
-	misc/history_utils.c							\
 	misc/history.c									\
 	misc/signalling.c								\
 	parser/create_node.c							\
@@ -85,9 +86,9 @@ CYAN := \033[1;36m
 
 all: $(NAME)
 
-$(NAME): $(OBJECTS)
+$(NAME): $(OBJECTS) $(LIBFT)
 	@echo "\n$(YELLOW)Compiling bass shell .c files...$(RESET)"
-	@$(CC) $(CFLAGS) $(OBJECTS) -L$(LIBFT_DIRECTORY) -lft -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJECTS) $(LIBFT) -lreadline -o $(NAME)
 	@echo "\n$(GREEN)The bassiest shell has been completed...$(RESET)"
 
 $(OBJECT_DIRECTORY)/%.o: %.c
@@ -97,7 +98,7 @@ $(OBJECT_DIRECTORY)/%.o: %.c
 
 $(LIBFT):
 	@echo "$(YELLOW)\nCompiling libft files... $(RESET)"
-	@make -C $(LIBFT_PATH) all --no-print-directory > /dev/null
+	@make -C $(LIBFT_DIRECTORY) all --no-print-directory > /dev/null
 	@echo "$(GREEN)\nSuccessfully compiled libft...$(RESET)"
 
 clean:

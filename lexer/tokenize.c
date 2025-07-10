@@ -6,12 +6,11 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 01:06:26 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/07/08 11:24:35 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/10 09:40:48 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
-
 
 void	add_eof_token(t_token **tokens, t_token *current, t_token *eof_token)
 {

@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 23:03:49 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/07/02 14:35:09 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/10 09:41:24 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_token		*create_token(t_token_type type, char *value, bool has_expansion);
 t_token		*read_word(t_lexer *lexer);
 t_token		*read_redirect(t_lexer *lexer);
 t_token		*get_next_token(t_lexer *lexer);
-void		print_tokens(t_token *tokens);
+/*void		print_tokens(t_token *tokens);*/
 void		free_tokens(t_token *tokens);
 void		free_lexer(t_lexer *lexer);
 t_token		*tokenize(char *input);
