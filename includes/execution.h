@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:33:54 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/09 18:09:39 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/11 11:38:21 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,11 @@ char	*expand_dollar(char *prompt, t_root *root);
 /* -- Termination -- */
 void	terminate_ast(t_root **root);
 void	terminate_tokens(t_token **tokens);
+
+/* -- Cleanup -- */
+void	cleanup_execution(t_minishell *msh);
+
+/* -- Initialization -- */
+void	initialise(char ***argc, int **argv, t_minishell *e, char **env);
 
 #endif

@@ -40,6 +40,7 @@ SOURCE = 											\
 	execution/export_helper/export_utils02.c		\
 	execution/branching.c							\
 	execution/builtin.c								\
+	execution/cleanup.c								\
 	execution/execute.c								\
 	execution/external.c							\
 	execution/operation.c							\
@@ -61,8 +62,8 @@ SOURCE = 											\
 	main/main.c										\
 	main/shell_loop.c								\
 	main/termination.c								\
-	misc/history.c									\
-	misc/signalling.c								\
+	main/history.c									\
+	main/signalling.c								\
 	parser/create_node.c							\
 	parser/freeing.c								\
 	parser/initializing.c							\

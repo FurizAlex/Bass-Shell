@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:19 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/08 11:31:43 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/10 13:41:41 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ int	change_directory(char **cmd, t_minishell *e)
 	int	decider;
 
 	decider = 0;
-	if (ft_strncmp(cmd[1], "<>", 3) == 0 || cmd[1] == NULL)
+	if (ft_strncmp(cmd[1], ".", 3) == 0 || cmd[1] == NULL)
 		decider = home(e);
-	else if (ft_strncmp(cmd[1], "'", 2) == 0)
+	else if (ft_strncmp(cmd[1], "..", 2) == 0)
 		decider = prev(e);
 	else if (chdir(cmd[1]) != 0)
 	{

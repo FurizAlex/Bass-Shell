@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:16:53 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/09 17:43:37 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/11 11:38:53 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,31 @@ typedef struct s_token
 	bool			has_expansion;/*marks if token contains $ for expansion*/
 	struct s_token	*next;
 }	t_token;
+
+typedef enum s_node_type
+{
+	NODE_COMMAND,
+	NODE_PIPE,
+	NODE_REDIRECT_IN,
+	NODE_REDIRECT_OUT,
+	NODE_REDIRECT_APPEND,
+	NODE_HEREDOC
+}	t_node_type;
+
+typedef struct s_ast_node
+{
+	t_node_type			type;
+	char				**args;
+	char				*filename;
+	struct s_ast_node	*left;
+	struct s_ast_node	*right;
+}	t_ast_node;
+
+typedef struct s_parser
+{
+	t_token	*tokens;
+	t_token	*current_token;
+}	t_parser;
 
 typedef struct s_env
 {
@@ -114,6 +139,7 @@ typedef struct s_root
 	t_token			**tokens;
 	t_minishell		*msh;
 	t_lexer			*lexer;
+	t_ast_node		*ast;
 	struct s_root	*origin;
 	struct s_root	*left;
 	struct s_root	*right;
@@ -129,30 +155,5 @@ typedef struct s_base
 	struct s_base	*next;
 	struct s_base	*prev;
 }	t_base;
-
-typedef enum s_node_type
-{
-	NODE_COMMAND,
-	NODE_PIPE,
-	NODE_REDIRECT_IN,
-	NODE_REDIRECT_OUT,
-	NODE_REDIRECT_APPEND,
-	NODE_HEREDOC
-}	t_node_type;
-
-typedef struct s_ast_node
-{
-	t_node_type			type;
-	char				**args;
-	char				*filename;
-	struct s_ast_node	*left;
-	struct s_ast_node	*right;
-}	t_ast_node;
-
-typedef struct s_parser
-{
-	t_token	*tokens;
-	t_token	*current_token;
-}	t_parser;
 
 #endif
