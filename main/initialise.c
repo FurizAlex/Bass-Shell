@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   initialise.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/23 13:59:16 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/11 16:41:16 by alechin          ###   ########.fr       */
+/*   Created: 2025/07/11 16:16:55 by alechin           #+#    #+#             */
+/*   Updated: 2025/07/11 16:41:44 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
-#include "../includes/execution.h"
-#include "../includes/parsing.h"
+#include "minishell.h"
+#include "execution.h"
+#include "parsing.h"
 
-int	main(int argc, char **argv, char **env)
+void	initialise(int *argc, char ***argv, t_minishell *o, char ***env)
 {
-	int			status;
-	char		*cmd;
-	t_minishell	o;
-
 	(void)argc;
 	(void)argv;
-	(void)cmd;
 	(void)env;
-	status = NORMAL;
-	initialise(&argc, &argv, &o, &env);
-	setup_signals();
-	setup_history();
-	shell_loop();
-	cleanup_history();
-	return (0);
+	o->status = 0;
+	o->lcl_env = 0;
+	o->env = NULL;
+	o->export = NULL;
+	o->root = NULL;
 }

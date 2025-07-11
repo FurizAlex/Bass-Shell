@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:16:53 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/11 11:38:53 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/11 17:57:33 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,11 @@
 # define STDOUT 1
 # define STDERR 2
 
-# define SUCCESS 0
-# define FAILURE 1
+# define UNDECLARED -1
+# define REDIRECTION 0
+# define COMMAND 1
+# define PIPE 2
+# define MICROSHELL 3
 
 typedef enum s_token_type
 {
@@ -48,8 +51,11 @@ typedef enum s_token_type
 
 typedef struct s_token
 {
+	int				id;
 	t_token_type	type;
+	t_lexer			lexer;
 	char			*value;
+	bool			is_open;
 	bool			has_expansion;/*marks if token contains $ for expansion*/
 	struct s_token	*next;
 }	t_token;
@@ -111,6 +117,15 @@ typedef enum e_status
 	QUOTE,
 	DOUBLE_QUOTE,
 }	t_status;
+
+typedef struct s_microshell
+{
+	int	id_start;
+	int	id_end;
+	int	level;
+	int	length;
+	int	err;
+}	t_microshell;
 
 typedef struct s_minishell
 {

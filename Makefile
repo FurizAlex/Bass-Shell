@@ -62,6 +62,7 @@ SOURCE = 											\
 	main/main.c										\
 	main/shell_loop.c								\
 	main/termination.c								\
+	main/initialise.c								\
 	main/history.c									\
 	main/signalling.c								\
 	parser/create_node.c							\

@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:33:54 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/11 11:38:21 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/11 18:02:26 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ void	no_args(t_minishell *e);
 int		valid_name(char *env);
 int		valid_environment(char *env, t_minishell *e);
 char	**appends(char **env, t_minishell *e, int not_equals);
+
+/* -- AST Tree Handling -- */
+int		priority(t_token *curr);
+void	current_order(t_token *curr, t_token **choice, int *priority);
+void	reset(t_token **tokens, t_microshell *shell);
+t_token	*find_position(t_token **tokens, int id);
 
 /* -- Shell Loop -- */
 void	shell_loop(void);
@@ -99,6 +105,6 @@ void	terminate_tokens(t_token **tokens);
 void	cleanup_execution(t_minishell *msh);
 
 /* -- Initialization -- */
-void	initialise(char ***argc, int **argv, t_minishell *e, char **env);
+void	initialise(int *argc, char ***argv, t_minishell *o, char ***env);
 
 #endif
