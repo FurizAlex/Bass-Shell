@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 10:24:19 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/09 11:42:18 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/11 14:09:46 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	execution(t_root *root)
 	out = dup(STDOUT_FILENO);
 	return_value = 0;
 	if (!root)
-		return_value = -1;
+		return_value = type_null(root);
 	if (root->tokens[0]->type == TOKEN_PIPE)
 		pipex(root);
 	else

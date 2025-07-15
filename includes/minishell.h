@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:16:53 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/09 17:43:37 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/11 17:57:33 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,11 @@
 # define STDOUT 1
 # define STDERR 2
 
-# define SUCCESS 0
-# define FAILURE 1
+# define UNDECLARED -1
+# define REDIRECTION 0
+# define COMMAND 1
+# define PIPE 2
+# define MICROSHELL 3
 
 typedef enum s_token_type
 {
@@ -48,11 +51,39 @@ typedef enum s_token_type
 
 typedef struct s_token
 {
+	int				id;
 	t_token_type	type;
+	t_lexer			lexer;
 	char			*value;
+	bool			is_open;
 	bool			has_expansion;/*marks if token contains $ for expansion*/
 	struct s_token	*next;
 }	t_token;
+
+typedef enum s_node_type
+{
+	NODE_COMMAND,
+	NODE_PIPE,
+	NODE_REDIRECT_IN,
+	NODE_REDIRECT_OUT,
+	NODE_REDIRECT_APPEND,
+	NODE_HEREDOC
+}	t_node_type;
+
+typedef struct s_ast_node
+{
+	t_node_type			type;
+	char				**args;
+	char				*filename;
+	struct s_ast_node	*left;
+	struct s_ast_node	*right;
+}	t_ast_node;
+
+typedef struct s_parser
+{
+	t_token	*tokens;
+	t_token	*current_token;
+}	t_parser;
 
 typedef struct s_env
 {
@@ -87,6 +118,15 @@ typedef enum e_status
 	DOUBLE_QUOTE,
 }	t_status;
 
+typedef struct s_microshell
+{
+	int	id_start;
+	int	id_end;
+	int	level;
+	int	length;
+	int	err;
+}	t_microshell;
+
 typedef struct s_minishell
 {
 	int				status;
@@ -114,6 +154,7 @@ typedef struct s_root
 	t_token			**tokens;
 	t_minishell		*msh;
 	t_lexer			*lexer;
+	t_ast_node		*ast;
 	struct s_root	*origin;
 	struct s_root	*left;
 	struct s_root	*right;
@@ -129,30 +170,5 @@ typedef struct s_base
 	struct s_base	*next;
 	struct s_base	*prev;
 }	t_base;
-
-typedef enum s_node_type
-{
-	NODE_COMMAND,
-	NODE_PIPE,
-	NODE_REDIRECT_IN,
-	NODE_REDIRECT_OUT,
-	NODE_REDIRECT_APPEND,
-	NODE_HEREDOC
-}	t_node_type;
-
-typedef struct s_ast_node
-{
-	t_node_type			type;
-	char				**args;
-	char				*filename;
-	struct s_ast_node	*left;
-	struct s_ast_node	*right;
-}	t_ast_node;
-
-typedef struct s_parser
-{
-	t_token	*tokens;
-	t_token	*current_token;
-}	t_parser;
 
 #endif

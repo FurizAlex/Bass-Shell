@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:12:56 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/09 18:05:26 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/11 12:33:20 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ int	redirect_prompt(t_root *root)
 	int	status;
 
 	status = 0;
+	if (status)
+		return (status);
 	if (!root)
 		return (1);
 	if (root->left)
 		status = redirect_prompt(root->left);
-	if (status)
-		return (status);
 	if (redir_type(root->tokens[0]->type))
 	{
 		status = redirection(root);

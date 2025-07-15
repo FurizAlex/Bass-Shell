@@ -6,7 +6,7 @@
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 10:28:17 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/10 09:48:43 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/11 16:41:11 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static void	process_input(char *input)
 	ast = parse(tokens);
 	if (ast)
 	{
+		execution((t_root *)ast);
 		free_ast(ast);
 	}
 	free_tokens(tokens);

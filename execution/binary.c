@@ -1,34 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   binary.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/23 13:59:16 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/11 16:41:16 by alechin          ###   ########.fr       */
+/*   Created: 2025/07/11 16:59:31 by alechin           #+#    #+#             */
+/*   Updated: 2025/07/11 17:00:41 by alechin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
-#include "../includes/execution.h"
-#include "../includes/parsing.h"
+#include "minishell.h"
+#include "execution.h"
 
-int	main(int argc, char **argv, char **env)
+int	ast(t_minishell *e)
 {
-	int			status;
-	char		*cmd;
-	t_minishell	o;
-
-	(void)argc;
-	(void)argv;
-	(void)cmd;
-	(void)env;
-	status = NORMAL;
-	initialise(&argc, &argv, &o, &env);
-	setup_signals();
-	setup_history();
-	shell_loop();
-	cleanup_history();
 	return (0);
 }
