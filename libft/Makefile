@@ -12,12 +12,13 @@ SOURCE = \
 				ft_printf/ft_printf.c			ft_printf/ft_printf_utils.c							\
 				ft_printf/ft_printf_second_utils.c													\
 				get_next_line/get_next_line.c	get_next_line/get_next_line_utils.c					\
-				Wglbx/xpathfree.c																	\
+				Wglbx/xpathfree.c				ft_tokenlst.c										\
 				Wglbx/array2clear.c				Wglbx/comp.c										\
 				Wglbx/countword.c				Wglbx/cpyenv.c										\
 				Wglbx/dupnxtra.c				Wglbx/getxenv.c										\
 				Wglbx/measure.c					Wglbx/ncomp.c										\
 				Wglbx/sdigit.c					Wglbx/valenvch.c									\
+				ft_instancer.c																		\
 
 BONUS = \
 				ft_lstadd_back.c	ft_lstclear.c		ft_lstiter.c	ft_lstmap.c \

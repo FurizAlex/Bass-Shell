@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:41:40 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/09 15:58:56 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/21 13:39:07 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,15 @@ static void	close_pipe(int *pipe, int n)
 
 static void	initalize_pipes(int *pipex, int n)
 {
-	int	i;
-	int	total;
+	int				i;
+	int				total;
 
 	i = 0;
 	total = (n - 1) * 2;
 	pipex = malloc(sizeof(int) * total);
 	while (i < n - 1)
 	{
-		if (pipe(&total) == -1)
+		if (pipe(pipex) == -1)
 			error2exit("Fishy Error: Couldn't get pipe", 1);
 		i++;
 	}

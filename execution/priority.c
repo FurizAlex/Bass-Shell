@@ -3,23 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   priority.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 17:20:49 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/11 18:00:03 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/22 10:40:14 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
+#include "parsing.h"
 
 int	priority(t_token *curr)
 {
-	int		priority;
-	t_token	type;
-	t_token	lex;
+	int				priority;
+	t_token_type	type;
 
-	lex = curr->lexer;
 	type = curr->type;
 	priority = UNDECLARED;
 	if (type == TOKEN_WORD
@@ -36,31 +35,31 @@ int	priority(t_token *curr)
 	return (priority);
 }
 
-void	current_order(t_token *curr, t_token **choice, int *priority)
+void	current_order(t_token *curr, t_token **choice, int *prior)
 {
 	int	order;
 
 	order = priority(curr);
-	if (order == TOKEN_PIPE)
+	if (order == PIPE)
 	{
-		if (*priority != TOKEN_PIPE)
+		if (*prior != PIPE)
 		{
-			priority = PIPE;
+			*prior = PIPE;
 			*choice = curr;
 		}
 		return ;
 	}
 	if (order == REDIRECTION
-		&& *priority != PIPE
-		&& *priority != COMMAND)
+		&& *prior != PIPE
+		&& *prior != COMMAND)
 	{
-		priority = REDIRECTION;
+		*prior = REDIRECTION;
 		*choice = curr;
 		return ;
 	}
 	if (order == COMMAND
-		&& *priority != PIPE
-		&& *priority != REDIRECTION)
+		&& *prior != PIPE
+		&& *prior != REDIRECTION)
 		*choice = curr;
 }
 
@@ -68,7 +67,7 @@ t_token	*find_position(t_token **tokens, int id)
 {
 	t_token	*search;
 
-	find = ft_lstlast(tokens);
+	search = ft_tokenlst(*tokens);
 	while (search)
 	{
 		if (search->id == id)

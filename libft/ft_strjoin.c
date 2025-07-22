@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 14:35:31 by alechin           #+#    #+#             */
-/*   Updated: 2024/11/29 14:48:45 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/18 17:52:15 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ NULL if the allocation fails.
 
 #include "libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*str;
 	size_t	i;

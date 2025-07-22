@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:25:49 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/09 18:08:16 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/21 16:40:39 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,6 @@
 
 void	read_heredoc(char *line, int *fd, char *delimiter)
 {
-	char	*doc;
-	int		i;
-
-	i = 0;
-	doc = ft_strdup("");
 	if (!line)
 		error2exit("🍥 Fishy Error: No line in heredoc\n", 1);
 	while (1)
