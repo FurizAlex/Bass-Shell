@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 13:59:16 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/11 16:41:16 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/22 11:51:39 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 
 int	main(int argc, char **argv, char **env)
 {
-	int			status;
 	char		*cmd;
 	t_minishell	o;
 
@@ -24,7 +23,6 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	(void)cmd;
 	(void)env;
-	status = NORMAL;
 	initialise(&argc, &argv, &o, &env);
 	setup_signals();
 	setup_history();

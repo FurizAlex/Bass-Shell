@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:16:53 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/11 17:57:33 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/22 13:56:11 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,17 @@
 # define STDOUT 1
 # define STDERR 2
 
+# define SUCCESS 0
+# define FAILURE -1
+
 # define UNDECLARED -1
 # define REDIRECTION 0
 # define COMMAND 1
 # define PIPE 2
 # define MICROSHELL 3
+# define MEMORY 4
+# define INTERACTIVE 5
+# define EOFS 6
 
 typedef enum s_token_type
 {
@@ -49,6 +55,15 @@ typedef enum s_token_type
 	TOKEN_ERROR
 }	t_token_type;
 
+typedef struct s_lexer
+{
+	char		*input;
+	int			pos;
+	char		current_char;
+	bool		in_single_quote;
+	bool		in_double_quote;
+}	t_lexer;
+
 typedef struct s_token
 {
 	int				id;
@@ -58,6 +73,7 @@ typedef struct s_token
 	bool			is_open;
 	bool			has_expansion;/*marks if token contains $ for expansion*/
 	struct s_token	*next;
+	struct s_token	*prev;
 }	t_token;
 
 typedef enum s_node_type
@@ -130,23 +146,16 @@ typedef struct s_microshell
 typedef struct s_minishell
 {
 	int				status;
+	int				last_status;
 	int				*export;
 	char			**env;
+	t_token			*token;
 	t_env			*env_list;
 	t_exec			*cmds;
 	struct s_env	*lcl_env;
 	struct s_root	*root;
 	struct s_base	*base;
 }	t_minishell;
-
-typedef struct s_lexer
-{
-	char		*input;
-	int			pos;
-	char		current_char;
-	bool		in_single_quote;
-	bool		in_double_quote;
-}	t_lexer;
 
 typedef struct s_root
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:12:56 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/11 12:33:20 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/22 14:00:15 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	redirect_prompt(t_root *root)
 		return (status);
 	if (!root)
 		return (1);
+	if (!root->tokens)
+		return (type_null(root));
 	if (root->left)
 		status = redirect_prompt(root->left);
 	if (redir_type(root->tokens[0]->type))
@@ -52,10 +54,8 @@ int	redirection(t_root *root)
 {
 	int		types;
 	char	*filename;
-	t_redir	*redir;
 
 	types = 0;
-	redir = NULL;
 	filename = NULL;
 	if (root->tokens[0]->type != TOKEN_HEREDOC)
 	{

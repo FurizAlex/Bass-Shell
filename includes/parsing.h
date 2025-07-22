@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 23:03:49 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/07/10 09:41:24 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/21 18:07:39 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,7 @@ void		save_history_file(void);
 void		setup_signals(void);
 void		handle_sigint(int sig);
 void		handle_sigquit(int sig);
+
+t_token		*ft_tokenlst(t_token *token);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operation.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:15:10 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/09 17:52:06 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/18 18:00:39 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,15 @@ int	heredoc(char *filename, t_root *root, t_lexer *lexer)
 	char	*str;
 	bool	is_expansion;
 
+	str = ft_strdup(lexer->input);
 	if (pipe(pipex) <= -1)
 		error2exit("🍥 Fishy Error: Could not get infile", 1);
 	is_expansion = false;
 	if (lexer->in_double_quote || lexer->in_single_quote)
 		is_expansion = true;
-	str = ft_strdup(lexer->input);
 	if (is_expansion != false)
 		str = expand_dollar(filename, root);
-	ft_putstr_fd("", pipex[1]);
+	ft_putstr_fd(str, pipex[1]);
 	dup2(pipex[0], STDOUT_FILENO);
 	close(pipex[0]);
 	close(pipex[1]);

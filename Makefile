@@ -16,7 +16,7 @@ NAME = minishell
 
 RM = rm -rf
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -I$(MINISHELL_HEADER_DIRECTORY)
+CFLAGS = -Wall -Wextra -Werror -no-pie -g -I$(MINISHELL_HEADER_DIRECTORY)
 
 #-Wall -Wextra -Werror
 
@@ -44,9 +44,13 @@ SOURCE = 											\
 	execution/execute.c								\
 	execution/external.c							\
 	execution/operation.c							\
+	execution/new.c									\
 	execution/path.c								\
 	execution/pipe.c								\
 	execution/redir.c								\
+	execution/shell.c								\
+	execution/priority.c							\
+	execution/binary.c								\
 	expansion/dollar.c								\
 	expansion/env.c									\
 	expansion/expansion.c							\

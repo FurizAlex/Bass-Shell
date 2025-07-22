@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   new.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 17:01:10 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/11 18:15:12 by alechin          ###   ########.fr       */
+/*   Updated: 2025/07/21 10:54:49 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ static void	*reallocation(void *start, size_t original, size_t size, size_t new)
 {
 	void	*new_point;
 
-	if (!start)
-		return (malloc(new * size));
-	if (new < -1)
+	if (new == 0)
 	{
 		free(start);
 		return (NULL);
@@ -28,14 +26,17 @@ static void	*reallocation(void *start, size_t original, size_t size, size_t new)
 	new_point = malloc(new * size);
 	if (!new_point)
 		return (NULL);
-	if (original > new)
-		original = new;
-	ft_memcpy(new_point, start, size * original);
-	free(start);
+	if (start)
+	{
+		if (original > new)
+			original = new;
+		ft_memcpy(new_point, start, size * original);
+		free(start);
+	}
 	return (new_point);
 }
 
-int	set(t_root **root, t_token *curr, t_microshell *shell, int list)
+int	set(t_root **root, t_token *curr, int list)
 {
 	int		i;
 	int		num;
@@ -54,23 +55,61 @@ int	set(t_root **root, t_token *curr, t_microshell *shell, int list)
 		while (temp->tokens[i])
 			++i;
 		num = i + list;
-		temp->tokens = malloc((n + 1) * sizeof(t_token *));
+		temp->tokens = reallocation(curr, i, num + 1, sizeof(t_token *));
 		if (!temp->tokens)
-			return (NULL);
-		
+			return (1);
+		while (i < num && curr)
+		{
+			temp->tokens[i++] = curr;
+			curr = curr->next;
+		}
+		temp->tokens[num] = NULL;
+		return (0);
 	}
+	return (1);
 }
 
-void	new(t_root **root, t_microshell *shell)
+void	*new(t_root **root, t_token *token, t_microshell *shell)
 {
 	int		i;
 	t_root	*new;
 
 	i = -1;
 	new = malloc(sizeof(t_root));
-	new->level = NULL;
+	new->tokens = NULL;
 	new->origin = NULL;
 	new->left = NULL;
 	new->right = NULL;
 	new->level = shell->level;
+	if (*root && set(root, *new->tokens, shell->length))
+		return (new);
+	new->tokens = malloc(sizeof(t_token *) * shell->length + 1);
+	if (!new || !new->tokens)
+		return (NULL);
+	while (i++ < shell->length)
+	{
+		if (!token)
+			break ;
+		new->tokens[i] = token;
+		token = token->next;
+	}
+	new->tokens[i] = NULL;
+	return (new);
+}
+
+int insertation(t_root *root, t_root **new, bool right)
+{
+	if (!*new)
+		return (UNDECLARED);
+	if (!root)
+		root = *new;
+	if (root)
+	{
+		(*new)->origin = root;
+		if (right)
+			root->right = *new;
+		else
+			root->left = *new;
+	}
+	return (UNDECLARED);
 }
