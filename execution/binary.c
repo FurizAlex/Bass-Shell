@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 16:59:31 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/22 11:51:15 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/07/22 17:28:00 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,12 @@ int	recursive_tree(t_root **root, t_microshell shell, t_token *token, bool right
 	shell.err = insertation(*root, &new_root, right);
 	if (out_of_bounds(tokens, shell, true))
 		shell.err = recursive_tree(root, micro_editor(shell, tokens, right),
-			token, right);
+			token, true);
+	if (shell.err != UNDECLARED)
+		return (shell.err);
+	if (out_of_bounds(tokens, shell, true))
+		shell.err = recursive_tree(root, micro_editor(shell, tokens, right),
+			token, true);
 	return (shell.err);
 }
 

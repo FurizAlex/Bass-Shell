@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 10:28:17 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/22 13:56:44 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/07/22 17:46:47 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,35 @@
 
 /*goes through line, returning false when it hits a non-whitespace
 character*/
+
+static void	attach_exec(t_root **root, t_token **tokens)
+{
+	t_minishell	*o;
+
+	o = minishell();
+	o->status = ast(root, tokens);
+	o->token = *tokens;
+	o->root = *root;
+	if (o->status == UNDECLARED)
+		o->last_status = execution(*root);
+	terminate_ast(root);
+}
+
+static void	status_clearance(void)
+{
+	t_minishell	*o;
+	t_root		*root;
+	t_token		*tokens;
+
+	o = minishell();
+	if (o->status == UNDECLARED)
+		attach_exec(&root, &tokens);
+	if (o->status == INTERACTIVE)
+		o->last_status = 130;
+	if (o->status == EOFS)
+		return ;
+}
+
 static bool	is_empty_input(char *input)
 {
 	int	i;
@@ -34,45 +63,20 @@ static void	process_input(char *input)
 {
 	t_token		*tokens;
 	t_ast_node	*ast;
+	t_minishell	*o;
 
+	o = minishell();
 	tokens = tokenize(input);
 	if (!tokens)
 		return ;
 	ast = parse(tokens);
 	if (ast)
 	{
-		execution((t_root *)ast);
+		o->status = UNDECLARED;
+		status_clearance();
 		free_ast(ast);
 	}
 	free_tokens(tokens);
-}
-
-static void	attach_exec(t_root **root, t_token **tokens)
-{
-	t_minishell	*o;
-
-	o = minishell();
-	o->status = ast(root, tokens);
-	o->token = *tokens;
-	o->root = *root;
-	if (o->status == UNDECLARED)
-		o->last_status = execution(*root);
-	terminate_ast(root);
-}
-
-void	status_clearance(void)
-{
-	t_minishell	*o;
-	t_root		*root;
-	t_token		*tokens;
-
-	o = minishell();
-	if (o->status == UNDECLARED)
-		attach_exec(&root, &tokens);
-	if (o->status == INTERACTIVE)
-		o->last_status = 130;
-	if (o->status == EOFS)
-		return ;
 }
 
 void	shell_loop(void)
@@ -92,7 +96,6 @@ void	shell_loop(void)
 			add_history(cmd);
 			process_input(cmd);
 		}
-		status_clearance();
 		free(cmd);
 	}
 }

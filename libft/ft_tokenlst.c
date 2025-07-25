@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 17:51:47 by furizalex         #+#    #+#             */
-/*   Updated: 2025/07/22 13:25:36 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/07/25 21:32:49 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_token	*ft_tokenlst(t_token *token)
 {
 	if (!token)
 		return (NULL);
-	while (token->next != NULL)
+	while (token->next)
 		token = token->next;
 	return (token);
 }

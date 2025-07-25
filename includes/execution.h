@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:33:54 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/22 13:22:19 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/07/25 21:30:02 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	        terminate_tokens(t_token **tokens);
 void	        cleanup_execution(t_minishell *msh);
 
 /* -- Initialization -- */
-void	        initialise(int *argc, char ***argv, t_minishell *o, char ***env);
+void			initialise(int *argc, char ***argv, t_token **tokens, char **env);
 
 /* -- Tree Binary System -- */
 int	            set(t_root **root, t_token *curr, int list);

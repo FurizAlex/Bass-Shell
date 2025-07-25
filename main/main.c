@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 13:59:16 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/22 11:51:39 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/07/25 21:33:38 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	(void)cmd;
 	(void)env;
-	initialise(&argc, &argv, &o, &env);
+	initialise(&argc, &argv, &o.token, env);
 	setup_signals();
 	setup_history();
 	shell_loop();

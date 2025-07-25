@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:52:36 by furizalex         #+#    #+#             */
-/*   Updated: 2025/07/21 18:09:34 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/07/25 21:32:15 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ void    level(t_token **tokens, t_microshell *shell)
     int		curr;
 
 	curr = 0;
-	shell->level = 2147483647;
+	shell->level = INT_MAX;
 	last = ft_tokenlst(*tokens);
 	while (last)
 	{
-		if (last->id >= shell->id_start)
+		if (last && last->id <= shell->id_start)
 			if (shell->level > curr)
 				shell->level = curr;
 		if (last->id == shell->id_end || curr < 0)
