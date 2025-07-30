@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:16:53 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/22 13:56:11 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/07/28 09:56:27 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef enum s_token_type
 	TOKEN_REDIRECT_APPEND,// >>
 	TOKEN_HEREDOC,// <<
 	TOKEN_EOF,
-	TOKEN_ERROR
+	TOKEN_ERROR,
 }	t_token_type;
 
 typedef struct s_lexer
@@ -134,14 +134,14 @@ typedef enum e_status
 	DOUBLE_QUOTE,
 }	t_status;
 
-typedef struct s_microshell
+typedef struct s_micro
 {
 	int	id_start;
 	int	id_end;
 	int	level;
 	int	length;
 	int	err;
-}	t_microshell;
+}	t_micro;
 
 typedef struct s_minishell
 {

@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 17:20:49 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/22 10:40:14 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/07/29 16:23:22 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,47 @@
 int	priority(t_token *curr)
 {
 	int				priority;
-	t_token_type	type;
 
-	type = curr->type;
 	priority = UNDECLARED;
-	if (type == TOKEN_WORD
-		|| type == TOKEN_PIPE
-		|| type == TOKEN_REDIRECT_IN
-		|| type == TOKEN_REDIRECT_OUT
-		|| type == TOKEN_REDIRECT_APPEND
-		|| type == TOKEN_HEREDOC)
+	if (curr->type == TOKEN_WORD
+		|| curr->type == TOKEN_PIPE
+		|| curr->type == TOKEN_REDIRECT_IN
+		|| curr->type == TOKEN_REDIRECT_OUT
+		|| curr->type == TOKEN_REDIRECT_APPEND
+		|| curr->type == TOKEN_HEREDOC)
 		priority = REDIRECTION;
-	else if (type == TOKEN_PIPE)
+	else if (curr->type == TOKEN_PIPE)
 		priority = PIPE;
 	else if (!curr->lexer.in_double_quote || !curr->lexer.in_single_quote)
 		priority = COMMAND;
 	return (priority);
+}
+
+bool	determine_level(t_token *tokens, int *level, bool *prev_s, bool *prev_d)
+{
+	bool	changed;
+
+	changed = false;
+	printf("%d\n", (char)tokens->lexer.in_single_quote);
+	if (tokens->lexer.in_single_quote != *prev_s)
+	{
+		if (tokens->lexer.in_single_quote)
+			(*level)++;
+		else
+			(*level)--;
+		*prev_s = tokens->lexer.in_single_quote;
+		changed = true;
+	}
+	if (tokens->lexer.in_double_quote != *prev_d)
+	{
+		if (tokens->lexer.in_double_quote)
+			(*level)++;
+		else
+			(*level)--;
+		*prev_d = tokens->lexer.in_double_quote;
+		changed = true;
+	}
+	return (changed);
 }
 
 void	current_order(t_token *curr, t_token **choice, int *prior)
@@ -77,7 +102,7 @@ t_token	*find_position(t_token **tokens, int id)
 	return (search);
 }
 
-void	reset(t_token **tokens, t_microshell *shell)
+void	reset(t_token **tokens, t_micro *shell)
 {
 	t_token	*curr;
 

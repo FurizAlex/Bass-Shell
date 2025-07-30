@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:52:36 by furizalex         #+#    #+#             */
-/*   Updated: 2025/07/25 21:32:15 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/07/29 16:23:16 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,22 @@
 #include "execution.h"
 #include "parsing.h"
 
-void    level(t_token **tokens, t_microshell *shell)
+void	level(t_token **tokens, t_micro *shell)
 {
-    t_token	*last;
-    int		curr;
+	t_token	*last;
+	int		curr;
+	bool	prev_single;
+	bool	prev_double;
 
 	curr = 0;
 	shell->level = INT_MAX;
 	last = ft_tokenlst(*tokens);
+	prev_single = false;
+	prev_double = false;
 	while (last)
 	{
-		if (last && last->id <= shell->id_start)
+		if (!determine_level(last, &curr, &prev_single, &prev_double)
+			&& last->id <= shell->id_start)
 			if (shell->level > curr)
 				shell->level = curr;
 		if (last->id == shell->id_end || curr < 0)
@@ -35,12 +40,12 @@ void    level(t_token **tokens, t_microshell *shell)
 		shell->level = -1;
 }
 
-t_token	*operators(t_token **tokens, t_microshell *shell, int *priority)
+t_token	*operators(t_token **tokens, t_micro *shell, int *priority)
 {
 	t_token	*last;
 	t_token	*choice;
 	int		current;
-	
+
 	current = 0;
 	choice = NULL;
 	*priority = COMMAND;
@@ -56,7 +61,7 @@ t_token	*operators(t_token **tokens, t_microshell *shell, int *priority)
 	return (choice);
 }
 
-void	splitters(t_token **tokens, t_microshell *shell, t_token **choice)
+void	splitters(t_token **tokens, t_micro *shell, t_token **choice)
 {
 	int		priority;
 	t_token	*temp;

@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 16:59:31 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/22 17:28:00 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/07/28 12:42:10 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 int	box_length(t_token *token)
 {
 	int	length;
-	
+
 	length = 0;
 	while (token)
 	{
@@ -26,33 +26,36 @@ int	box_length(t_token *token)
 			length++;
 			token = token->next;
 		}
-		else if (length != 0)
-			break ;
-		else if (priority(token) == PIPE)
-			return (1);
 		else
-			return (2);
+		{
+			if (length != 0)
+				break ;
+			else if (priority(token) == PIPE)
+				return (1);
+			else
+				return (2);
+		}
 	}
 	return (length);
 }
 
-bool	out_of_bounds(t_token *root, t_microshell shell, bool outbox)
+bool	out_of_bounds(t_token *token, t_micro shell, bool outbox)
 {
 	int		i;
 	t_token	*curr;
 
 	i = -1;
-	curr = root;
+	curr = token;
 	while (curr)
 	{
 		if (curr->id <= shell.id_start
 			&& curr->id >= shell.id_end)
 		{
+			i++;
 			if (outbox)
 				curr = curr->next;
 			else
 				curr = curr->prev;
-			i++;
 		}
 		else
 			break ;
@@ -62,50 +65,50 @@ bool	out_of_bounds(t_token *root, t_microshell shell, bool outbox)
 	return (false);
 }
 
-t_microshell micro_editor(t_microshell shell, t_token *token, bool right)
+t_micro	micro_editor(t_micro shell, t_token *token, bool right)
 {
-	t_microshell	microshell;
+	t_micro	microshell;
 
 	microshell = shell;
 	if (right)
-		shell.id_end = token->id + shell.length;
+		microshell.id_end = token->id + shell.length;
 	else
-		shell.id_end = token->id - 1;
+		microshell.id_end = token->id - 1;
 	return (microshell);
 }
 
-int	recursive_tree(t_root **root, t_microshell shell, t_token *token, bool right)
+int	recursive_tree(t_root **root, t_micro shell, t_token **token, bool right)
 {
 	t_token	*tokens;
 	t_root	*new_root;
 
-	splitters(&token, &shell, &tokens);
-	new_root = new(root, token, &shell);
+	splitters(token, &shell, &tokens);
+	new_root = new(root, tokens, shell);
 	if (!new_root)
 		return (MEMORY);
-	shell.err = insertation(*root, &new_root, right);
-	if (out_of_bounds(tokens, shell, true))
-		shell.err = recursive_tree(root, micro_editor(shell, tokens, right),
-			token, true);
+	shell.err = insertation(root, &new_root, right);
+	if (out_of_bounds(tokens, shell, false))
+		shell.err = recursive_tree(root, micro_editor(shell, tokens, false),
+				token, false);
 	if (shell.err != UNDECLARED)
 		return (shell.err);
 	if (out_of_bounds(tokens, shell, true))
-		shell.err = recursive_tree(root, micro_editor(shell, tokens, right),
-			token, true);
+		shell.err = recursive_tree(root, micro_editor(shell, tokens, true),
+				token, true);
 	return (shell.err);
 }
 
 int	ast(t_root **root, t_token **tokens)
 {
 	int				err;
-	t_microshell	shell;
+	t_micro			shell;
 
 	*root = NULL;
 	if (!tokens || !*tokens)
 		return (-2);
 	shell.id_end = 0;
 	shell.id_start = ft_tokenlst(*tokens)->id;
-	err = recursive_tree(root, shell, *tokens, true);
+	err = recursive_tree(root, shell, tokens, true);
 	if (err == MEMORY)
 		ft_putstr_fd("\x1b[0;31mError: Malloc\x1b[0m\n", 2);
 	else if (err == REDIRECTION)

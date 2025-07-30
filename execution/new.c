@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 17:01:10 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/25 21:38:24 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/07/29 11:07:56 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,29 @@
 #include "execution.h"
 #include "parsing.h"
 
-static void	*reallocation(void *start, size_t original, size_t size, size_t new)
+static void	*reallocation(void *start, size_t original, size_t size, size_t count)
 {
-	void	*new_point;
+    void *new_point;
 
-	if (new == 0)
-	{
-		free(start);
-		return (NULL);
-	}
-	new_point = malloc(new * size);
-	if (!new_point)
-		return (NULL);
-	if (start)
-	{
-		if (original > new)
-			original = new;
-		ft_memcpy(new_point, start, size * original);
-		free(start);
-	}
-	return (new_point);
+    if (count == 0)
+    {
+        free(start);
+        return NULL;
+    }
+    new_point = malloc(count * size);
+    if (!new_point)
+        return NULL;
+    if (start)
+    {
+        if (original > count)
+            original = count;
+        ft_memcpy(new_point, start, size * original);
+        free(start);
+    }
+    return new_point;
 }
 
-int	set(t_root **root, t_token *curr, int list)
+bool	set(t_root **root, t_token *curr, int list)
 {
 	int		i;
 	int		num;
@@ -48,45 +48,45 @@ int	set(t_root **root, t_token *curr, int list)
 	while (temp->origin)
 		if (!temp->tokens)
 			temp = temp->origin;
-	if (priority(curr) == 1
-		&& priority(temp->tokens[0]) == 1)
+	if (priority(curr) == 1 && priority(temp->tokens[0]) == 1)
 	{
 		i = -1;
 		while (temp->tokens[i])
 			++i;
 		num = i + list;
-		temp->tokens = reallocation(curr, i, num + 1, sizeof(t_token *));
-		if (!temp->tokens)
-			return (1);
+		temp->tokens = reallocation(temp->tokens, i, sizeof(t_token *), num + 1);
 		while (i < num && curr)
 		{
 			temp->tokens[i++] = curr;
 			curr = curr->next;
 		}
 		temp->tokens[num] = NULL;
-		return (0);
+		return (true);
 	}
-	return (1);
+	return (false);
 }
 
-void	*new(t_root **root, t_token *token, t_microshell *shell)
+t_root	*new(t_root **root, t_token *token, t_micro shell)
 {
 	int		i;
 	t_root	*new;
 
 	i = -1;
 	new = malloc(sizeof(t_root));
+	if (!new)
+		return (NULL);
 	new->tokens = NULL;
 	new->origin = NULL;
 	new->left = NULL;
 	new->right = NULL;
-	new->level = shell->level;
-	if (*root && set(root, *new->tokens, shell->length))
+	new->level = shell.level;
+	if (*root && set(root, token, shell.length))
 		return (new);
-	new->tokens = malloc(sizeof(t_token *) * shell->length + 1);
+	else
+		new->tokens = malloc(sizeof(t_token *) * (shell.length + 1));
 	if (!new || !new->tokens)
 		return (NULL);
-	while (i++ < shell->length)
+	while (i++ < shell.length)
 	{
 		if (!token)
 			break ;
@@ -97,19 +97,26 @@ void	*new(t_root **root, t_token *token, t_microshell *shell)
 	return (new);
 }
 
-int insertation(t_root *root, t_root **new, bool right)
+int	insertation(t_root **root, t_root **new, bool right)
 {
+	int	status;
+
 	if (!*new)
 		return (UNDECLARED);
-	if (!root)
-		root = *new;
 	if (root)
 	{
-		(*new)->origin = root;
+		(*new)->origin = *root;
 		if (right)
-			root->right = *new;
+			(*root)->right = *new;
 		else
-			root->left = *new;
+			(*root)->left = *new;
 	}
+	else
+		*root = *new;
+	status = heredoc_checker(new);
+	if (status == EOFS)
+		ft_putstr_fd("Heredoc delimited by EOF\n", 2);
+	if (status == INTERACTIVE)
+		return (INTERACTIVE);
 	return (UNDECLARED);
 }

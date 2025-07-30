@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:25:49 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/25 22:41:27 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/07/25 23:41:33 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	read_heredoc(char *line, int *fd, char *delimiter)
 	}
 }
 
-bool	heredoc_append(char *cmd, char **original, char *str)
+static bool	heredoc_append(char *cmd, char **original, char *str)
 {
 	char	*temp;
 	char	*start;
@@ -41,7 +41,7 @@ bool	heredoc_append(char *cmd, char **original, char *str)
 
 	start = str;
 	length = ft_strlen(str);
-	if (length >= 2 && (str[0] == '"' || str[0] == "\'"))
+	if (length >= 2 && (str[0] == '"' || str[0] == '\''))
 	{
 		start = str + 1;
 		length -= 2;
@@ -53,7 +53,7 @@ bool	heredoc_append(char *cmd, char **original, char *str)
 	*original = ft_strjoin(temp, cmd);
 	free(temp);
 	temp = *original;
-	*original = ft_strjoin(temp, '\n');
+	*original = ft_strjoin(temp, "\n");
 	free(temp);
 	return (true);
 }
@@ -61,15 +61,15 @@ bool	heredoc_append(char *cmd, char **original, char *str)
 int	heredoc_checker(t_root **root)
 {
 	char	*cmd;
-	
+
 	cmd = NULL;
 	if ((*root)->tokens && (*root)->tokens[0]->type == TOKEN_HEREDOC)
 	{
 		while (1)
 		{
 			cmd = readline("o=>>");
-			if (!cmd || !heredoc_append(cmd, &((*root)->tokens[0]->value)
-				,(*root)->tokens[1]->value))
+			if (!cmd || !heredoc_append(cmd, &((*root)->tokens[0]->value),
+					(*root)->tokens[1]->value))
 				break ;
 			free(cmd);
 		}
