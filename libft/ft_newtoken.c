@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tokenlst.c                                      :+:      :+:    :+:   */
+/*   ft_newtoken.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/21 17:51:47 by furizalex         #+#    #+#             */
-/*   Updated: 2025/07/30 15:38:35 by furizalex        ###   ########.fr       */
+/*   Created: 2025/08/01 17:02:28 by furizalex         #+#    #+#             */
+/*   Updated: 2025/08/01 17:02:36 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "../includes/parsing.h"
-
-t_token	*ft_tokenlst(t_token *token)
+t_token	*ft_newtoken(char *cmd, t_token_type type, int id)
 {
-	if (!token)
+	t_token	*head;
+
+	head = malloc(sizeof(t_token));
+	if (!head)
 		return (NULL);
-	while (token->next != NULL)
-		token = token->next;
-	return (token);
+	head->id = id;
+	head->frag = cmd;
+	head->type = type;
+	head->open = 0;
+	head->next = NULL;
+	head->prev = NULL;
+	return (head);
 }

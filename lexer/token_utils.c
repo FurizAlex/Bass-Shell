@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 00:57:53 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/07/10 13:12:20 by alechin          ###   ########.fr       */
+/*   Updated: 2025/08/01 17:20:46 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ void	skip_whitespace(t_lexer *lexer)
 duplicates string values*/
 t_token	*create_token(t_token_type type, char *value, bool has_expansion)
 {
+	t_lexer	*lexer;
 	t_token	*token;
 
+	lexer = lexers();
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
@@ -37,6 +39,7 @@ t_token	*create_token(t_token_type type, char *value, bool has_expansion)
 		token->value = ft_strdup(value);
 	else
 		token->value = NULL;
+	token->lexer = lexer;
 	token->has_expansion = has_expansion;
 	token->next = NULL;
 	return (token);

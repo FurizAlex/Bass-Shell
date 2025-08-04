@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:16:53 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/28 09:56:27 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/07/30 14:04:54 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct s_token
 {
 	int				id;
 	t_token_type	type;
-	t_lexer			lexer;
+	t_lexer			*lexer;
 	char			*value;
 	bool			is_open;
 	bool			has_expansion;/*marks if token contains $ for expansion*/

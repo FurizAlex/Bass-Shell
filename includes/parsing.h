@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 23:03:49 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/07/21 18:07:39 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/01 17:20:49 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,7 @@ void		handle_sigint(int sig);
 void		handle_sigquit(int sig);
 
 t_token		*ft_tokenlst(t_token *token);
+t_token		*ft_newtoken(char *cmd, t_token_type type, int id);
+t_lexer		*lexers(void);
 
 #endif

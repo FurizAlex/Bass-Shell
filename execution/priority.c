@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 17:20:49 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/29 16:23:22 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/04 12:41:50 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	priority(t_token *curr)
 		priority = REDIRECTION;
 	else if (curr->type == TOKEN_PIPE)
 		priority = PIPE;
-	else if (!curr->lexer.in_double_quote || !curr->lexer.in_single_quote)
+	else if (!curr->lexer->in_double_quote || !curr->lexer->in_single_quote)
 		priority = COMMAND;
 	return (priority);
 }
@@ -38,23 +38,26 @@ bool	determine_level(t_token *tokens, int *level, bool *prev_s, bool *prev_d)
 	bool	changed;
 
 	changed = false;
-	printf("%d\n", (char)tokens->lexer.in_single_quote);
-	if (tokens->lexer.in_single_quote != *prev_s)
+	printf("%p\n", &tokens);
+	printf("%p\n", &level);
+	printf("%p\n", &prev_s);
+	printf("%p\n", &prev_d);
+	if (tokens->lexer->in_single_quote != *prev_s)
 	{
-		if (tokens->lexer.in_single_quote)
+		if (tokens->lexer->in_single_quote)
 			(*level)++;
 		else
 			(*level)--;
-		*prev_s = tokens->lexer.in_single_quote;
+		*prev_s = tokens->lexer->in_single_quote;
 		changed = true;
 	}
-	if (tokens->lexer.in_double_quote != *prev_d)
+	if (tokens->lexer->in_double_quote != *prev_d)
 	{
-		if (tokens->lexer.in_double_quote)
+		if (tokens->lexer->in_double_quote)
 			(*level)++;
 		else
 			(*level)--;
-		*prev_d = tokens->lexer.in_double_quote;
+		*prev_d = tokens->lexer->in_double_quote;
 		changed = true;
 	}
 	return (changed);
@@ -92,7 +95,7 @@ t_token	*find_position(t_token **tokens, int id)
 {
 	t_token	*search;
 
-	search = ft_tokenlst(*tokens);
+	search = *tokens;
 	while (search)
 	{
 		if (search->id == id)

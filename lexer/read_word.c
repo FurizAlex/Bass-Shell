@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 01:08:21 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/07/25 23:17:01 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/07/30 11:35:15 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static bool	handle_quotes(t_lexer *lexer, char *word, int *len)
 	if (lexer->current_char == '\'' && !lexer->in_double_quote)
 	{
 		lexer->in_single_quote = !lexer->in_single_quote;
+		printf("%d\n", lexer->in_single_quote);
 		word[(*len)++] = lexer->current_char;
 		advance_lexer(lexer);
 		return (true);
