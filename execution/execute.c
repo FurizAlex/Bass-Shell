@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 10:24:19 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/22 14:10:52 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/05 17:00:07 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	type_null(t_root *root)
 	int	result;
 
 	result = 0;
+	if (!root)
+		return (result);
 	if (!root->left)
 		result = execute_status(root->left);
 	if (!root->right)

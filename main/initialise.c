@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialise.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 16:16:55 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/11 16:41:44 by alechin          ###   ########.fr       */
+/*   Updated: 2025/08/04 17:30:28 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,19 @@
 #include "execution.h"
 #include "parsing.h"
 
-void	initialise(int *argc, char ***argv, t_minishell *o, char ***env)
+void	initialise(int *argc, char ***argv, t_token **tokens, char **env)
 {
+	t_minishell	*o;
+
 	(void)argc;
 	(void)argv;
 	(void)env;
-	o->status = 0;
+	*tokens = NULL;
+	o = minishell();
 	o->lcl_env = 0;
-	o->env = NULL;
-	o->export = NULL;
+	o->last_status = 0;
+	o->env = cpyenv(env);
+	o->export = ft_calloc(countword(o->env) + 1, sizeof(int));
 	o->root = NULL;
+	o->status = UNDECLARED;
 }
