@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 16:59:31 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/01 17:42:38 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/05 17:27:01 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,6 @@ int	ast(t_root **root, t_token **tokens)
 	t_micro			shell;
 
 	*root = NULL;
-	if (!tokens || !*tokens || !(*tokens)->lexer)
-		return (-2);
 	shell.id_end = 0;
 	shell.id_start = (*tokens)->id;
 	err = recursive_tree(root, shell, tokens, true);

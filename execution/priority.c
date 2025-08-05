@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 17:20:49 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/04 12:41:50 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/05 16:46:28 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,51 +16,36 @@
 
 int	priority(t_token *curr)
 {
-	int				priority;
-
-	priority = UNDECLARED;
+	if (!curr || !curr->lexer)
+		return (UNDECLARED);
 	if (curr->type == TOKEN_WORD
 		|| curr->type == TOKEN_PIPE
 		|| curr->type == TOKEN_REDIRECT_IN
 		|| curr->type == TOKEN_REDIRECT_OUT
 		|| curr->type == TOKEN_REDIRECT_APPEND
 		|| curr->type == TOKEN_HEREDOC)
-		priority = REDIRECTION;
+		return (REDIRECTION);
 	else if (curr->type == TOKEN_PIPE)
-		priority = PIPE;
+		return (PIPE);
 	else if (!curr->lexer->in_double_quote || !curr->lexer->in_single_quote)
-		priority = COMMAND;
-	return (priority);
+		return (COMMAND);
+	return (UNDECLARED);
 }
 
-bool	determine_level(t_token *tokens, int *level, bool *prev_s, bool *prev_d)
+int	determine_level(t_token *tokens, int *level, int *prev_s, int *prev_d)
 {
-	bool	changed;
+	bool	curr_in_single;
+	bool	curr_in_double;
 
-	changed = false;
-	printf("%p\n", &tokens);
-	printf("%p\n", &level);
-	printf("%p\n", &prev_s);
-	printf("%p\n", &prev_d);
+	check_quotes_in_value(tokens->value,
+		&curr_in_single, &curr_in_double);
 	if (tokens->lexer->in_single_quote != *prev_s)
-	{
-		if (tokens->lexer->in_single_quote)
-			(*level)++;
-		else
-			(*level)--;
-		*prev_s = tokens->lexer->in_single_quote;
-		changed = true;
-	}
-	if (tokens->lexer->in_double_quote != *prev_d)
-	{
-		if (tokens->lexer->in_double_quote)
-			(*level)++;
-		else
-			(*level)--;
-		*prev_d = tokens->lexer->in_double_quote;
-		changed = true;
-	}
-	return (changed);
+		*level += 1;
+	if (tokens->lexer->in_single_quote != *prev_d)
+		*level += 2;
+	*prev_s = tokens->lexer->in_single_quote;
+	*prev_d = tokens->lexer->in_double_quote;
+	return (0);
 }
 
 void	current_order(t_token *curr, t_token **choice, int *prior)

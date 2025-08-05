@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 17:01:10 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/29 11:07:56 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/05 16:27:51 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,26 +97,28 @@ t_root	*new(t_root **root, t_token *token, t_micro shell)
 	return (new);
 }
 
-int	insertation(t_root **root, t_root **new, bool right)
+int insertation(t_root **root, t_root **new, bool right)
 {
-	int	status;
+    int status;
 
-	if (!*new)
-		return (UNDECLARED);
-	if (root)
-	{
-		(*new)->origin = *root;
-		if (right)
-			(*root)->right = *new;
-		else
-			(*root)->left = *new;
-	}
-	else
-		*root = *new;
-	status = heredoc_checker(new);
-	if (status == EOFS)
-		ft_putstr_fd("Heredoc delimited by EOF\n", 2);
-	if (status == INTERACTIVE)
-		return (INTERACTIVE);
-	return (UNDECLARED);
+    if (!*new)
+        return (UNDECLARED);
+    if (!root || !*root) // Check if root is null
+    {
+        fprintf(stderr, "Error: root is NULL\n");
+        return (UNDECLARED);
+    }
+
+    (*new)->origin = *root;
+    if (right)
+        (*root)->right = *new;
+    else
+        (*root)->left = *new;
+
+    status = heredoc_checker(new);
+    if (status == EOFS)
+        ft_putstr_fd("Heredoc delimited by EOF\n", 2);
+    if (status == INTERACTIVE)
+        return (INTERACTIVE);
+    return (UNDECLARED);
 }

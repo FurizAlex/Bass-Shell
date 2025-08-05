@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:52:36 by furizalex         #+#    #+#             */
-/*   Updated: 2025/08/01 17:12:39 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/05 16:45:46 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ void	level(t_token **tokens, t_micro *shell)
 {
 	t_token	*last;
 	int		curr;
-	bool	prev_single;
-	bool	prev_double;
+	int		prev_single;
+	int		prev_double;
 
 	curr = 0;
 	shell->level = INT_MAX;
-	last = *tokens;
-	prev_single = false;
-	prev_double = false;
+	last = ft_tokenlst(*tokens);
+	prev_single = 0;
+	prev_double = 0;
 	while (last)
 	{
 		if (!determine_level(last, &curr, &prev_single, &prev_double)
@@ -66,6 +66,12 @@ void	splitters(t_token **tokens, t_micro *shell, t_token **choice)
 	int		priority;
 	t_token	*temp;
 
+	if (!tokens || !*tokens)
+	{
+		fprintf(stderr, "splitters: tokens is NULL\n");
+		*choice = NULL;
+		return;
+	}
 	level(tokens, shell);
 	*choice = operators(tokens, shell, &priority);
 	temp = *choice;

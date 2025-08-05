@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:33:54 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/01 17:19:04 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/05 16:42:53 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,10 +124,13 @@ void			splitters(t_token **tokens, t_micro *shell, t_token **choice);
 t_token			*operators(t_token **tokens, t_micro *shell, int *priority);
 
 int				priority(t_token *curr);
-bool			determine_level(t_token *tokens, int *level, bool *prev_s, bool *prev_d);
+int				determine_level(t_token *tokens, int *level, int *prev_s, int *prev_d);
 void			current_order(t_token *curr, t_token **choice, int *priority);
 void			reset(t_token **tokens, t_micro *shell);
 t_token			*find_position(t_token **tokens, int id);
+
+void			set_token_prev_pointers(t_token *head);
+void			check_quotes_in_value(char *value, bool *s_q, bool *d_q);
 
 t_minishell		*minishell(void);
 

@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 10:28:17 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/30 17:02:12 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/05 17:19:21 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,17 @@ static void	attach_exec(t_root **root, t_token **tokens)
 	t_minishell	*o;
 
 	o = minishell();
+	*root = NULL;
 	o->status = ast(root, tokens);
 	o->token = *tokens;
 	o->root = *root;
 	if (o->status == UNDECLARED)
-		o->last_status = execution(*root);
+	{
+		if (o->root)
+			o->last_status = execution(*root);
+		else
+			o->last_status = 1;
+	}
 	terminate_ast(root);
 }
 
@@ -34,11 +40,10 @@ static void	status_clearance(void)
 {
 	t_minishell	*o;
 	t_root		*root;
-	t_token		*tokens;
 
 	o = minishell();
 	if (o->status == UNDECLARED)
-		attach_exec(&root, &tokens);
+		attach_exec(&root, &o->token);
 	if (o->status == INTERACTIVE)
 		o->last_status = 130;
 	if (o->status == EOFS)
@@ -69,6 +74,8 @@ static void	process_input(char *input)
 	tokens = tokenize(input);
 	if (!tokens)
 		return ;
+	set_token_prev_pointers(tokens);
+	o->token = tokens;
 	ast = parse(tokens);
 	if (ast)
 	{
@@ -88,7 +95,7 @@ void	shell_loop(void)
 		cmd = readline("\033[33m-- BASS AMATEUR SHELL --\033[36m\n[🐡 FISH BITES] o->\033[0m ");
 		if (!cmd)
 		{
-			write(1, "exit\n", 5);
+			write(1, "Exit\n", 5);
 			break ;
 		}
 		if (!is_empty_input(cmd))
