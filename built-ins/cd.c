@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:19 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/10 13:41:41 by alechin          ###   ########.fr       */
+/*   Updated: 2025/08/06 16:36:21 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ int	koi_cd(char **cmd, t_minishell *e)
 	char	*current_dir;
 	int		return_value;
 
+	if (!getcwd(buffer, 4096))
+		return (error2exit("Fishy Error: Couldn't get current directory", 1), 1);
 	old_dir = ft_strjoin("OLDPWD=", buffer);
 	return_value = change_directory(cmd, e);
 	if (countword(cmd) >= 3)
 		error2exit("Fishy Warning: Too many arguments", 1);
-	if (!getcwd(buffer, 4096))
-		error2exit("Fishy Error: Couldn't get current directory", 1);
 	if (return_value != 0)
 		return (return_value);
 	e->env = koi_export(old_dir, e);

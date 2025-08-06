@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils02.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 17:57:54 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/08 17:27:19 by alechin          ###   ########.fr       */
+/*   Updated: 2025/08/06 16:47:21 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ int	valid_name(char *env)
 	i = 0;
 	if (!env || !*env)
 		return (1);
-	if (!isalpha(env[0] || env[0] == '_'))
+	if (!ft_isalpha(env[0] || env[0] == '_'))
 		return (1);
 	while (env[i] && env[i] != '=')
 	{
-		if (!isalnum(env[i]) || env[i] == '_')
+		if (!ft_isalnum(env[i]) || env[i] == '_')
 			return (1);
 		i++;
 	}
@@ -76,18 +76,19 @@ char	**appends(char **env, t_minishell *e, int not_equals)
 	while (e->env[oc])
 		oc++;
 	env_copy = malloc(oc + 2 * sizeof(char *));
-	flag_copy = malloc(oc + 2 * sizeof(int *));
+	flag_copy = malloc(oc + 2 * sizeof(int));
 	if (!env_copy || !flag_copy)
 		return (free(env), free(env_copy), free(flag_copy), NULL);
 	while (i < oc)
 	{
-		env_copy[i] = *e->env;
-		flag_copy[i] = *e->export;
+		env_copy[i] = e->env[i];
+		flag_copy[i] = e->export[i];
 		i++;
 	}
-	env_copy[i] = *env;
+	env_copy[i] = env[i];
 	env_copy[i + 1] = NULL;
-	flag_copy = &not_equals;
+	flag_copy[i] = not_equals;
+	flag_copy[i + 1] = 0;
 	append_aux(env_copy, flag_copy, e);
 	return (env_copy);
 }

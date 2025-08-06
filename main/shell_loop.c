@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 10:28:17 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/05 17:19:21 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/06 17:46:51 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,28 @@ character*/
 static void	attach_exec(t_root **root, t_token **tokens)
 {
 	t_minishell	*o;
+	t_micro		shell;
 
 	o = minishell();
 	*root = NULL;
-	o->status = ast(root, tokens);
-	o->token = *tokens;
-	o->root = *root;
+	shell.id_start = (*tokens)->id;
+	shell.id_end = ft_tokenlst(*tokens)->id;
+	shell.length = 0;
+	t_token *temp = *tokens;
+	while (temp)
+	{
+		shell.length++;
+		temp = temp->next;
+	}
+	*root = create_initial_root(tokens, &shell);
+	if (!(*root))
+	{
+		o->status = UNDECLARED;
+		o->last_status = 1;
+		return ;
+	}
+	(*root)->msh = o;
+	o->status = recursive_tree(root, shell, tokens, true);
 	if (o->status == UNDECLARED)
 	{
 		if (o->root)

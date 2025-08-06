@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:13:24 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/09 18:05:50 by alechin          ###   ########.fr       */
+/*   Updated: 2025/08/06 17:05:17 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@ char	**join_commands(t_root *root)
 	while (root->tokens[count] != NULL)
 		count++;
 	cmd = malloc((count + 1) * sizeof(char *));
-	while (i++ < count)
+	while (i < count)
 	{
 		if (!root->tokens[i]->value)
-			root->tokens[i]->value = "";
-		cmd[i] = ft_strdup(root->tokens[i]->value);
+			cmd[i] = ft_strdup("");
+		else
+			cmd[i] = ft_strdup(root->tokens[i]->value);
 		i++;
 	}
 	cmd[i] = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:36:14 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/09 11:39:37 by alechin          ###   ########.fr       */
+/*   Updated: 2025/08/06 17:41:44 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	specify(char **cmd, t_minishell *e, t_env *env)
 	return (-1);
 }
 
-int	is_builtin(char **cmd, t_minishell *std, char *env)
+int	is_builtin(char **cmd, t_minishell *std)
 {
 	int		i;
 	char	**env_cpy;
@@ -46,7 +46,7 @@ int	is_builtin(char **cmd, t_minishell *std, char *env)
 		else if (ft_strlen(cmd[1]) > 8000)
 			return (1);
 		while (cmd[++i])
-			std->env = koi_export(env, std);
+			std->env = koi_export(cmd[i], std);
 		if (std->env == env_cpy)
 			return (1);
 		return (0);

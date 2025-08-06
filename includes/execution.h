@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:33:54 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/05 16:42:53 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/06 17:46:38 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char			**koi_export(char *env, t_minishell *e);
 
 /* -- Execution Built-ins -- */
 int				specify(char **cmd, t_minishell *e, t_env *env);
-int				is_builtin(char **cmd, t_minishell *std, char *env);
+int				is_builtin(char **cmd, t_minishell *std);
 
 /* -- Export Helper -- */
 void			no_args(t_minishell *e);
@@ -93,7 +93,7 @@ char			*get_next_area(char *str, int *i, t_root *root);
 
 /* -- Env -- */
 int				variable_len(char *start);
-char			*to_get_env(char *start, int len);
+char			*to_get_env(char *start, int len, t_root *root);
 
 /* -- Dollar -- */
 char			*expand_dollar(char *prompt, t_root *root);
@@ -131,6 +131,7 @@ t_token			*find_position(t_token **tokens, int id);
 
 void			set_token_prev_pointers(t_token *head);
 void			check_quotes_in_value(char *value, bool *s_q, bool *d_q);
+t_root			*create_initial_root(t_token **tokens, t_micro *shell);
 
 t_minishell		*minishell(void);
 

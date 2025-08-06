@@ -16,7 +16,7 @@ NAME = minishell
 
 RM = rm -rf
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -no-pie -g -I$(MINISHELL_HEADER_DIRECTORY)
+CFLAGS = -Wall -Wextra -Werror -no-pie -g -O0 -I$(MINISHELL_HEADER_DIRECTORY)
 
 #-Wall -Wextra -Werror
 

@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 17:01:10 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/05 16:27:51 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/06 17:37:31 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,22 +71,18 @@ t_root	*new(t_root **root, t_token *token, t_micro shell)
 	int		i;
 	t_root	*new;
 
-	i = -1;
-	new = malloc(sizeof(t_root));
+	(void)root;
+	new = calloc(1, sizeof(t_root));
 	if (!new)
 		return (NULL);
-	new->tokens = NULL;
-	new->origin = NULL;
-	new->left = NULL;
-	new->right = NULL;
-	new->level = shell.level;
-	if (*root && set(root, token, shell.length))
-		return (new);
-	else
-		new->tokens = malloc(sizeof(t_token *) * (shell.length + 1));
-	if (!new || !new->tokens)
+	new->tokens = ft_calloc(shell.length + 1, sizeof(t_token *));
+	if (!new->tokens)
+	{
+		free(new);
 		return (NULL);
-	while (i++ < shell.length)
+	}
+	i = -1;
+	while (++i < shell.length)
 	{
 		if (!token)
 			break ;
@@ -94,31 +90,25 @@ t_root	*new(t_root **root, t_token *token, t_micro shell)
 		token = token->next;
 	}
 	new->tokens[i] = NULL;
+	new->origin = NULL;
+	new->left = NULL;
+	new->right = NULL;
+	new->level = shell.level;
+	new->msh = minishell();
 	return (new);
 }
 
 int insertation(t_root **root, t_root **new, bool right)
 {
-    int status;
-
-    if (!*new)
-        return (UNDECLARED);
-    if (!root || !*root) // Check if root is null
-    {
-        fprintf(stderr, "Error: root is NULL\n");
-        return (UNDECLARED);
-    }
-
-    (*new)->origin = *root;
-    if (right)
-        (*root)->right = *new;
-    else
-        (*root)->left = *new;
-
-    status = heredoc_checker(new);
-    if (status == EOFS)
-        ft_putstr_fd("Heredoc delimited by EOF\n", 2);
-    if (status == INTERACTIVE)
-        return (INTERACTIVE);
-    return (UNDECLARED);
+    if (!new || !*new)
+		return (UNDECLARED);
+	if (root && *root)
+	{
+		(*new)->origin = *root;
+		if (right)
+			(*root)->right = *new;
+		else
+			(*root)->left = *new;
+	}
+	return (heredoc_checker(new));
 }

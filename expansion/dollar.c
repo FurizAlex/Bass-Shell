@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:52:13 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/21 16:40:23 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/06 17:45:58 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static char	*invalid(char *prefix, char *dollar, t_root *root)
 
 	literal = ft_strdup("$");
 	temp = ft_strjoin(prefix, literal);
-	res = ft_strjoin(temp, expand_dollar(dollar, root));
 	free(literal);
+	res = ft_strjoin(temp, expand_dollar(dollar, root));
 	free(temp);
 	return (res);
 }
@@ -31,12 +31,10 @@ static char	*invalid(char *prefix, char *dollar, t_root *root)
 static char	*valid(char *prefix, char *dollar, t_root *root)
 {
 	int		len;
-	char	*end;
 	char	*res;
 	char	*temp;
 	char	*env_value;
 
-	end = NULL;
 	if (*(dollar + 1) == '?')
 	{
 		len = 1;
@@ -47,11 +45,15 @@ static char	*valid(char *prefix, char *dollar, t_root *root)
 		len = variable_len(dollar + 1);
 		env_value = to_get_env(dollar + 1, len);
 	}
+	if (!env_value)
+		env_value = ft_strdup("");
+	else
+		env_value = ft_strdup(env_value);
 	temp = ft_strjoin(prefix, env_value);
-	res = ft_strjoin(temp, expand_dollar(dollar, root));
+	free(env_value);
+	res = ft_strjoin(temp, expand_dollar(dollar + 1 + len, root));
 	free(prefix);
 	free(temp);
-	free(end);
 	return (res);
 }
 
@@ -60,13 +62,48 @@ char	*expand_dollar(char *prompt, t_root *root)
 	char	*res;
 	char	*dollar;
 	char	*prefix;
+	char	*temp_res;
+	char	*temp_prefix;
 
 	dollar = ft_strchr(prompt, '$');
-	prefix = dupnxtra(prompt, dollar - prompt);
 	if (!dollar)
-		return (ft_strdup(dollar));
+		return (ft_strdup(prompt));
+	prefix = dupnxtra(prompt, dollar - prompt);
+	if (!prefix)
+		return (NULL);
 	res = invalid(prefix, dollar, root);
+	if (!res)
+	{
+		free(prefix);
+		return (NULL);
+	}
 	if (*(dollar + 1) != '\0' || valid_env_ch(*(dollar + 1)))
-		valid(prefix, dollar, root);
+	{
+		temp_res = valid(prefix, dollar, root);
+		free(res);
+		res = temp_res;
+		if (!res)
+		{
+			free(prefix);
+			return (NULL);
+		}
+	}
+	else
+	{
+		temp_prefix = prefix;
+		prefix = ft_strjoin(temp_prefix, "$");
+		free(temp_prefix);
+		if (!prefix)
+		{
+			free(res);
+			return (NULL);
+		}
+		char *remaining = expand_dollar(dollar + 1, root);
+		char *final_res = ft_strjoin(prefix, remaining);
+		free(prefix);
+		free(remaining);
+		free(res);
+		res = final_res;
+	}
 	return (res);
 }

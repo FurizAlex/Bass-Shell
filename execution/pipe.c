@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:41:40 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/21 13:39:07 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/06 17:43:30 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	close_pipe(int *pipe, int n)
 		close(pipe[i++]);
 }
 
-static void	initalize_pipes(int *pipex, int n)
+static void	initalize_pipes(int **pipex, int n)
 {
 	int				i;
 	int				total;
@@ -35,7 +35,7 @@ static void	initalize_pipes(int *pipex, int n)
 	pipex = malloc(sizeof(int) * total);
 	while (i < n - 1)
 	{
-		if (pipe(pipex) == -1)
+		if (pipe(*pipex + (i * 2)) == -1)
 			error2exit("Fishy Error: Couldn't get pipe", 1);
 		i++;
 	}
@@ -52,21 +52,28 @@ void	pipex(t_root *root)
 	i = 0;
 	n = 0;
 	pipex = NULL;
-	initalize_pipes(pipex, n);
+	initalize_pipes(&pipex, n);
 	while (i < n)
 	{
 		pid = fork();
 		if (pid == 0)
 		{
 			if (i > 0)
-				dup2(pipex[(i - 1) * 2], 0);
+				dup2(pipex[(i - 1) * 2], STDIN_FILENO);
 			if (i < n - 1)
-				dup2(pipex[(i * 2) - 1], 1);
+				dup2(pipex[(i * 2) + 1], STDOUT_FILENO);
 			close_pipe(pipex, n);
 			execution(root);
+			exit(root->msh->last_status);
 		}
 		i++;
 	}
 	close_pipe(pipex, n);
 	free(pipex);
+	i = 0;
+	while (i < n)
+	{
+		wait(NULL);
+		i++;
+	}
 }

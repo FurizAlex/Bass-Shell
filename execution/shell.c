@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:52:36 by furizalex         #+#    #+#             */
-/*   Updated: 2025/08/05 16:45:46 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/06 17:44:56 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,30 @@
 
 void	level(t_token **tokens, t_micro *shell)
 {
-	t_token	*last;
-	int		curr;
+	t_token	*curr;
+	int		curr_level;
 	int		prev_single;
 	int		prev_double;
 
-	curr = 0;
+	curr_level = 0;
 	shell->level = INT_MAX;
-	last = ft_tokenlst(*tokens);
+	curr = ft_tokenlst(*tokens);
 	prev_single = 0;
 	prev_double = 0;
-	while (last)
+	while (curr)
 	{
-		if (!determine_level(last, &curr, &prev_single, &prev_double)
-			&& last->id <= shell->id_start)
-			if (shell->level > curr)
-				shell->level = curr;
-		if (last->id == shell->id_end || curr < 0)
+		if (curr->id >= shell->id_start && curr->id <= shell->id_end)
+    	{
+    		determine_level(curr, &curr_level, &prev_single, &prev_double);
+            if (shell->level > curr_level)
+            	shell->level = curr_level;
+        }
+		if (curr->id == shell->id_end || curr_level < 0)
 			break ;
-		last = last->prev;
+		curr = curr->prev;
 	}
-	if ((shell->id_end == 0 && curr != 0) || (curr < 0))
-		shell->level = -1;
+	if (shell->level == INT_MAX)
+		shell->level = 0;
 }
 
 t_token	*operators(t_token **tokens, t_micro *shell, int *priority)
