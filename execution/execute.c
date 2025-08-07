@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 10:24:19 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/05 17:00:07 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/07 09:43:46 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,12 @@ int	execute_prompt(t_root *root, t_minishell *msh)
 {
 	int		value;
 	char	**cmd;
-	char	*env;
 
-	env = NULL;
 	if (!root || !root->tokens[0])
 		return (0);
 	cmd = join_commands(root);
 	cmd = expand_commands(cmd, root);
-	value = is_builtin(cmd, msh, env);
+	value = is_builtin(cmd, msh);
 	if (value == -1)
 		return (array2clear(cmd), value);
 	value = external(cmd, msh);

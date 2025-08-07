@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 17:01:10 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/06 17:37:31 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/07 15:46:52 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,11 @@ int insertation(t_root **root, t_root **new, bool right)
 {
     if (!new || !*new)
 		return (UNDECLARED);
+	if (*root == *new)
+	{
+		fprintf(stderr, "Warning: root == new in insertation()\n");
+		return (1); // or other error
+	}
 	if (root && *root)
 	{
 		(*new)->origin = *root;

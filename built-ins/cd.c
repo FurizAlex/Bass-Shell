@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:19 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/06 16:36:21 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/07 16:45:30 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	home(t_minishell *e)
 	char		*home;
 
 	home = getxenv("HOME", e);
+	if (!home)
+		return (error6exit("Fishy Error: HOME not set", 1), 1);
 	if (chdir(home) != 0)
 		error6exit("Fishy Error: Home isn't set", 2);
 	return (0);
@@ -39,13 +41,12 @@ int	change_directory(char **cmd, t_minishell *e)
 	int	decider;
 
 	decider = 0;
-	if (ft_strncmp(cmd[1], ".", 3) == 0 || cmd[1] == NULL)
+	if (!cmd[1] || ft_strncmp(cmd[1], ".", 3) == 0)
 		decider = home(e);
 	else if (ft_strncmp(cmd[1], "..", 2) == 0)
 		decider = prev(e);
 	else if (chdir(cmd[1]) != 0)
 	{
-		free(cmd);
 		ft_putstr_fd("Fishy Error: Can't change directory\n", 1);
 		perror(" ");
 		return (1);

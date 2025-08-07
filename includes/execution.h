@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:33:54 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/06 17:46:38 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/07 16:05:26 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void			dup2io(int io_in, int io_out);
 
 /* -- Execution Main -- */
 char			type_null(t_root *root);
+int				execute_prompt(t_root *root, t_minishell *msh);
 int				execution(t_root *root);
 
 /* -- Execution Path -- */

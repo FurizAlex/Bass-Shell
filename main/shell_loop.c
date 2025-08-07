@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 10:28:17 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/06 17:46:51 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/07 16:43:02 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	attach_exec(t_root **root, t_token **tokens)
 		temp = temp->next;
 	}
 	*root = create_initial_root(tokens, &shell);
+	o->root = *root;
 	if (!(*root))
 	{
 		o->status = UNDECLARED;
@@ -99,7 +100,6 @@ static void	process_input(char *input)
 		status_clearance();
 		free_ast(ast);
 	}
-	free_tokens(tokens);
 }
 
 void	shell_loop(void)
@@ -109,6 +109,7 @@ void	shell_loop(void)
 	while (1)
 	{
 		cmd = readline("\033[33m-- BASS AMATEUR SHELL --\033[36m\n[🐡 FISH BITES] o->\033[0m ");
+		printf("Input received: '%s'\n", cmd);
 		if (!cmd)
 		{
 			write(1, "Exit\n", 5);

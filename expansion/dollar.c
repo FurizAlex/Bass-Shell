@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:52:13 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/06 17:45:58 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/07 09:44:39 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char	*valid(char *prefix, char *dollar, t_root *root)
 	else
 	{
 		len = variable_len(dollar + 1);
-		env_value = to_get_env(dollar + 1, len);
+		env_value = to_get_env(dollar + 1, len, root);
 	}
 	if (!env_value)
 		env_value = ft_strdup("");

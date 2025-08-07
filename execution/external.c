@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 11:14:25 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/09 11:47:22 by alechin          ###   ########.fr       */
+/*   Updated: 2025/08/07 16:46:08 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	external(char **cmd, t_minishell *msh)
 		value = child(cmd, msh);
 		exit(value);
 	}
-	waitpid(status, &pid, 0);
+	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		return (WIFEXITED(status));
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:12:56 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/22 14:00:15 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/07 16:06:22 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,27 +27,17 @@ int	redirect_prompt(t_root *root)
 	int	status;
 
 	status = 0;
-	if (status)
-		return (status);
-	if (!root)
-		return (1);
-	if (!root->tokens)
+	if (!root || !root->tokens || !root->tokens[0])
 		return (type_null(root));
 	if (root->left)
 		status = redirect_prompt(root->left);
 	if (redir_type(root->tokens[0]->type))
-	{
 		status = redirection(root);
-		if (status)
-			return (status);
-	}
 	if (root->right)
 		status = redirect_prompt(root->right);
-	if (status)
-		return (status);
 	if (!redir_type(root->tokens[0]->type))
-		execution(root);
-	return (0);
+		status = execute_prompt(root, root->msh);
+	return (status);
 }
 
 int	redirection(t_root *root)

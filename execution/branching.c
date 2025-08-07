@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:41:25 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/22 13:52:44 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/07 15:54:19 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,16 @@ void	dup2io(int io_in, int io_out)
 int	is_fork(t_root *root)
 {
 	pid_t	pid;
-	int		root_level;
 	int		stat;
 
 	pid = fork();
-	root_level = 0;
-	if (root->origin)
-		root_level = root->level;
-	if (root->origin->level == root_level)
-		return (-1);
+	if (root->origin == root)
+	{
+		fprintf(stderr, "Fatal: root origin points to itself\n");
+		return -1;
+	}
+	if (root->origin == root)
+		return (execution(root));
 	if (pid < 0)
 		return (-1);
 	if (pid == 0)
