@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:13:38 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/09 18:07:27 by alechin          ###   ########.fr       */
+/*   Updated: 2025/08/08 11:49:26 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ char	*get_next_area(char *str, int *i, t_root *root)
 		res = raw;
 	else
 	{
-		res = expand_dollar(str, root);
+		res = expand_dollar(raw, root);
 		free(raw);
 	}
 	return (res);

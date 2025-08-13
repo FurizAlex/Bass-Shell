@@ -6,13 +6,14 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 11:14:25 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/07 16:46:08 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/11 17:39:40 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
+/*
 static void	run(char **cmd, t_minishell *msh)
 {
 	if (access(cmd[0], X_OK) == 0)
@@ -20,65 +21,63 @@ static void	run(char **cmd, t_minishell *msh)
 	ft_putstr_fd(cmd[0], 2);
 	array2clear(cmd);
 	error2exit(" ", 127);
-}
+}*/
 
 static int	search(char **cmd, t_minishell *msh)
 {
 	int		i;
-	int		count;
 	char	**paths;
-	char	**pathcmd;
-	char	*cut_point;
+	char	*candidate;
+	char	*cut;
 
-	cut_point = ft_strjoin("/", cmd[0]);
-	if (!getxenv("PATH", msh))
-		return (free(cmd), error6exit("Fishy Error: Can't get path", 2), 127);
+	if (!cmd || !cmd[0])
+		return (127);
+	cut = ft_strjoin("/", cmd[0]);
+	if (!cut || !getxenv("PATH", msh))
+		return (free(cut), 127);
 	paths = ft_split(getxenv("PATH", msh), ':');
-	count = countword(paths);
-	pathcmd = malloc((count + 1) * sizeof(char *));
-	if (!pathcmd)
-		return (1);
-	pathcmd[count] = NULL;
+	if (!paths)
+		return (free(cut), 127);
 	i = -1;
-	while (pathcmd[++i] != NULL)
-		pathcmd[i] = ft_strjoin(paths[i], cut_point);
-	i = -1;
-	while (pathcmd[++i] != NULL)
-		if (access(pathcmd[i], X_OK) == 0)
-			execve(pathcmd[i], cmd, msh->env);
-	ft_putstr_fd(cmd[0], 2);
-	perror(" ");
-	return (xpathfree(paths, pathcmd, cut_point, cmd), 127);
+	while (paths[++i])
+	{
+		candidate = ft_strjoin(paths[i], cut);
+		if (candidate && access(candidate, X_OK) == 0)
+			ft_execve(cmd, msh->env);
+		free(candidate);
+	}
+	array2clear(paths);
+	free(cut);
+	return (127);
 }
 
 static int	child(char **cmd, t_minishell *msh)
 {
-	if (!cmd)
-		return (1);
+	if (!cmd || !cmd[0])
+		_exit(127);
 	if (cmd[0][0] == '/' || cmd[0][0] == '.')
-		run(cmd, msh);
-	else
-		search(cmd, msh);
-	exit(127);
+	{
+		if (access(cmd[0], X_OK) == 0)
+			ft_execve(cmd, msh->env);
+		ft_putstr_fd(cmd[0], 2);
+		perror(" ");
+		_exit(127);
+	}
+	_exit(search(cmd, msh));
 }
 
 int	external(char **cmd, t_minishell *msh)
 {
-	int		status;
-	int		value;
 	pid_t	pid;
+	int		status;
 
 	pid = fork();
-	status = 0;
-	if (pid == -1)
+	if (pid < 0)
 		return (error2exit("Fishy Error: Couldn't fork pid", 1), 1);
 	if (pid == 0)
-	{
-		value = child(cmd, msh);
-		exit(value);
-	}
+		child(cmd, msh);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
-		return (WIFEXITED(status));
+		return (WEXITSTATUS(status));
 	return (1);
 }

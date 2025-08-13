@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:33:54 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/07 16:05:26 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/11 16:52:37 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int				koi_env(t_env *env);
 int				koi_exit(char **cmd, t_root *root, t_token *token, t_minishell *msh);
 int				koi_pwd(void);
 int				koi_unset(char **cmd, t_root *root);
-char			**koi_export(char *env, t_minishell *e);
+int				koi_export(t_minishell *e, char **env);
+int				handle_export(char **cmd, t_minishell *e);
 
 /* -- Execution Built-ins -- */
 int				specify(char **cmd, t_minishell *e, t_env *env);
@@ -37,7 +38,7 @@ int				is_builtin(char **cmd, t_minishell *std);
 void			no_args(t_minishell *e);
 int				valid_name(char *env);
 int				valid_environment(char *env, t_minishell *e);
-char			**appends(char **env, t_minishell *e, int not_equals);
+char			**appends(char **env, t_minishell *e, char *new_variable);
 
 /* -- AST Tree Handling -- */
 int				priority(t_token *curr);
@@ -133,6 +134,11 @@ t_token			*find_position(t_token **tokens, int id);
 void			set_token_prev_pointers(t_token *head);
 void			check_quotes_in_value(char *value, bool *s_q, bool *d_q);
 t_root			*create_initial_root(t_token **tokens, t_micro *shell);
+
+/* -- Export Helper -- */
+void			free_split(char **arr);
+void			print_export(t_minishell *e);
+char			**sort_env(char **env);
 
 t_minishell		*minishell(void);
 

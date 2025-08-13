@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:41:25 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/07 15:54:19 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/10 14:22:47 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,9 @@ int	is_fork(t_root *root)
 	pid_t	pid;
 	int		stat;
 
+	if (!root)
+		return (-1);
 	pid = fork();
-	if (root->origin == root)
-	{
-		fprintf(stderr, "Fatal: root origin points to itself\n");
-		return -1;
-	}
-	if (root->origin == root)
-		return (execution(root));
 	if (pid < 0)
 		return (-1);
 	if (pid == 0)
@@ -51,7 +46,7 @@ int	is_fork(t_root *root)
 	}
 	waitpid(pid, &stat, 0);
 	if (WIFEXITED(stat))
-		return (WIFEXITED(stat));
+		return (WEXITSTATUS(stat));
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 10:44:13 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/09 18:12:28 by alechin          ###   ########.fr       */
+/*   Updated: 2025/08/08 11:49:53 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*remove_quotes_size(char *str, int *i)
 	}
 	while (str[end] && str[end] != quote)
 		end++;
-	if (quote && str[end == quote])
+	if (quote && str[end] == quote)
 		end++;
 	size = dupnxtra(str + start, end - start);
 	*i = end;

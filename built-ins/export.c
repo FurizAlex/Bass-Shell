@@ -3,86 +3,101 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:29 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/09 11:51:30 by alechin          ###   ########.fr       */
+/*   Updated: 2025/08/12 17:16:26 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
-void	equal_checker(char *env, t_minishell *e)
+static int	valid_identifier(char *str)
 {
+	int i;
+
+	if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
+		return (0);
+	i = 1;
+	while (str[i] && str[i] != '=')
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+static int	export_no_value(t_minishell *e, char *name)
+{
+	int	len;
 	int	i;
 
-	i = 0;
-	while (e->env[i])
+	if (!valid_identifier(name))
+		return (error2exit("export: not a valid identifier", 1), 1);
+	len = ft_strlen(name);
+	i = -1;
+	while (e->env[++i])
+		if (!ft_strncmp(e->env[i], name, len) && e->env[i][len] == '\0')
+			return (0);
+	e->env = appends(e->env, e, name);
+	return (0);
+}
+
+static int	export_with_value(t_minishell *e, char *env)
+{
+	int	len;
+	int	i;
+
+	if (!valid_identifier(env))
+		return (error2exit("export: not a valid identifier", 1), 1);
+	len = variable_len(env);
+	i = -1;
+	while (e->env[++i])
 	{
-		if (ft_strncmp(*e->env, env, ft_strlen(env) == 0))
+		if (!ft_strncmp(e->env[i], env, len) && e->env[i][len] == '=')
 		{
-			e->export[i] = 0;
-			break ;
+			free(e->env[i]);
+			e->env[i] = ft_strdup(env);
+			return (0);
 		}
-		i++;
 	}
+	e->env = appends(e->env, e, env);
+	return (0);
 }
 
-char	**without_equals(t_minishell *e, char *sbl)
+int	koi_export(t_minishell *e, char **env)
+{
+	if (!env || !*env)
+	{
+		print_export(e);
+		return (0);
+	}
+	if (ft_strchr(*env, '='))
+		return (export_with_value(e, *env));
+	else
+		return (export_no_value(e, *env));
+}
+
+int	handle_export(char **cmd, t_minishell *e)
 {
 	int		i;
-	char	*list;
+	char	*dup;
 
-	i = 0;
-	list = ft_strjoin("=", sbl);
-	if (!list)
-		error2exit("Fishy Error: Couldn't join keys's in list", 1);
-	if (valid_name(e->lcl_env->value))
-		return (&e->env[i]);
-	while (e->env[i])
+	if (!cmd || !cmd[1])
 	{
-		if (ft_strncmp(e->env[i], sbl, ft_strlen(sbl) == 0
-				&& sbl[i] == '='))
-			return (e->env);
-		i++;
+		no_args(e);
+		return (0);
 	}
-	return (appends(e->env, e, 1));
-}
-
-char	**with_equals(t_minishell *e, char *env)
-{
-	char	*sbl;
-	int		status;
-	int		i;
-
 	i = 0;
-	status = valid_environment(env, e);
-	if (status == 0)
-		return (e->env);
-	if (status == 1)
-		return (equal_checker(env, e), e->env);
-	while (env[i] && env[i] == '=')
-		i++;
-	if (i == 0)
-		return (e->env);
-	sbl = dupnxtra(env, i);
-	if (!sbl)
-		return (NULL);
-	if (valid_name(e->lcl_env->value))
+	while (cmd[++i])
 	{
-		free(sbl);
-		return (e->env);
+		dup = ft_strdup(cmd[i]);
+		if (!dup)
+			return (error2exit("Fishy Error: strdup failed", 1), 1);
+		koi_export(e, &dup);
+		free(dup);
 	}
-	free(sbl);
-	return (appends(&env, e, 1));
-}
-
-char	**koi_export(char *env, t_minishell *e)
-{
-	if (!env)
-		return (NULL);
-	if (ft_strchr(env, '=') == NULL)
-		return (without_equals(e, env));
-	return (with_equals(e, env));
+	return (0);
 }

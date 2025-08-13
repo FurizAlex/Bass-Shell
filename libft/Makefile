@@ -18,7 +18,8 @@ SOURCE = \
 				Wglbx/dupnxtra.c				Wglbx/getxenv.c										\
 				Wglbx/measure.c					Wglbx/ncomp.c										\
 				Wglbx/sdigit.c					Wglbx/valenvch.c									\
-				ft_instancer.c																		\
+				ft_instancer.c					ft_execve.c											\
+				free_split.c					sort_env.c				print_export.c				\
 
 BONUS = \
 				ft_lstadd_back.c	ft_lstclear.c		ft_lstiter.c	ft_lstmap.c \

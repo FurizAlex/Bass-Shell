@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   free_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/23 14:54:25 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/11 15:46:23 by furizalex        ###   ########.fr       */
+/*   Created: 2025/08/11 16:05:52 by furizalex         #+#    #+#             */
+/*   Updated: 2025/08/11 16:48:01 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "execution.h"
+#include "../includes/execution.h"
+#include "libft.h"
 
-int	koi_env(t_env *env)
+void	free_split(char **arr)
 {
-	t_env *curr;
+	int	i;
 
-	curr = env;
-	while (curr)
+	if (!arr)
+		return ;
+	i = 0;
+	while (arr[i])
 	{
-		if (curr->value && curr->value[0] != '\0')
-			ft_printf("%s\n", curr->value);
-		curr = curr->next;
+		free(arr[i]);
+		i++;
 	}
-	return (0);
+	free(arr);
 }

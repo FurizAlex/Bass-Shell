@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 16:59:31 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/07 14:01:01 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/07 17:26:58 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ bool	out_of_bounds(t_token *token, t_micro shell, bool outbox)
 	curr = token;
 	while (curr)
 	{
-		if (curr->id <= shell.id_start
-			&& curr->id >= shell.id_end)
+		if (curr->id >= shell.id_start
+			&& curr->id <= shell.id_end)
 		{
 			i++;
 			if (outbox)

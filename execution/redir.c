@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:12:56 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/07 16:06:22 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/10 14:04:16 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,14 @@ int	redirection(t_root *root)
 
 	types = 0;
 	filename = NULL;
-	if (root->tokens[0]->type != TOKEN_HEREDOC)
+	if (!root || !root->tokens || !root->tokens[0])
+		return (error2exit("Fishy Error: redirection root invalid", 1), 1);
+	if (root->tokens[1] && root->tokens[1]->value)
 	{
-		expand_string(filename, root);
-		remove_quotes(filename);
-		free(filename);
+		filename = expand_string(root->tokens[1]->value, root);
+		if (!filename)
+			return (error2exit("Fishy Error: couldn't expand filename", 1), 1);
+		filename = remove_quotes(filename);
 	}
 	if (root->tokens[0]->type == TOKEN_REDIRECT_IN)
 		types = in(filename);

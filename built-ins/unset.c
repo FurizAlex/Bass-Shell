@@ -6,46 +6,50 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:33 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/06 17:40:56 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/11 15:51:46 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
-int	koi_unset(char **cmd, t_root *root)
+static void	remove_var(t_minishell *msh, char *name)
 {
-	int		i;
-	int		j;
-	int		len;
-	char	*temp;
-	char	**env;
+	int i;
+	int len;
+	char *temp;
+	char **env;
 
-	if (!cmd || !*cmd)
-		return (0);
-	i = 0;
-	len = ft_strlen(cmd[0]);
-	temp = ft_strjoin(cmd[0], "=");
+	if (!name || !msh || !msh->env)
+		return ;
+	len = ft_strlen(name);
+	temp = ft_strjoin(name, "=");
 	if (!temp)
-		return (1);
-	env = root->msh->env;
+		return ;
+	env = msh->env;
+	i = 0;
 	while (env[i])
 	{
-		if (ft_strncmp(env[i], temp, len) == 0
-				&& (env[i][len] == '=' || env[i][len] == '\0'))
+		if (!ft_strncmp(env[i], temp, len) && (env[i][len] == '=' || env[i][len] == '\0'))
 		{
 			free(env[i]);
-			j = i;
-			while (env[j])
-			{
-				env[j] = env[j + 1];
-				root->msh->export[j] = root->msh->export[j + 1];
-				j++;
-			}
+			env[i] = NULL;
+			msh->export[i] = 0;
 			break ;
 		}
 		i++;
 	}
 	free(temp);
+}
+
+int	koi_unset(char **cmd, t_root *root)
+{
+	int i;
+
+	if (!cmd)
+		return (0);
+	i = 0;
+	while (cmd[++i])
+		remove_var(root->msh, cmd[i]);
 	return (0);
 }

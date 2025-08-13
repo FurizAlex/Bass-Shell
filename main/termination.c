@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   termination.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 17:20:29 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/26 10:26:06 by alechin          ###   ########.fr       */
+/*   Updated: 2025/08/07 17:42:01 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ void	terminate_tokens(t_token **tokens)
 {
 	t_token	*current;
 
-	current = *tokens;
 	if (!tokens || !*tokens)
 		return ;
+	current = *tokens;
 	while (current)
 	{
 		*tokens = (*tokens)->next;

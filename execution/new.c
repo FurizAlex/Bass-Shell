@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 17:01:10 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/07 15:46:52 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/07 17:44:35 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	*reallocation(void *start, size_t original, size_t size, size_t coun
         return NULL;
     if (start)
     {
-        if (original > count)
+        if (original * size > count * size)
             original = count;
         ft_memcpy(new_point, start, size * original);
         free(start);
@@ -50,7 +50,7 @@ bool	set(t_root **root, t_token *curr, int list)
 			temp = temp->origin;
 	if (priority(curr) == 1 && priority(temp->tokens[0]) == 1)
 	{
-		i = -1;
+		i = 0;
 		while (temp->tokens[i])
 			++i;
 		num = i + list;

@@ -3,61 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils01.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 17:22:42 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/08 17:23:12 by alechin          ###   ########.fr       */
+/*   Updated: 2025/08/13 10:32:55 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
+static void	swap_env(char **env, int *flags, int i)
+{
+	char	*temp;
+	int		tmp_flag;
+
+	temp = env[i];
+	env[i] = env[i + 1];
+	env[i + 1] = temp;
+	tmp_flag = flags[i];
+	flags[i] = flags[i + 1];
+	flags[i + 1] = tmp_flag;
+}
+
 static void	bubble_sort(char **env, int *flags)
 {
-	int		i;
-	int		j;
-	int		count;
-	int		temp_flags;
-	char	*temp;
+	int	i;
+	int	j;
+	int	count;
 
-	j = -1;
 	count = countword(env);
-	while (++j < count)
+	j = 0;
+	while (j < count)
 	{
 		i = 0;
 		while (env[i] && env[i + 1])
 		{
-			if (env[i] && env[i + 1])
-			{
-				temp = env[i];
-				env[i] = env[i + 1];
-				env[i + 1] = temp;
-				temp_flags = flags[i];
-				flags[i] = flags[i + 1];
-				flags[i + 1] = temp_flags;
-			}
+			if (strcmp(env[i], env[i + 1]) > 0)
+				swap_env(env, flags, i);
 			i++;
 		}
+		j++;
 	}
 }
 
-static void	singularity(char *str, bool is_equals)
+static void	singularity(char *str)
 {
 	char	*equal;
-	int		length;
+	int		len;
 
 	equal = ft_strchr(str, '=');
-	length = equal - str;
-	if (!is_equals)
+	if (!equal)
 	{
-		ft_printf("declare -x *.%s\n", length, str);
-		free(str);
+		printf("declare -x %s\n", str);
 		return ;
 	}
-	str[length] = '\0';
-	ft_printf("declare -x %s=\"%s\"\n", length, equal);
-	free(str);
+	len = equal - str;
+	printf("declare -x %.*s=\"%s\"\n", len, str, equal + 1);
 }
 
 void	no_args(t_minishell *e)
@@ -67,13 +69,13 @@ void	no_args(t_minishell *e)
 	int		*flags;
 	char	**env;
 
-	i = -1;
 	count = countword(e->env);
 	env = malloc((count + 1) * sizeof(char *));
 	flags = malloc((count + 1) * sizeof(int));
-	if (!flags || !env)
+	if (!env || !flags)
 		return ;
-	while (e->env[i++])
+	i = -1;
+	while (e->env[++i])
 	{
 		env[i] = e->env[i];
 		flags[i] = e->export[i];
@@ -83,7 +85,7 @@ void	no_args(t_minishell *e)
 	bubble_sort(env, flags);
 	i = -1;
 	while (env[++i])
-		singularity(env[i], flags[i]);
+		singularity(env[i]);
 	free(env);
 	free(flags);
 }

@@ -6,73 +6,85 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:19 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/07 16:45:30 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/11 16:41:10 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
-int	home(t_minishell *e)
+static int arg_count(char **cmd)
 {
-	char		*home;
+	int i;
+	int count;
 
-	home = getxenv("HOME", e);
-	if (!home)
-		return (error6exit("Fishy Error: HOME not set", 1), 1);
-	if (chdir(home) != 0)
-		error6exit("Fishy Error: Home isn't set", 2);
-	return (0);
-}
-
-int	prev(t_minishell *e)
-{
-	char		*old_dir;
-
-	old_dir = getxenv("OLDPWD", e);
-	if (chdir(old_dir) != 0)
-		error6exit("Fishy Error: Old directory not set", 2);
-	ft_printf("%s\n", old_dir);
-	return (0);
-}
-
-int	change_directory(char **cmd, t_minishell *e)
-{
-	int	decider;
-
-	decider = 0;
-	if (!cmd[1] || ft_strncmp(cmd[1], ".", 3) == 0)
-		decider = home(e);
-	else if (ft_strncmp(cmd[1], "..", 2) == 0)
-		decider = prev(e);
-	else if (chdir(cmd[1]) != 0)
+	i = 0;
+	count = 0;
+	while (cmd && cmd[i])
 	{
-		ft_putstr_fd("Fishy Error: Can't change directory\n", 1);
-		perror(" ");
-		return (1);
+		if (cmd[i][0] != '\0')
+			count++;
+		i++;
 	}
-	return (decider);
+	return (count);
+}
+
+static void	update_pwd_vars(t_minishell *e, char *oldpwd)
+{
+	char	*joined;
+	char	*variables;
+
+	joined = ft_strjoin("OLDPWD=", oldpwd);
+	variables = ft_strdup(joined);
+	if (!joined)
+	{
+		koi_export(e, &variables);
+		free(joined);
+	}
+	if (getxenv("PWD", e) != NULL)
+	{
+		if (!getcwd(oldpwd, 4096))
+		{
+			joined = ft_strjoin("OLDPWD=", oldpwd);
+			if (!joined)
+			{
+				koi_export(e, &variables);
+				free(joined);
+			}
+		}
+	}
 }
 
 int	koi_cd(char **cmd, t_minishell *e)
 {
-	char	buffer[4096];
-	char	*old_dir;
-	char	*current_dir;
-	int		return_value;
+	char oldpwd[4096];
+	char newpwd[4096];
+	char *target;
 
-	if (!getcwd(buffer, 4096))
-		return (error2exit("Fishy Error: Couldn't get current directory", 1), 1);
-	old_dir = ft_strjoin("OLDPWD=", buffer);
-	return_value = change_directory(cmd, e);
-	if (countword(cmd) >= 3)
+	if (arg_count(cmd) > 2)
+	{
 		error2exit("Fishy Warning: Too many arguments", 1);
-	if (return_value != 0)
-		return (return_value);
-	e->env = koi_export(old_dir, e);
-	current_dir = ft_strjoin("PWD=", buffer);
-	e->env = koi_export(current_dir, e);
-	free(old_dir);
-	free(current_dir);
+		return (1);
+	}
+	if (!getcwd(oldpwd, sizeof(oldpwd)))
+		return (error2exit("Fishy Error: Couldn't get current directory", 1), 1);
+	if (!cmd[1] || ft_strlen(cmd[1]) == 0)
+		target = getxenv("HOME", e);
+	else if (ft_strncmp(cmd[1], "-", 2) == 0)
+		target = getxenv("OLDPWD", e);
+	else
+		target = cmd[1];
+	if (!target)
+		return (error6exit("Fishy Error: Target not set", 1), 1);
+	if (chdir(target) != 0)
+	{
+		ft_putstr_fd("Fishy Error: Can't change directory\n", 2);
+		perror("chdir");
+		return (1);
+	}
+	update_pwd_vars(e, oldpwd);
+	if (!getcwd(newpwd, sizeof(newpwd)))
+		return (error2exit("Fishy Error: Couldn't get new cwd", 1), 1);
+	(void)newpwd;
 	return (0);
 }
