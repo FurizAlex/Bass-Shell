@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:13:24 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/06 17:05:17 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/14 10:28:53 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,20 @@ char	**expand_commands(char **cmd, t_root *root)
 	char	*temp;
 	char	*quoted;
 
+	if (!cmd)
+		return (NULL);
 	i = -1;
 	while (cmd[++i])
 	{
 		temp = cmd[i];
 		quoted = expand_string(temp, root);
 		free(temp);
-		cmd[i] = quoted;
+		if (!quoted)
+			cmd[i] = ft_strdup("");
+		else
+			cmd[i] = quoted;
+		if (!cmd[i])
+			return (NULL);
 	}
 	i = -1;
 	while (cmd[++i])
@@ -59,6 +66,8 @@ char	**expand_commands(char **cmd, t_root *root)
 		temp = cmd[i];
 		cmd[i] = remove_quotes(temp);
 		free(temp);
+		if (!cmd[i])
+			return (NULL);
 	}
 	cmd = remove_null(cmd, root);
 	return (cmd);
@@ -69,17 +78,28 @@ char	*expand_string(char *str, t_root *root)
 	int		i;
 	char	*chunk;
 	char	*token;
-	char	*temp;
+	char	*tmp;
 
+	if (!str)
+		return (NULL);
 	token = ft_strdup("");
+	if (!token)
+		return (NULL);
 	i = 0;
 	while (str[i] != '\0')
 	{
 		chunk = get_next_area(str, &i, root);
-		temp = ft_strjoin(token, chunk);
+		if (!chunk)
+		{
+			free(token);
+			return (NULL);
+		}
+		tmp = ft_strjoin(token, chunk);
 		free(token);
 		free(chunk);
-		token = temp;
+		if (!tmp)
+			return (NULL);
+		token = tmp;
 	}
 	return (token);
 }

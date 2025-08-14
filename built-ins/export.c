@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:29 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/13 14:36:04 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/14 10:21:16 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,10 @@ int	handle_export(char **cmd, t_minishell *e)
 	}
 	i = 0;
 	while (cmd[++i])
+	{
+		if (!cmd[i] || cmd[i][0] == '\0')
+			continue;
 		koi_export(e, &cmd[i]);
+	}
 	return (0);
 }

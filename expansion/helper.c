@@ -6,13 +6,22 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:13:38 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/08 11:49:26 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/14 16:14:03 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "minishell.h"
 #include "execution.h"
+
+static int	is_empty(char *s)
+{
+	if (!s)
+		return (1);
+	if (s[0] == '\0')
+		return (1);
+	return (0);
+}
 
 char	**remainders(char **cmd, t_root *root, int box, int keep)
 {
@@ -44,23 +53,22 @@ char	**remainders(char **cmd, t_root *root, int box, int keep)
 
 char	**remove_null(char **cmd, t_root *root)
 {
-	int	box;
-	int	keep;
 	int	i;
+	int	j;
 
-	box = 0;
-	keep = 0;
 	i = 0;
-	while (root->tokens[box])
-		box++;
+	j = 0;
+	(void)root;
 	while (cmd[i])
 	{
-		if (!(i < box && root->tokens[i]->type == TOKEN_WORD
-				&& cmd[i][0] == '\0'))
-			keep++;
+		if (!is_empty(cmd[i]))
+			cmd[j++] = cmd[i];
+		else
+			free(cmd[i]);
 		i++;
 	}
-	return (remainders(cmd, root, box, keep));
+	cmd[j] = NULL;
+	return (cmd);
 }
 
 char	*get_raw_area(char *str, int *i)
@@ -68,7 +76,10 @@ char	*get_raw_area(char *str, int *i)
 	char	quote;
 	int		start;
 	int		end;
+	char	*ret;
 
+	if (!str || !i)
+		return (NULL);
 	quote = 0;
 	start = *i;
 	if (str[*i] == '\'' || str[*i] == '"')
@@ -85,10 +96,13 @@ char	*get_raw_area(char *str, int *i)
 			end++;
 	}
 	else
+	{
 		while (str[end] && str[end] != '\'' && str[end] != '"')
 			end++;
+	}
 	*i = end;
-	return (dupnxtra(str + start, end - start));
+	ret = dupnxtra(str + start, end - start);
+	return (ret);
 }
 
 char	*get_next_area(char *str, int *i, t_root *root)
@@ -97,6 +111,8 @@ char	*get_next_area(char *str, int *i, t_root *root)
 	char	*res;
 
 	raw = get_raw_area(str, i);
+	if (!raw)
+		return (NULL);
 	if (raw[0] == '\'')
 		res = raw;
 	else
