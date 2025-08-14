@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:33 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/11 15:51:46 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/13 14:51:46 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 static void	remove_var(t_minishell *msh, char *name)
 {
-	int i;
-	int len;
-	char *temp;
-	char **env;
+	int		i;
+	int		len;
+	char	*temp;
+	char	**env;
 
 	if (!name || !msh || !msh->env)
 		return ;
@@ -33,8 +33,12 @@ static void	remove_var(t_minishell *msh, char *name)
 		if (!ft_strncmp(env[i], temp, len) && (env[i][len] == '=' || env[i][len] == '\0'))
 		{
 			free(env[i]);
+			while (env[i + 1])
+			{
+				env[i] = env[i + 1];
+				i++;
+			}
 			env[i] = NULL;
-			msh->export[i] = 0;
 			break ;
 		}
 		i++;

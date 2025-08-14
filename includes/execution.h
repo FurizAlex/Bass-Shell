@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:33:54 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/11 16:52:37 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/13 17:13:19 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int				error6exit(char *msg, int status);
 /* -- Built-ins -- */
 int				koi_cd(char **cmd, t_minishell *e);
 int				koi_echo(char **cmd);
-int				koi_env(t_env *env);
+int				koi_env(t_minishell *e);
 int				koi_exit(char **cmd, t_root *root, t_token *token, t_minishell *msh);
 int				koi_pwd(void);
 int				koi_unset(char **cmd, t_root *root);
@@ -31,7 +31,7 @@ int				koi_export(t_minishell *e, char **env);
 int				handle_export(char **cmd, t_minishell *e);
 
 /* -- Execution Built-ins -- */
-int				specify(char **cmd, t_minishell *e, t_env *env);
+int				specify(char **cmd, t_minishell *e);
 int				is_builtin(char **cmd, t_minishell *std);
 
 /* -- Export Helper -- */
@@ -98,6 +98,8 @@ int				variable_len(char *start);
 char			*to_get_env(char *start, int len, t_root *root);
 
 /* -- Dollar -- */
+char			*join_free_both(char *a, char *b);
+char			*join_free_first(char *a, char *b);
 char			*expand_dollar(char *prompt, t_root *root);
 
 /* -- Termination -- */

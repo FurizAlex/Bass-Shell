@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:29 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/12 17:16:26 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/13 14:36:04 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,19 @@ static int	export_no_value(t_minishell *e, char *name)
 
 static int	export_with_value(t_minishell *e, char *env)
 {
-	int	len;
-	int	i;
+	char	*name;
+	int		len;
+	int		i;
 
-	if (!valid_identifier(env))
+	name = ft_substr(env, 0, variable_len(env));
+	if (!name)
+		return (error2exit("export: malloc failed", 1), 1);
+	if (!valid_identifier(name))
+	{
+		free(name);
 		return (error2exit("export: not a valid identifier", 1), 1);
+	}
+	free(name);
 	len = variable_len(env);
 	i = -1;
 	while (e->env[++i])
@@ -82,8 +90,7 @@ int	koi_export(t_minishell *e, char **env)
 
 int	handle_export(char **cmd, t_minishell *e)
 {
-	int		i;
-	char	*dup;
+	int	i;
 
 	if (!cmd || !cmd[1])
 	{
@@ -92,12 +99,6 @@ int	handle_export(char **cmd, t_minishell *e)
 	}
 	i = 0;
 	while (cmd[++i])
-	{
-		dup = ft_strdup(cmd[i]);
-		if (!dup)
-			return (error2exit("Fishy Error: strdup failed", 1), 1);
-		koi_export(e, &dup);
-		free(dup);
-	}
+		koi_export(e, &cmd[i]);
 	return (0);
 }

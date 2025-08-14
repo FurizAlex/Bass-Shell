@@ -1,30 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   dollar_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/23 14:54:25 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/13 11:49:11 by furizalex        ###   ########.fr       */
+/*   Created: 2025/08/13 17:12:03 by furizalex         #+#    #+#             */
+/*   Updated: 2025/08/13 17:12:37 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
+#include "parsing.h"
 
-int	koi_env(t_minishell *e)
+char	*join_free_both(char *a, char *b)
 {
-	int		i;
-	char	*eq;
+	char	*r;
 
-	i = 0;
-	while (e->env[i])
+	if (!a || !b)
 	{
-		eq = ft_strchr(e->env[i], '=');
-		if (eq && *(eq + 1))
-			printf("%s\n", e->env[i]);
-		i++;
+		free(a);
+		free(b);
+		return (NULL);
 	}
-	return (0);
+	r = ft_strjoin(a, b);
+	free(a);
+	free(b);
+	return (r);
+}
+
+char	*join_free_first(char *a, char *b)
+{
+	char	*r;
+
+	if (!a || !b)
+	{
+		free(a);
+		return (NULL);
+	}
+	r = ft_strjoin(a, b);
+	free(a);
+	return (r);
 }

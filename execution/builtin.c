@@ -6,14 +6,14 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:36:14 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/12 17:18:17 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/13 15:18:00 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
-int	specify(char **cmd, t_minishell *e, t_env *env)
+int	specify(char **cmd, t_minishell *e)
 {
 	if (!cmd || !cmd[0])
 		return (-1);
@@ -22,7 +22,7 @@ int	specify(char **cmd, t_minishell *e, t_env *env)
 	if (ft_strncmp(cmd[0], "echo", 4) == 0 && cmd[0][4] == '\0')
 		return (koi_echo(cmd));
 	if (ft_strncmp(cmd[0], "env", 3) == 0 && cmd[0][3] == '\0')
-		return (koi_env(env));
+		return (koi_env(e));
 	if (ft_strncmp(cmd[0], "exit", 4) == 0 && cmd[0][4] == '\0')
 		return (koi_exit(cmd, e->root, e->token, e));
 	if (ft_strncmp(cmd[0], "pwd", 3) == 0 && cmd[0][3] == '\0')
@@ -55,10 +55,10 @@ int	is_builtin(char **cmd, t_minishell *std)
 				error2exit("Fishy Error: Strdup failed", 1);
 				return (1);
 			}
-			handle_export(&cmd[i], std);;
+			handle_export(cmd, std);;
 			free(dup);
 		}
 		return (0);
 	}
-	return (specify(cmd, std, std->lcl_env));
+	return (specify(cmd, std));
 }
