@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 10:24:19 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/05 17:00:07 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/11 17:40:47 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ char	type_null(t_root *root)
 	result = 0;
 	if (!root)
 		return (result);
-	if (!root->left)
+	if (root->left)
 		result = execute_status(root->left);
-	if (!root->right)
+	if (root->right)
 		result = execute_status(root->right);
 	return (result);
 }
@@ -32,17 +32,19 @@ int	execute_prompt(t_root *root, t_minishell *msh)
 {
 	int		value;
 	char	**cmd;
-	char	*env;
 
-	env = NULL;
 	if (!root || !root->tokens[0])
 		return (0);
 	cmd = join_commands(root);
 	cmd = expand_commands(cmd, root);
-	value = is_builtin(cmd, msh, env);
+	value = is_builtin(cmd, msh);
 	if (value == -1)
-		return (array2clear(cmd), value);
-	value = external(cmd, msh);
+	{
+		if (external(cmd, msh) == -1)
+			perror(cmd[0]);
+		array2clear(cmd);
+		return (value);
+	}
 	array2clear(cmd);
 	return (value);
 }
@@ -57,7 +59,7 @@ int	execution(t_root *root)
 	out = dup(STDOUT_FILENO);
 	return_value = 0;
 	if (!root)
-		return_value = type_null(root);
+		return (0);
 	if (root->tokens[0]->type == TOKEN_PIPE)
 		pipex(root);
 	else

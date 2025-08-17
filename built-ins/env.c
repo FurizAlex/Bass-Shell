@@ -3,24 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:25 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/08 11:32:08 by alechin          ###   ########.fr       */
+/*   Updated: 2025/08/13 11:49:11 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
-int	koi_env(t_env *env)
+int	koi_env(t_minishell *e)
 {
-	while (env && env != NULL)
+	int		i;
+	char	*eq;
+
+	i = 0;
+	while (e->env[i])
 	{
-		ft_printf("%s\n", env->value);
-		env = env->next;
+		eq = ft_strchr(e->env[i], '=');
+		if (eq && *(eq + 1))
+			printf("%s\n", e->env[i]);
+		i++;
 	}
-	if (env)
-		ft_printf("%s\n", env->value);
-	return (SUCCESS);
+	return (0);
 }

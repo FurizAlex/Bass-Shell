@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:41:25 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/22 13:52:44 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/10 14:22:47 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,11 @@ void	dup2io(int io_in, int io_out)
 int	is_fork(t_root *root)
 {
 	pid_t	pid;
-	int		root_level;
 	int		stat;
 
-	pid = fork();
-	root_level = 0;
-	if (root->origin)
-		root_level = root->level;
-	if (root->origin->level == root_level)
+	if (!root)
 		return (-1);
+	pid = fork();
 	if (pid < 0)
 		return (-1);
 	if (pid == 0)
@@ -50,7 +46,7 @@ int	is_fork(t_root *root)
 	}
 	waitpid(pid, &stat, 0);
 	if (WIFEXITED(stat))
-		return (WIFEXITED(stat));
+		return (WEXITSTATUS(stat));
 	return (0);
 }
 

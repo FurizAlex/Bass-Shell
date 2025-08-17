@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:52:13 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/21 16:40:23 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/14 10:17:06 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,59 +14,115 @@
 #include "execution.h"
 #include "parsing.h"
 
-static char	*invalid(char *prefix, char *dollar, t_root *root)
+static char	*expand_question(char *prefix, t_root *root, char *rest)
 {
-	char	*literal;
-	char	*temp;
-	char	*res;
+	char	*num;
+	char	*tmp;
+	char	*suf;
+	char	*r;
 
-	literal = ft_strdup("$");
-	temp = ft_strjoin(prefix, literal);
-	res = ft_strjoin(temp, expand_dollar(dollar, root));
-	free(literal);
-	free(temp);
-	return (res);
+	num = ft_itoa(root && root->msh ? root->msh->last_status : 0);
+	if (!num)
+	{
+		free(prefix);
+		return (NULL);
+	}
+	tmp = ft_strjoin(prefix, num);
+	free(num);
+	if (!tmp)
+		return (NULL);
+	suf = expand_dollar(rest, root);
+	if (!suf)
+	{
+		free(tmp);
+		return (NULL);
+	}
+	r = ft_strjoin(tmp, suf);
+	free(tmp);
+	free(suf);
+	return (r);
 }
 
-static char	*valid(char *prefix, char *dollar, t_root *root)
+static char	*expand_var(char *prefix, char *dollar, int vlen, t_root *root)
 {
-	int		len;
-	char	*end;
-	char	*res;
-	char	*temp;
-	char	*env_value;
+	char	*value;
+	char	*valdup;
+	char	*tmp;
+	char	*suf;
+	char	*r;
 
-	end = NULL;
-	if (*(dollar + 1) == '?')
-	{
-		len = 1;
-		env_value = ft_itoa(root->msh->status);
-	}
+	value = to_get_env(dollar + 1, vlen, root);
+	if (value)
+		valdup = ft_strdup(value);
 	else
+		valdup = ft_strdup("");
+	if (!valdup)
 	{
-		len = variable_len(dollar + 1);
-		env_value = to_get_env(dollar + 1, len);
+		free(prefix);
+		return (NULL);
 	}
-	temp = ft_strjoin(prefix, env_value);
-	res = ft_strjoin(temp, expand_dollar(dollar, root));
+	tmp = join_free_both(prefix, valdup);
+	if (!tmp)
+		return (NULL);
+	suf = expand_dollar(dollar + 1 + vlen, root);
+	if (!suf)
+	{
+		free(tmp);
+		return (NULL);
+	}
+	r = ft_strjoin(tmp, suf);
+	free(tmp);
+	free(suf);
+	return (r);
+}
+
+static char	*expand_literal_dollar(char *prefix, char *dollar, t_root *root)
+{
+	char	*tmp;
+	char	*rest;
+	char	*r;
+
+	tmp = ft_strjoin(prefix, "$");
 	free(prefix);
-	free(temp);
-	free(end);
-	return (res);
+	if (!tmp)
+		return (NULL);
+	rest = expand_dollar(dollar + 1, root);
+	if (!rest)
+	{
+		free(tmp);
+		return (NULL);
+	}
+	r = ft_strjoin(tmp, rest);
+	free(tmp);
+	free(rest);
+	return (r);
 }
 
 char	*expand_dollar(char *prompt, t_root *root)
 {
-	char	*res;
 	char	*dollar;
 	char	*prefix;
+	char	*r;
+	int		vlen;
 
+	if (!prompt)
+		return (NULL);
 	dollar = ft_strchr(prompt, '$');
-	prefix = dupnxtra(prompt, dollar - prompt);
 	if (!dollar)
-		return (ft_strdup(dollar));
-	res = invalid(prefix, dollar, root);
-	if (*(dollar + 1) != '\0' || valid_env_ch(*(dollar + 1)))
-		valid(prefix, dollar, root);
-	return (res);
+		return (ft_strdup(prompt));
+	prefix = dupnxtra(prompt, dollar - prompt);
+	if (!prefix)
+		return (NULL);
+	if (*(dollar + 1) == '\0')
+	{
+		r = ft_strjoin(prefix, "$");
+		free(prefix);
+		return (r);
+	}
+	if (*(dollar + 1) == '?')
+		return (expand_question(prefix, root, dollar + 2));
+	vlen = variable_len(dollar + 1);
+	if (vlen == 0)
+		return (expand_literal_dollar(prefix, dollar, root));
+	return (expand_var(prefix, dollar, vlen, root));
 }

@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   external.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 11:14:25 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/09 11:47:22 by alechin          ###   ########.fr       */
+/*   Updated: 2025/08/14 10:17:18 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
+/*
 static void	run(char **cmd, t_minishell *msh)
 {
 	if (access(cmd[0], X_OK) == 0)
@@ -20,65 +21,94 @@ static void	run(char **cmd, t_minishell *msh)
 	ft_putstr_fd(cmd[0], 2);
 	array2clear(cmd);
 	error2exit(" ", 127);
+}*/
+
+static char	*get_env_value(char **envp, char *key)
+{
+	int		len;
+	int		i;
+
+	if (!envp || !key)
+		return (NULL);
+	len = ft_strlen(key);
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], key, len) == 0 && envp[i][len] == '=')
+			return (envp[i] + len + 1);
+		i++;
+	}
+	return (NULL);
 }
 
 static int	search(char **cmd, t_minishell *msh)
 {
 	int		i;
-	int		count;
 	char	**paths;
-	char	**pathcmd;
-	char	*cut_point;
+	char	*candidate;
+	char	*cut;
+	char	*path_env;
 
-	cut_point = ft_strjoin("/", cmd[0]);
-	if (!getxenv("PATH", msh))
-		return (free(cmd), error6exit("Fishy Error: Can't get path", 2), 127);
-	paths = ft_split(getxenv("PATH", msh), ':');
-	count = countword(paths);
-	pathcmd = malloc((count + 1) * sizeof(char *));
-	if (!pathcmd)
-		return (1);
-	pathcmd[count] = NULL;
-	i = -1;
-	while (pathcmd[++i] != NULL)
-		pathcmd[i] = ft_strjoin(paths[i], cut_point);
-	i = -1;
-	while (pathcmd[++i] != NULL)
-		if (access(pathcmd[i], X_OK) == 0)
-			execve(pathcmd[i], cmd, msh->env);
-	ft_putstr_fd(cmd[0], 2);
-	perror(" ");
-	return (xpathfree(paths, pathcmd, cut_point, cmd), 127);
+	path_env = get_env_value(msh->env, "PATH");
+	if (!cmd || !cmd[0] || !path_env)
+		return (127);
+	cut = ft_strjoin("/", cmd[0]);
+	if (!cut)
+		return (127);
+	paths = ft_split(path_env, ':');
+	if (!paths)
+		return (free(cut), 127);
+	i = 0;
+	while (paths[i])
+	{
+		candidate = ft_strjoin(paths[i], cut);
+		if (candidate && access(candidate, X_OK) == 0)
+		{
+			execve(candidate, cmd, msh->env);
+			perror(candidate);
+			_exit(126);
+		}
+		free(candidate);
+		i++;
+	}
+	array2clear(paths);
+	free(cut);
+	return (127);
 }
 
 static int	child(char **cmd, t_minishell *msh)
 {
-	if (!cmd)
-		return (1);
+	if (!cmd || !cmd[0])
+		_exit(127);
 	if (cmd[0][0] == '/' || cmd[0][0] == '.')
-		run(cmd, msh);
-	else
-		search(cmd, msh);
-	exit(127);
+	{
+		if (access(cmd[0], X_OK) == 0)
+		{
+			execve(cmd[0], cmd, msh->env);
+			perror(cmd[0]);
+			_exit(126);
+		}
+		perror(cmd[0]);
+		_exit(127);
+	}
+	_exit(search(cmd, msh));
 }
 
 int	external(char **cmd, t_minishell *msh)
 {
-	int		status;
-	int		value;
 	pid_t	pid;
+	int		status;
 
 	pid = fork();
-	status = 0;
-	if (pid == -1)
-		return (error2exit("Fishy Error: Couldn't fork pid", 1), 1);
-	if (pid == 0)
+	if (pid < 0)
 	{
-		value = child(cmd, msh);
-		exit(value);
+		error2exit("Fishy Error: Couldn't fork pid", 1);
+		return (1);
 	}
-	waitpid(status, &pid, 0);
+	if (pid == 0)
+		child(cmd, msh);
+	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
-		return (WIFEXITED(status));
+		return (WEXITSTATUS(status));
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 16:16:55 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/04 17:30:28 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/06 16:37:03 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	initialise(int *argc, char ***argv, t_token **tokens, char **env)
 	(void)env;
 	*tokens = NULL;
 	o = minishell();
-	o->lcl_env = 0;
+	o->lcl_env = NULL;
 	o->last_status = 0;
 	o->env = cpyenv(env);
 	o->export = ft_calloc(countword(o->env) + 1, sizeof(int));

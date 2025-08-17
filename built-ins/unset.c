@@ -3,40 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:33 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/08 17:20:27 by alechin          ###   ########.fr       */
+/*   Updated: 2025/08/13 14:51:46 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
-int	koi_unset(char **cmd, t_root *root)
+static void	remove_var(t_minishell *msh, char *name)
 {
 	int		i;
 	int		len;
 	char	*temp;
 	char	**env;
 
+	if (!name || !msh || !msh->env)
+		return ;
+	len = ft_strlen(name);
+	temp = ft_strjoin(name, "=");
+	if (!temp)
+		return ;
+	env = msh->env;
 	i = 0;
-	len = ft_strlen(*cmd);
-	temp = ft_strjoin(cmd[0], "=");
-	env = root->msh->env;
-	while (env[i] && ft_strncmp(*env, temp, len - 1) != 0)
-		i++;
-	while (env[i++])
+	while (env[i])
 	{
-		free(env[i]);
-		if (env[i + 1] == NULL)
-			env[i] = NULL;
-		else if (env[i + 1] != NULL)
+		if (!ft_strncmp(env[i], temp, len) && (env[i][len] == '=' || env[i][len] == '\0'))
 		{
-			env[i] = ft_strdup(env[i + 1]);
-			root->msh->export[i] = root->msh->export[i + 1];
+			free(env[i]);
+			while (env[i + 1])
+			{
+				env[i] = env[i + 1];
+				i++;
+			}
+			env[i] = NULL;
+			break ;
 		}
+		i++;
 	}
 	free(temp);
+}
+
+int	koi_unset(char **cmd, t_root *root)
+{
+	int i;
+
+	if (!cmd)
+		return (0);
+	i = 0;
+	while (cmd[++i])
+		remove_var(root->msh, cmd[i]);
 	return (0);
 }
