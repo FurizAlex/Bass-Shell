@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:41:25 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/10 14:22:47 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/17 20:43:06 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	is_fork(t_root *root)
 {
 	pid_t	pid;
 	int		stat;
+	int		child_stat;
 
 	if (!root)
 		return (-1);
@@ -40,9 +41,9 @@ int	is_fork(t_root *root)
 	if (pid == 0)
 	{
 		root->origin = root;
-		stat = execute_status(root);
+		child_stat = execution(root);
 		kill_branch_shell(root, root->msh);
-		exit(stat);
+		_exit(child_stat);
 	}
 	waitpid(pid, &stat, 0);
 	if (WIFEXITED(stat))

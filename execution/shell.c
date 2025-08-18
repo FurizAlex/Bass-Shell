@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:52:36 by furizalex         #+#    #+#             */
-/*   Updated: 2025/08/06 17:44:56 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/17 21:15:39 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,44 @@ void	level(t_token **tokens, t_micro *shell)
 
 t_token	*operators(t_token **tokens, t_micro *shell, int *priority)
 {
-	t_token	*last;
+	t_token	*cur;
 	t_token	*choice;
-	int		current;
+	int		prio;
 
-	current = 0;
-	choice = NULL;
-	*priority = COMMAND;
-	last = ft_tokenlst(*tokens);
-	while (last)
+	if (!tokens || !*tokens || !shell)
 	{
-		if (current == shell->level && last->id <= shell->id_start)
-			current_order(last, &choice, priority);
-		if (last->id == shell->id_end)
-			break ;
-		last = last->prev;
+		*priority = COMMAND;
+		return (NULL);
 	}
+	cur = *tokens;
+	/* advance to id_start */
+	while (cur && cur->id < shell->id_start)
+		cur = cur->next;
+	choice = NULL;
+	prio = COMMAND;
+	/* scan from id_start to id_end (inclusive) */
+	while (cur && cur->id <= shell->id_end)
+	{
+		if (cur->id >= shell->id_start && cur->id <= shell->id_end)
+		{
+			if (cur->type == TOKEN_PIPE)
+			{
+				choice = cur;
+				prio = PIPE;
+			}
+			else if (redir_type(cur->type) && prio != PIPE)
+			{
+				choice = cur;
+				prio = REDIRECTION;
+			}
+			else if (cur->type == TOKEN_WORD && prio == COMMAND)
+			{
+				choice = cur;
+			}
+		}
+		cur = cur->next;
+	}
+	*priority = prio;
 	return (choice);
 }
 

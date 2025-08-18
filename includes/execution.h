@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:33:54 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/13 17:13:19 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/17 20:40:56 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char			*exec_path(char *cmd, char **env);
 int				external(char **cmd, t_minishell *msh);
 
 /* -- Pipe -- */
-void			pipex(t_root *root);
+int				pipex(t_root *root);
 
 /* -- Redirections Exec -- */
 int				redir_type(int type);
@@ -77,8 +77,9 @@ int				redirection(t_root *root);
 int				in(char *filename);
 int				out(char *filename);
 int				append(char *filename);
-int				heredoc(char *filename, t_root *root, t_lexer *lexer);
+int				heredoc(char *delimiter, t_root *root);
 int				heredoc_checker(t_root **root);
+void			read_heredoc(char *line_unused, int *fd, char *delimiter);
 
 /* -- Expansion Main -- */
 char			*remove_quotes(char *str);

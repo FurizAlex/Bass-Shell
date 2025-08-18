@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 16:59:31 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/07 17:26:58 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/17 21:05:25 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,14 +109,27 @@ int	ast(t_root **root, t_token **tokens)
 {
 	int				err;
 	t_micro			shell;
+	t_token			*temp;
+	int				first_id;
+	int				last_id;
 
 	*root = NULL;
 	if (!tokens || !*tokens)
 		return (UNDECLARED);
-	shell.id_start = (*tokens)->id;
-	shell.id_end = ft_tokenlst(*tokens)->id;
+	first_id = (*tokens)->id;
+	last_id = ft_tokenlst(*tokens)->id;
+	if (first_id <= last_id)
+	{
+		shell.id_start = first_id;
+		shell.id_end = last_id;
+	}
+	else
+	{
+		shell.id_start = last_id;
+		shell.id_end = first_id;
+	}
 	shell.length = 0;
-	t_token *temp = *tokens;
+	temp = *tokens;
 	while (temp)
 	{
 		shell.length++;
