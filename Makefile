@@ -51,6 +51,8 @@ SOURCE = 											\
 	execution/shell.c								\
 	execution/priority.c							\
 	execution/binary.c								\
+	execution/utils.c								\
+	execution/utils2.c								\
 	expansion/dollar.c								\
 	expansion/dollar_helper.c						\
 	expansion/env.c									\

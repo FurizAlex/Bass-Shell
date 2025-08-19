@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:33:54 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/17 20:40:56 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/19 16:32:42 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int				is_builtin(char **cmd, t_minishell *std);
 void			no_args(t_minishell *e);
 int				valid_name(char *env);
 int				valid_environment(char *env, t_minishell *e);
-char			**appends(char **env, t_minishell *e, char *new_variable);
+char			**appends(char **env, t_minishell *e, char *new_env);
 
 /* -- AST Tree Handling -- */
 int				priority(t_token *curr);
@@ -66,7 +66,7 @@ char			*exec_path(char *cmd, char **env);
 int				external(char **cmd, t_minishell *msh);
 
 /* -- Pipe -- */
-int				pipex(t_root *root);
+void			pipex(t_root *root);
 
 /* -- Redirections Exec -- */
 int				redir_type(int type);
@@ -77,9 +77,8 @@ int				redirection(t_root *root);
 int				in(char *filename);
 int				out(char *filename);
 int				append(char *filename);
-int				heredoc(char *delimiter, t_root *root);
+int				heredoc(char *filename, t_root *root, t_lexer *lexer);
 int				heredoc_checker(t_root **root);
-void			read_heredoc(char *line_unused, int *fd, char *delimiter);
 
 /* -- Expansion Main -- */
 char			*remove_quotes(char *str);
@@ -142,6 +141,17 @@ t_root			*create_initial_root(t_token **tokens, t_micro *shell);
 void			free_split(char **arr);
 void			print_export(t_minishell *e);
 char			**sort_env(char **env);
+
+/* -- Norminette Use Extentions */
+int				rec_left(t_root **root, t_micro shell, t_token **token, t_root *new);
+int				rec_right(t_root **root, t_micro shell, t_token **token, t_root *new);
+int				count_length(t_token *token);
+void			print_ast_error(int err);
+int				exec_in_path(char **paths, char *cut, char **cmd, t_minishell *msh);
+char			*get_env_value(char **envp, char *key);
+int				counter(t_root *node);
+void			close_pipe(int *pipe, int total);
+int				copy_existing_env(t_minishell *e, char **env_copy, int *flag_copy);
 
 t_minishell		*minishell(void);
 

@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:27 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/12 10:48:33 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/19 13:22:07 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 int	koi_exit(char **cmd, t_root *root, t_token *token, t_minishell *msh)
 {
-	int argc;
-	int code;
+	int	argc;
+	int	code;
 
 	argc = countword(cmd);
 	ft_putstr_fd("Exit\n", 2);

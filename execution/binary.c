@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 16:59:31 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/17 21:05:25 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/19 13:53:59 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,9 @@ int	box_length(t_token *token)
 		{
 			if (length != 0)
 				break ;
-			else if (priority(token) == PIPE)
+			if (priority(token) == PIPE)
 				return (1);
-			else
-				return (2);
+			return (2);
 		}
 	}
 	return (length);
@@ -48,8 +47,7 @@ bool	out_of_bounds(t_token *token, t_micro shell, bool outbox)
 	curr = token;
 	while (curr)
 	{
-		if (curr->id >= shell.id_start
-			&& curr->id <= shell.id_end)
+		if (curr->id >= shell.id_start && curr->id <= shell.id_end)
 		{
 			i++;
 			if (outbox)
@@ -90,15 +88,13 @@ int	recursive_tree(t_root **root, t_micro shell, t_token **token, bool right)
 		return (err);
 	if (out_of_bounds(new_root->tokens[0], shell, false))
 	{
-		err = recursive_tree(root, micro_editor(shell, new_root->tokens[0], false),
-				token, false);
+		err = rec_left(root, shell, token, new_root);
 		if (err != UNDECLARED)
 			return (err);
 	}
 	if (out_of_bounds(new_root->tokens[0], shell, true))
 	{
-		err = recursive_tree(root, micro_editor(shell, new_root->tokens[0], true),
-				token, true);
+		err = rec_right(root, shell, token, new_root);
 		if (err != UNDECLARED)
 			return (err);
 	}
@@ -107,41 +103,20 @@ int	recursive_tree(t_root **root, t_micro shell, t_token **token, bool right)
 
 int	ast(t_root **root, t_token **tokens)
 {
-	int				err;
-	t_micro			shell;
-	t_token			*temp;
-	int				first_id;
-	int				last_id;
+	int		err;
+	t_micro	shell;
+	t_token	*temp;
 
 	*root = NULL;
 	if (!tokens || !*tokens)
 		return (UNDECLARED);
-	first_id = (*tokens)->id;
-	last_id = ft_tokenlst(*tokens)->id;
-	if (first_id <= last_id)
-	{
-		shell.id_start = first_id;
-		shell.id_end = last_id;
-	}
-	else
-	{
-		shell.id_start = last_id;
-		shell.id_end = first_id;
-	}
+	shell.id_start = (*tokens)->id;
+	shell.id_end = ft_tokenlst(*tokens)->id;
 	shell.length = 0;
 	temp = *tokens;
-	while (temp)
-	{
-		shell.length++;
-		temp = temp->next;
-	}
+	shell.length = count_length(temp);
 	*root = create_initial_root(tokens, &shell);
 	err = recursive_tree(root, shell, tokens, true);
-	if (err == MEMORY)
-		ft_putstr_fd("\x1b[0;31mError: Malloc\x1b[0m\n", 2);
-	else if (err == REDIRECTION)
-		ft_putstr_fd("\x1b[0;31mError: Incorrect Redirect Use\x1b[0m\n", 2);
-	else if (err == PIPE)
-		ft_putstr_fd("\x1b[0;31mError: Incorrect Pipe Use\x1b[0m\n", 2);
+	print_ast_error(err);
 	return (err);
 }

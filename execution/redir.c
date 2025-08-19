@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:12:56 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/17 23:06:56 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/10 14:04:16 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ int	redirection(t_root *root)
 
 	types = 0;
 	filename = NULL;
-	ft_printf("DBG: redirection called for token_type=%d token_val='%s'\n", root->tokens[0]->type,
-	(root->tokens[1] && root->tokens[1]->value) ? root->tokens[1]->value : "(null)");
 	if (!root || !root->tokens || !root->tokens[0])
 		return (error2exit("Fishy Error: redirection root invalid", 1), 1);
 	if (root->tokens[1] && root->tokens[1]->value)
@@ -65,7 +63,7 @@ int	redirection(t_root *root)
 	if (root->tokens[0]->type == TOKEN_REDIRECT_APPEND)
 		types = append(filename);
 	if (root->tokens[0]->type == TOKEN_HEREDOC)
-		types = heredoc(filename, root);
+		types = heredoc(filename, root, root->lexer);
 	free(filename);
 	return (types);
 }

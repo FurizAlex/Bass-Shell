@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:36:14 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/13 15:18:00 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/19 13:34:00 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,33 +32,36 @@ int	specify(char **cmd, t_minishell *e)
 	return (-1);
 }
 
-int	is_builtin(char **cmd, t_minishell *std)
+static int	handle_export_cmd(char **cmd, t_minishell *std)
 {
 	int		i;
 	char	*dup;
 
+	if (!cmd[1])
+	{
+		no_args(std);
+		return (0);
+	}
+	i = 0;
+	while (cmd[++i])
+	{
+		dup = ft_strdup(cmd[i]);
+		if (!dup)
+		{
+			error2exit("Fishy Error: Strdup failed", 1);
+			return (1);
+		}
+		handle_export(cmd, std);
+		free(dup);
+	}
+	return (0);
+}
+
+int	is_builtin(char **cmd, t_minishell *std)
+{
 	if (!cmd || !cmd[0])
 		return (-1);
 	if (ft_strncmp(cmd[0], "export", 6) == 0 && cmd[0][6] == '\0')
-	{
-		if (!cmd[1])
-		{
-			no_args(std);
-			return (0);
-		}
-		i = 0;
-		while (cmd[++i])
-		{
-			dup = ft_strdup(cmd[i]);
-			if (!dup)
-			{
-				error2exit("Fishy Error: Strdup failed", 1);
-				return (1);
-			}
-			handle_export(cmd, std);;
-			free(dup);
-		}
-		return (0);
-	}
+		return (handle_export_cmd(cmd, std));
 	return (specify(cmd, std));
 }

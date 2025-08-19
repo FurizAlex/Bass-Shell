@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 17:20:49 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/17 20:36:20 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/05 16:46:28 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,16 @@ int	priority(t_token *curr)
 {
 	if (!curr || !curr->lexer)
 		return (UNDECLARED);
-	if (curr->type == TOKEN_PIPE)
-		return (PIPE);
-	if (curr->type == TOKEN_REDIRECT_IN
+	if (curr->type == TOKEN_WORD
+		|| curr->type == TOKEN_PIPE
+		|| curr->type == TOKEN_REDIRECT_IN
 		|| curr->type == TOKEN_REDIRECT_OUT
 		|| curr->type == TOKEN_REDIRECT_APPEND
 		|| curr->type == TOKEN_HEREDOC)
 		return (REDIRECTION);
-	if (curr->type == TOKEN_WORD)
+	else if (curr->type == TOKEN_PIPE)
+		return (PIPE);
+	else if (!curr->lexer->in_double_quote || !curr->lexer->in_single_quote)
 		return (COMMAND);
 	return (UNDECLARED);
 }

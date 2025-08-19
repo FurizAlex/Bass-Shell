@@ -6,12 +6,22 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:33 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/13 14:51:46 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/19 13:24:59 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
+
+static void	shift_env(char **env, int i)
+{
+	while (env[i + 1])
+	{
+		env[i] = env[i + 1];
+		i++;
+	}
+	env[i] = NULL;
+}
 
 static void	remove_var(t_minishell *msh, char *name)
 {
@@ -30,15 +40,11 @@ static void	remove_var(t_minishell *msh, char *name)
 	i = 0;
 	while (env[i])
 	{
-		if (!ft_strncmp(env[i], temp, len) && (env[i][len] == '=' || env[i][len] == '\0'))
+		if (!ft_strncmp(env[i], temp, len)
+			&& (env[i][len] == '=' || env[i][len] == '\0'))
 		{
 			free(env[i]);
-			while (env[i + 1])
-			{
-				env[i] = env[i + 1];
-				i++;
-			}
-			env[i] = NULL;
+			shift_env(env, i);
 			break ;
 		}
 		i++;
@@ -48,7 +54,7 @@ static void	remove_var(t_minishell *msh, char *name)
 
 int	koi_unset(char **cmd, t_root *root)
 {
-	int i;
+	int	i;
 
 	if (!cmd)
 		return (0);
