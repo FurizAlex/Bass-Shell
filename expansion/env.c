@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:13:55 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/19 13:10:27 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/19 16:58:08 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,26 @@ int	variable_len(char *start)
 	return (i);
 }
 
+static char	*find_env_value(char **env, char *var_name, int len)
+{
+	int	i;
+
+	if (!env)
+		return (NULL);
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], var_name, len) == 0 && env[i][len] == '=')
+			return (env[i] + len + 1);
+		i++;
+	}
+	return (NULL);
+}
+
 char	*to_get_env(char *start, int len, t_root *root)
 {
 	char		*variable_name;
 	char		*env_value;
-	int			i;
 	t_minishell	*msh;
 
 	if (!start || len <= 0 || !root || !root->msh)
@@ -40,22 +55,8 @@ char	*to_get_env(char *start, int len, t_root *root)
 	variable_name = dupnxtra(start, len);
 	if (!variable_name)
 		return (NULL);
-	env_value = NULL;
 	msh = root->msh;
-	if (msh && msh->env)
-	{
-		i = 0;
-		while (msh->env[i])
-		{
-			if (ft_strncmp(msh->env[i], variable_name, len) == 0
-				&& msh->env[i][len] == '=')
-			{
-				env_value = msh->env[i] + len + 1;
-				break ;
-			}
-			i++;
-		}
-	}
+	env_value = find_env_value(msh->env, variable_name, len);
 	free(variable_name);
 	return (env_value);
 }

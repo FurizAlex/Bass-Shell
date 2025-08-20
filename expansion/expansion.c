@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:13:24 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/14 10:28:53 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/19 16:59:08 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,29 @@
 #include "execution.h"
 #include "parsing.h"
 
+static int	count_tokens(t_root *root)
+{
+	int	count;
+
+	count = 0;
+	if (!root->tokens)
+		return (0);
+	while (root->tokens[count] != NULL)
+		count++;
+	return (count);
+}
+
 char	**join_commands(t_root *root)
 {
 	int		i;
 	int		count;
 	char	**cmd;
 
-	i = 0;
-	count = 0;
-	if (!root->tokens)
+	count = count_tokens(root);
+	if (count == 0)
 		return (NULL);
-	while (root->tokens[count] != NULL)
-		count++;
 	cmd = malloc((count + 1) * sizeof(char *));
+	i = 0;
 	while (i < count)
 	{
 		if (!root->tokens[i]->value)
@@ -39,26 +49,22 @@ char	**join_commands(t_root *root)
 	return (cmd);
 }
 
-char	**expand_commands(char **cmd, t_root *root)
+static void	expand_and_quote_removal(char **cmd, t_root *root)
 {
 	int		i;
 	char	*temp;
 	char	*quoted;
 
-	if (!cmd)
-		return (NULL);
 	i = -1;
 	while (cmd[++i])
 	{
 		temp = cmd[i];
 		quoted = expand_string(temp, root);
 		free(temp);
-		if (!quoted)
-			cmd[i] = ft_strdup("");
-		else
+		if (quoted)
 			cmd[i] = quoted;
-		if (!cmd[i])
-			return (NULL);
+		else
+			cmd[i] = ft_strdup("");
 	}
 	i = -1;
 	while (cmd[++i])
@@ -66,9 +72,14 @@ char	**expand_commands(char **cmd, t_root *root)
 		temp = cmd[i];
 		cmd[i] = remove_quotes(temp);
 		free(temp);
-		if (!cmd[i])
-			return (NULL);
 	}
+}
+
+char	**expand_commands(char **cmd, t_root *root)
+{
+	if (!cmd)
+		return (NULL);
+	expand_and_quote_removal(cmd, root);
 	cmd = remove_null(cmd, root);
 	return (cmd);
 }
@@ -90,14 +101,9 @@ char	*expand_string(char *str, t_root *root)
 	{
 		chunk = get_next_area(str, &i, root);
 		if (!chunk)
-		{
-			free(token);
-			return (NULL);
-		}
+			return (free(token), NULL);
 		tmp = ft_strjoin(token, chunk);
-		free(token);
-		free(chunk);
-		if (!tmp)
+		if (free(token), free(chunk), !tmp)
 			return (NULL);
 		token = tmp;
 	}

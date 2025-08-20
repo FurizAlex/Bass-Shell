@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:13:38 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/14 16:14:03 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/20 13:22:41 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,7 @@ char	*get_raw_area(char *str, int *i)
 	char	quote;
 	int		start;
 	int		end;
-	char	*ret;
 
-	if (!str || !i)
-		return (NULL);
 	quote = 0;
 	start = *i;
 	if (str[*i] == '\'' || str[*i] == '"')
@@ -96,13 +93,10 @@ char	*get_raw_area(char *str, int *i)
 			end++;
 	}
 	else
-	{
 		while (str[end] && str[end] != '\'' && str[end] != '"')
 			end++;
-	}
 	*i = end;
-	ret = dupnxtra(str + start, end - start);
-	return (ret);
+	return (dupnxtra(str + start, end - start));
 }
 
 char	*get_next_area(char *str, int *i, t_root *root)

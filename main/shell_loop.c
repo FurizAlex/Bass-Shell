@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 10:28:17 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/18 11:07:57 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/20 13:55:09 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,7 @@ static void	attach_exec(t_root **root, t_token **tokens)
 
 	o = minishell();
 	*root = NULL;
-	shell.id_start = (*tokens)->id;
-	shell.id_end = ft_tokenlst(*tokens)->id;
-	shell.length = 0;
-	t_token *temp = *tokens;
-	while (temp)
-	{
-		shell.length++;
-		temp = temp->next;
-	}
+	init_shell_vars(o, &shell, tokens);
 	*root = create_initial_root(tokens, &shell);
 	o->root = *root;
 	if (!(*root))
@@ -42,14 +34,7 @@ static void	attach_exec(t_root **root, t_token **tokens)
 		return ;
 	}
 	(*root)->msh = o;
-	o->status = recursive_tree(root, shell, tokens, true);
-	if (o->status == UNDECLARED)
-	{
-		if (o->root)
-			o->last_status = execution(*root);
-		else
-			o->last_status = 1;
-	}
+	handle_execution(root, o, shell);
 	terminate_ast(root);
 }
 
@@ -104,12 +89,11 @@ static void	process_input(char *input)
 
 void	shell_loop(void)
 {
-	char		*cmd;
+	char	*cmd;
 
 	while (1)
 	{
-		cmd = readline("\033[33m-- BASS AMATEUR SHELL --\033[36m\n[🐡 FISH BITES] o->\033[0m ");
-		printf("Input received: '%s'\n", cmd);
+		cmd = readline(get_prompt());
 		if (!cmd)
 		{
 			write(1, "Exit\n", 5);

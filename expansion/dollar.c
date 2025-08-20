@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:52:13 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/14 10:17:06 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/19 16:56:44 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,22 @@ static char	*expand_question(char *prefix, t_root *root, char *rest)
 	char	*tmp;
 	char	*suf;
 	char	*r;
+	int		status;
 
-	num = ft_itoa(root && root->msh ? root->msh->last_status : 0);
+	status = 0;
+	if (root && root->msh)
+		status = root->msh->last_status;
+	num = ft_itoa(status);
 	if (!num)
-	{
-		free(prefix);
-		return (NULL);
-	}
+		return (free(prefix), NULL);
 	tmp = ft_strjoin(prefix, num);
-	free(num);
-	if (!tmp)
+	if (free(num), !tmp)
 		return (NULL);
 	suf = expand_dollar(rest, root);
 	if (!suf)
-	{
-		free(tmp);
-		return (NULL);
-	}
+		return (free(tmp), NULL);
 	r = ft_strjoin(tmp, suf);
-	free(tmp);
-	free(suf);
-	return (r);
+	return (free(tmp), free(suf), r);
 }
 
 static char	*expand_var(char *prefix, char *dollar, int vlen, t_root *root)
@@ -57,23 +52,15 @@ static char	*expand_var(char *prefix, char *dollar, int vlen, t_root *root)
 	else
 		valdup = ft_strdup("");
 	if (!valdup)
-	{
-		free(prefix);
-		return (NULL);
-	}
+		return (free(prefix), NULL);
 	tmp = join_free_both(prefix, valdup);
 	if (!tmp)
 		return (NULL);
 	suf = expand_dollar(dollar + 1 + vlen, root);
 	if (!suf)
-	{
-		free(tmp);
-		return (NULL);
-	}
+		return (free(tmp), NULL);
 	r = ft_strjoin(tmp, suf);
-	free(tmp);
-	free(suf);
-	return (r);
+	return (free(tmp), free(suf), r);
 }
 
 static char	*expand_literal_dollar(char *prefix, char *dollar, t_root *root)
@@ -83,27 +70,37 @@ static char	*expand_literal_dollar(char *prefix, char *dollar, t_root *root)
 	char	*r;
 
 	tmp = ft_strjoin(prefix, "$");
-	free(prefix);
-	if (!tmp)
+	if (free(prefix), !tmp)
 		return (NULL);
 	rest = expand_dollar(dollar + 1, root);
 	if (!rest)
-	{
-		free(tmp);
-		return (NULL);
-	}
+		return (free(tmp), NULL);
 	r = ft_strjoin(tmp, rest);
-	free(tmp);
-	free(rest);
-	return (r);
+	return (free(tmp), free(rest), r);
+}
+
+static char	*handle_special_cases(char *prefix, char *dollar, t_root *root)
+{
+	char	*r;
+	int		vlen;
+
+	if (*(dollar + 1) == '\0')
+	{
+		r = ft_strjoin(prefix, "$");
+		return (free(prefix), r);
+	}
+	if (*(dollar + 1) == '?')
+		return (expand_question(prefix, root, dollar + 2));
+	vlen = variable_len(dollar + 1);
+	if (vlen == 0)
+		return (expand_literal_dollar(prefix, dollar, root));
+	return (expand_var(prefix, dollar, vlen, root));
 }
 
 char	*expand_dollar(char *prompt, t_root *root)
 {
 	char	*dollar;
 	char	*prefix;
-	char	*r;
-	int		vlen;
 
 	if (!prompt)
 		return (NULL);
@@ -113,16 +110,5 @@ char	*expand_dollar(char *prompt, t_root *root)
 	prefix = dupnxtra(prompt, dollar - prompt);
 	if (!prefix)
 		return (NULL);
-	if (*(dollar + 1) == '\0')
-	{
-		r = ft_strjoin(prefix, "$");
-		free(prefix);
-		return (r);
-	}
-	if (*(dollar + 1) == '?')
-		return (expand_question(prefix, root, dollar + 2));
-	vlen = variable_len(dollar + 1);
-	if (vlen == 0)
-		return (expand_literal_dollar(prefix, dollar, root));
-	return (expand_var(prefix, dollar, vlen, root));
+	return (handle_special_cases(prefix, dollar, root));
 }

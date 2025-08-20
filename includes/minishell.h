@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:16:53 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/30 14:04:54 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/20 13:33:49 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,5 +179,7 @@ typedef struct s_base
 	struct s_base	*next;
 	struct s_base	*prev;
 }	t_base;
+
+t_minishell		*minishell(void);
 
 #endif

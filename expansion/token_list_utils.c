@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:39:42 by furizalex         #+#    #+#             */
-/*   Updated: 2025/08/06 15:46:30 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/19 16:39:53 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	set_token_prev_pointers(t_token *head)
 {
 	t_token	*current;
 	t_token	*prev_token;
+
 	current = head;
 	prev_token = NULL;
 	while (current)
@@ -30,6 +31,7 @@ void	set_token_prev_pointers(t_token *head)
 void	check_quotes_in_value(char *value, bool *s_q, bool *d_q)
 {
 	int	i;
+
 	i = 0;
 	*s_q = false;
 	*d_q = false;
