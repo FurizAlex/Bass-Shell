@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:15:10 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/10 14:18:00 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/21 13:31:23 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	in(char *filename)
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return (error2exit("🍥 Fishy Error: Could not get infile", 1), 1);
-	if (dup2(fd, STDOUT_FILENO) < 0)
+	if (dup2(fd, STDIN_FILENO) < 0)
 	{
 		close(fd);
 		return (error2exit("🍥 Fishy Error: dup2 failed for infile", 1), 1);

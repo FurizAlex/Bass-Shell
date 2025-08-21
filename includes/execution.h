@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:33:54 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/20 13:52:31 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/21 14:00:52 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,5 +156,7 @@ char	*get_env_value(char **envp, char *key);
 int		counter(t_root *node);
 void	close_pipe(int *pipe, int total);
 int		copy_existing_env(t_minishell *e, char **env_copy, int *flag_copy);
+
+void	preprocess_tokens(t_token **tokens);
 
 #endif

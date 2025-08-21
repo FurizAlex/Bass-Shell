@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 17:20:49 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/05 16:46:28 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/21 14:18:06 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,10 @@ int	determine_level(t_token *tokens, int *level, int *prev_s, int *prev_d)
 	bool	curr_in_single;
 	bool	curr_in_double;
 
-	check_quotes_in_value(tokens->value,
-		&curr_in_single, &curr_in_double);
+	check_quotes_in_value(tokens->value, &curr_in_single, &curr_in_double);
 	if (tokens->lexer->in_single_quote != *prev_s)
 		*level += 1;
-	if (tokens->lexer->in_single_quote != *prev_d)
+	if (tokens->lexer->in_double_quote != *prev_d)
 		*level += 2;
 	*prev_s = tokens->lexer->in_single_quote;
 	*prev_d = tokens->lexer->in_double_quote;

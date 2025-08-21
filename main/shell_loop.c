@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 10:28:17 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/20 13:55:09 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/21 14:11:48 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,10 @@ static void	process_input(char *input)
 	set_token_prev_pointers(tokens);
 	o->token = tokens;
 	ast = parse(tokens);
+	o->status = UNDECLARED;
+	status_clearance();
 	if (ast)
-	{
-		o->status = UNDECLARED;
-		status_clearance();
 		free_ast(ast);
-	}
 }
 
 void	shell_loop(void)
