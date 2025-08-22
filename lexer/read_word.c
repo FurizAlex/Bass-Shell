@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 01:08:21 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/08/22 16:17:26 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/08/22 16:18:13 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_token	*read_word(t_lexer *lexer)
 	if (word_len == 0)
 		return (free(word), NULL);
 	processed_word = process_word_content(word);
-
+	free(word);
 	token = create_token(TOKEN_WORD, processed_word, has_expansion);
 	free(processed_word);
 	return (token);
