@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 10:28:17 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/20 16:51:01 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/08/22 16:55:34 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,12 @@ void	shell_loop(void)
 	{
 		reset_shell_state();
 		cmd = readline("\033[33m-- BASS AMATEUR SHELL --\033[36m\n[🐡 FISH BITES] o->\033[0m ");
-		printf("Input received: '%s'\n", cmd);
 		if (handle_eof_input(cmd))
+		{
+			cleanup_history();
 			break ;
+		}
+		printf("Input received: '%s'\n", cmd);
 		if (!is_empty_input(cmd))
 		{
 			add_history(cmd);
