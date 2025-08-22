@@ -65,7 +65,9 @@ SOURCE = 											\
 	lexer/token_utils.c								\
 	lexer/tokenize.c								\
 	main/error.c									\
+	main/hd_signals.c								\
 	main/main.c										\
+	main/reset_signals.c							\
 	main/shell_loop.c								\
 	main/termination.c								\
 	main/initialise.c								\

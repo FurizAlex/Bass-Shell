@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_loop.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 10:28:17 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/07 16:43:02 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/22 16:55:34 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 
 /*goes through line, returning false when it hits a non-whitespace
 character*/
+
+extern int g_signal;
 
 static void	attach_exec(t_root **root, t_token **tokens)
 {
@@ -88,6 +90,7 @@ static void	process_input(char *input)
 	t_minishell	*o;
 
 	o = minishell();
+	process_signal_state(o);
 	tokens = tokenize(input);
 	if (!tokens)
 		return ;
@@ -100,21 +103,24 @@ static void	process_input(char *input)
 		status_clearance();
 		free_ast(ast);
 	}
+	reset_signals_interactive();
 }
 
 void	shell_loop(void)
 {
 	char		*cmd;
+	// t_minishell	*o = minishell();
 
 	while (1)
 	{
+		reset_shell_state();
 		cmd = readline("\033[33m-- BASS AMATEUR SHELL --\033[36m\n[🐡 FISH BITES] o->\033[0m ");
-		printf("Input received: '%s'\n", cmd);
-		if (!cmd)
+		if (handle_eof_input(cmd))
 		{
-			write(1, "Exit\n", 5);
+			cleanup_history();
 			break ;
 		}
+		printf("Input received: '%s'\n", cmd);
 		if (!is_empty_input(cmd))
 		{
 			add_history(cmd);

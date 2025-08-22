@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:41:40 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/08 12:34:38 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/19 18:31:32 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 #include "parsing.h"
+
+extern int g_signal;
 
 static int	counter(t_root *node)
 {
@@ -32,17 +34,17 @@ static void	close_pipe(int *pipe, int total)
 		close(pipe[i++]);
 }
 
-static void wait_pipe(int count)
-{
-	int	i;
+// static void wait_pipe(int count)
+// {
+// 	int	i;
 
-	i = 0;
-	while (i < count)
-	{
-		wait(NULL);
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (i < count)
+// 	{
+// 		wait(NULL);
+// 		i++;
+// 	}
+// }
 
 static void	initalize_pipes(int **pipex, int n)
 {
@@ -69,17 +71,22 @@ void	pipex(t_root *root)
 	int		i;
 	int		*pipex;
 	pid_t	pid;
+	int		status;
+	int		sig;
 
 	i = 0;
 	n = counter(root);
 	if (n <= 0)
 		error2exit("Fishy Error: No commands to run", 1);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	initalize_pipes(&pipex, n);
 	while (i < n)
 	{
 		pid = fork();
 		if (pid == 0)
 		{
+			reset_signals_for_child();
 			if (i > 0)
 				dup2(pipex[(i - 1) * 2], STDIN_FILENO);
 			if (i < n - 1)
@@ -92,5 +99,19 @@ void	pipex(t_root *root)
 	}
 	close_pipe(pipex, n);
 	free(pipex);
-	wait_pipe(n);
+	i = 0;
+	while (i < n)
+	{
+		wait(&status);
+		if (WIFSIGNALED(status))
+		{
+			sig = WTERMSIG(status);
+			if (sig == SIGINT)
+				write(1, "\n", 1);
+			else if (sig == SIGQUIT)
+				ft_putendl_fd("Quit (core dumped)", 1);
+		}
+		i++;
+	}
+	reset_signals_interactive();
 }
