@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_word.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 01:08:21 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/07/30 11:35:15 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/21 23:40:39 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ t_token	*read_word(t_lexer *lexer)
 	int		word_len;
 	bool	has_expansion;
 	char	*processed_word;
+	t_token	*token;
 
 	word = malloc(1024);
 	word_len = 0;
@@ -90,5 +91,7 @@ t_token	*read_word(t_lexer *lexer)
 		return (free(word), NULL);
 	processed_word = process_word_content(word);
 	free(word);
-	return (create_token(TOKEN_WORD, processed_word, has_expansion));
+	token = create_token(TOKEN_WORD, processed_word, has_expansion);
+	free(processed_word);
+	return (token);
 }
