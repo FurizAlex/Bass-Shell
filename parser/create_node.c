@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_node.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 14:14:42 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/07/02 09:59:31 by alechin          ###   ########.fr       */
+/*   Updated: 2025/08/28 00:59:24 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_ast_node	*create_ast_node(t_node_type type)
 		return (NULL);
 	node->type = type;
 	node->args = NULL;
-	node->filename = NULL;
+	node->redirections = NULL;
 	node->left = NULL;
 	node->right = NULL;
 	return (node);

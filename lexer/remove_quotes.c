@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 21:27:14 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/07/25 23:16:56 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/22 16:54:36 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*process_word_content(char *raw)
 	bool	s;
 	bool	d;
 
-	processed = malloc(1024);
+	processed = malloc(ft_strlen(raw) + 1);
 	i = 0;
 	len = 0;
 	s = false;

@@ -38,25 +38,16 @@ SOURCE = 											\
 	built-ins/unset.c								\
 	execution/export_helper/export_utils01.c		\
 	execution/export_helper/export_utils02.c		\
-	execution/branching.c							\
+	execution/ast_execution.c						\
 	execution/builtin.c								\
 	execution/cleanup.c								\
-	execution/execute.c								\
 	execution/external.c							\
-	execution/operation.c							\
-	execution/new.c									\
 	execution/path.c								\
-	execution/pipe.c								\
-	execution/redir.c								\
-	execution/shell.c								\
-	execution/priority.c							\
-	execution/binary.c								\
 	expansion/dollar.c								\
 	expansion/dollar_helper.c						\
 	expansion/env.c									\
 	expansion/expansion.c							\
 	expansion/helper.c								\
-	expansion/heredoc.c								\
 	expansion/token_list_utils.c					\
 	expansion/quotes.c								\
 	lexer/read_redirect.c							\

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:13:24 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/14 10:28:53 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/26 23:17:38 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,7 @@
 #include "execution.h"
 #include "parsing.h"
 
-char	**join_commands(t_root *root)
-{
-	int		i;
-	int		count;
-	char	**cmd;
-
-	i = 0;
-	count = 0;
-	if (!root->tokens)
-		return (NULL);
-	while (root->tokens[count] != NULL)
-		count++;
-	cmd = malloc((count + 1) * sizeof(char *));
-	while (i < count)
-	{
-		if (!root->tokens[i]->value)
-			cmd[i] = ft_strdup("");
-		else
-			cmd[i] = ft_strdup(root->tokens[i]->value);
-		i++;
-	}
-	cmd[i] = NULL;
-	return (cmd);
-}
-
-char	**expand_commands(char **cmd, t_root *root)
+char	**expand_commands(char **cmd, t_minishell *msh)
 {
 	int		i;
 	char	*temp;
@@ -51,7 +26,7 @@ char	**expand_commands(char **cmd, t_root *root)
 	while (cmd[++i])
 	{
 		temp = cmd[i];
-		quoted = expand_string(temp, root);
+		quoted = expand_string(temp, msh);
 		free(temp);
 		if (!quoted)
 			cmd[i] = ft_strdup("");
@@ -69,18 +44,18 @@ char	**expand_commands(char **cmd, t_root *root)
 		if (!cmd[i])
 			return (NULL);
 	}
-	cmd = remove_null(cmd, root);
+	cmd = remove_null(cmd, msh);
 	return (cmd);
 }
 
-char	*expand_string(char *str, t_root *root)
+char	*expand_string(char *str, t_minishell *msh)
 {
 	int		i;
 	char	*chunk;
 	char	*token;
 	char	*tmp;
 
-	if (!str)
+	if (!str || !msh)
 		return (NULL);
 	token = ft_strdup("");
 	if (!token)
@@ -88,7 +63,7 @@ char	*expand_string(char *str, t_root *root)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		chunk = get_next_area(str, &i, root);
+		chunk = get_next_area(str, &i, msh);
 		if (!chunk)
 		{
 			free(token);

@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 23:03:49 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/08/20 16:58:31 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:18:44 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void		process_signal_state(t_minishell *msh);
 bool		handle_eof_input(char *cmd);
 void		reset_shell_state(void);
 int			heredoc_with_signals(char *delimiter);
-int			heredoc_checker_enhanced(t_root **root);
 
 
 t_token		*ft_tokenlst(t_token *token);

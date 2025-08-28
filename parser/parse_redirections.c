@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:29:56 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/07/02 09:59:27 by alechin          ###   ########.fr       */
+/*   Updated: 2025/08/28 03:11:32 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,34 @@ static bool	is_redirect_token(t_token *token)
 		|| token->type == TOKEN_REDIRECT_OUT
 		|| token->type == TOKEN_REDIRECT_APPEND
 		|| token->type == TOKEN_HEREDOC);
+}
+
+static t_redirection	*create_redirection(int type, char *filename)
+{
+	t_redirection	*redir;
+
+	redir = malloc(sizeof(t_redirection));
+	if (!redir)
+		return (NULL);
+	redir->type = type;
+	redir->target ft_strdup(filename);
+	redir->next = NULL;
+	return (redir);
+}
+
+static void	add_redirection(t_redirection **head, t_redirection *new_redir)
+{
+	t_redirection	*current;
+
+	if (!*head)
+	{
+		*head = new_redir;
+		return ;
+	}
+	current = *head;
+	while (current->next)
+		current = current->next;
+	current->next = new_redir;
 }
 
 /*Processes redirection operators and filenames, chains multiple redirections*/

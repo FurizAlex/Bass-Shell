@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_redirect.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 23:59:27 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/07/25 23:17:22 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/22 17:02:58 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_token	*read_redirect(t_lexer *lexer)
 
 	current = lexer->current_char;
 	next = peek_char(lexer);
+
 	if (current == '<')
 	{
 		advance_lexer(lexer);

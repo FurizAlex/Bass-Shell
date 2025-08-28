@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:25:49 by alechin           #+#    #+#             */
-/*   Updated: 2025/07/25 23:41:33 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/26 23:21:29 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,24 +58,3 @@ static bool	heredoc_append(char *cmd, char **original, char *str)
 	return (true);
 }
 
-int	heredoc_checker(t_root **root)
-{
-	char	*cmd;
-
-	cmd = NULL;
-	if ((*root)->tokens && (*root)->tokens[0]->type == TOKEN_HEREDOC)
-	{
-		while (1)
-		{
-			cmd = readline("o=>>");
-			if (!cmd || !heredoc_append(cmd, &((*root)->tokens[0]->value),
-					(*root)->tokens[1]->value))
-				break ;
-			free(cmd);
-		}
-		if (!cmd)
-			return (EOFS);
-		free(cmd);
-	}
-	return (UNDECLARED);
-}

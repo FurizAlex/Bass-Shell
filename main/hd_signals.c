@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:45:05 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/08/20 16:58:31 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:18:39 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,23 +93,4 @@ int	heredoc_with_signals(char *delimiter)
 		close(pipe_fd[0]);
 	}
 	return (0);
-}
-
-int	heredoc_checker_enhanced(t_root **root)
-{
-	char	*delimiter;
-
-	if ((*root)->tokens && (*root)->tokens[0]->type == TOKEN_HEREDOC)
-	{
-		if (!(*root)->tokens[1] || !(*root)->tokens[1]->value)
-			return (error2exit("No delimiter for heredoc", 1));
-		delimiter = (*root)->tokens[1]->value;
-		if ((delimiter[0] == '"' || delimiter[0] == '\'')
-			&& ft_strlen(delimiter) >= 2)
-		{
-			delimiter = remove_quotes(delimiter);
-		}
-		return (heredoc_with_signals(delimiter));
-	}
-	return (UNDECLARED);
 }
