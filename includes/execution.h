@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:33:54 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/27 16:59:00 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/08/31 00:37:05 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,8 @@ char			**appends(char **env, t_minishell *e, char *new_variable);
 /* -- Shell Loop -- */
 void			shell_loop(void);
 
+/* ??? */
 
-/* -- Execution Main -- */
-int				execute_ast(t_ast_node *node);
-int				execute_pipe_node(t_ast_node *node);
-int				execute_heredoc_node(t_ast_node *node);
-int				execute_redirect_append(t_ast_node *node);
-int				execute_redirect_out(t_ast_node *node);
-int				execute_redirect_in(t_ast_node *node);
-int				execute_command_node(t_ast_node *node);
 char 			*expand_var(char *prefix, char *dollar, int vlen, t_minishell *msh);
 char 			*expand_literal_dollar(char *prefix, char *dollar, t_minishell *msh);
 char 			*expand_question(char *prefix, t_minishell *msh, char *rest);
@@ -68,9 +61,6 @@ int				external(char **cmd, t_minishell *msh);
 
 /* -- Pipe -- */
 
-
-/* -- Redirections Exec -- */
-int				redir_type(int type);
 
 /* -- Expansion Main -- */
 char			*remove_quotes(char *str);

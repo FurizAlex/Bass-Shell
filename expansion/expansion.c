@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:13:24 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/26 23:17:38 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/08/31 00:10:48 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ char	**expand_commands(char **cmd, t_minishell *msh)
 	return (cmd);
 }
 
+/*I CAN USE THIS FOR OTHER THINGS LIKE FILENAME*/
 char	*expand_string(char *str, t_minishell *msh)
 {
 	int		i;
