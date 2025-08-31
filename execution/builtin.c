@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:36:14 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/13 15:18:00 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/24 19:25:29 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ int	specify(char **cmd, t_minishell *e)
 	if (ft_strncmp(cmd[0], "env", 3) == 0 && cmd[0][3] == '\0')
 		return (koi_env(e));
 	if (ft_strncmp(cmd[0], "exit", 4) == 0 && cmd[0][4] == '\0')
-		return (koi_exit(cmd, e->root, e->token, e));
+		return (koi_exit(cmd, e));
 	if (ft_strncmp(cmd[0], "pwd", 3) == 0 && cmd[0][3] == '\0')
 		return (koi_pwd());
 	if (ft_strncmp(cmd[0], "unset", 5) == 0 && cmd[0][5] == '\0')
-		return (koi_unset(cmd, e->root));
+		return (koi_unset(cmd, e));
 	return (-1);
 }
 

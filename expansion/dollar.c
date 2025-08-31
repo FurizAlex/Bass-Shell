@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:52:13 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/14 10:17:06 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/27 17:18:43 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 #include "execution.h"
 #include "parsing.h"
 
-static char	*expand_question(char *prefix, t_root *root, char *rest)
+char	*expand_question(char *prefix, t_minishell *msh, char *rest)
 {
 	char	*num;
 	char	*tmp;
 	char	*suf;
 	char	*r;
 
-	num = ft_itoa(root && root->msh ? root->msh->last_status : 0);
+	num = ft_itoa(msh && msh ? msh->last_status : 0);
 	if (!num)
 	{
 		free(prefix);
@@ -31,7 +31,7 @@ static char	*expand_question(char *prefix, t_root *root, char *rest)
 	free(num);
 	if (!tmp)
 		return (NULL);
-	suf = expand_dollar(rest, root);
+	suf = expand_dollar(rest, msh);
 	if (!suf)
 	{
 		free(tmp);
@@ -43,7 +43,7 @@ static char	*expand_question(char *prefix, t_root *root, char *rest)
 	return (r);
 }
 
-static char	*expand_var(char *prefix, char *dollar, int vlen, t_root *root)
+char	*expand_var(char *prefix, char *dollar, int vlen, t_minishell *msh)
 {
 	char	*value;
 	char	*valdup;
@@ -51,7 +51,7 @@ static char	*expand_var(char *prefix, char *dollar, int vlen, t_root *root)
 	char	*suf;
 	char	*r;
 
-	value = to_get_env(dollar + 1, vlen, root);
+	value = to_get_env(dollar + 1, vlen, msh);
 	if (value)
 		valdup = ft_strdup(value);
 	else
@@ -64,7 +64,7 @@ static char	*expand_var(char *prefix, char *dollar, int vlen, t_root *root)
 	tmp = join_free_both(prefix, valdup);
 	if (!tmp)
 		return (NULL);
-	suf = expand_dollar(dollar + 1 + vlen, root);
+	suf = expand_dollar(dollar + 1 + vlen, msh);
 	if (!suf)
 	{
 		free(tmp);
@@ -76,7 +76,7 @@ static char	*expand_var(char *prefix, char *dollar, int vlen, t_root *root)
 	return (r);
 }
 
-static char	*expand_literal_dollar(char *prefix, char *dollar, t_root *root)
+char	*expand_literal_dollar(char *prefix, char *dollar, t_minishell *msh)
 {
 	char	*tmp;
 	char	*rest;
@@ -86,7 +86,7 @@ static char	*expand_literal_dollar(char *prefix, char *dollar, t_root *root)
 	free(prefix);
 	if (!tmp)
 		return (NULL);
-	rest = expand_dollar(dollar + 1, root);
+	rest = expand_dollar(dollar + 1, msh);
 	if (!rest)
 	{
 		free(tmp);
@@ -98,14 +98,14 @@ static char	*expand_literal_dollar(char *prefix, char *dollar, t_root *root)
 	return (r);
 }
 
-char	*expand_dollar(char *prompt, t_root *root)
+char *expand_dollar(char *prompt, t_minishell *msh)
 {
 	char	*dollar;
 	char	*prefix;
 	char	*r;
 	int		vlen;
 
-	if (!prompt)
+	if (!prompt || !msh)
 		return (NULL);
 	dollar = ft_strchr(prompt, '$');
 	if (!dollar)
@@ -120,9 +120,9 @@ char	*expand_dollar(char *prompt, t_root *root)
 		return (r);
 	}
 	if (*(dollar + 1) == '?')
-		return (expand_question(prefix, root, dollar + 2));
+		return (expand_question(prefix, msh, dollar + 2));
 	vlen = variable_len(dollar + 1);
 	if (vlen == 0)
-		return (expand_literal_dollar(prefix, dollar, root));
-	return (expand_var(prefix, dollar, vlen, root));
+		return (expand_literal_dollar(prefix, dollar, msh));
+	return (expand_var(prefix, dollar, vlen, msh));
 }

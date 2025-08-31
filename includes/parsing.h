@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 23:03:49 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/08/20 16:58:31 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/08/31 02:41:58 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void		free_ast(t_ast_node *node);
 void		free_parser(t_parser *parser);
 t_ast_node	*parse(t_token *tokens);
 
+
 /* HISTORY*/
 char		*get_history_path(void);
 void		setup_history(void);
@@ -64,7 +65,18 @@ void		process_signal_state(t_minishell *msh);
 bool		handle_eof_input(char *cmd);
 void		reset_shell_state(void);
 int			heredoc_with_signals(char *delimiter);
-int			heredoc_checker_enhanced(t_root **root);
+
+/*TREE CREATION*/
+int			execute_ast(t_ast_node *node);
+int			execute_pipe(t_ast_node *node);
+int			execute_command_and_redirects(t_ast_node *node);
+void		restore_fds(int *saved_fds);
+int			apply_redirect_in(char *filename, int *saved_fds);
+int			apply_redirect_out(char *filename, int *saved_fds);
+int			apply_redirect_append(char *filename, int *saved_fds);
+int			apply_redirection(t_redirection *redir, int *saved_fds);
+int			apply_redirect_heredoc(char *filename, int *saved_fds);
+int			apply_heredoc(char *delimiter, int *saved_fds);
 
 
 t_token		*ft_tokenlst(t_token *token);

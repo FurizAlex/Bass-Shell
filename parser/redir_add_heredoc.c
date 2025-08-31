@@ -1,63 +1,69 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hd_signals.c                                       :+:      :+:    :+:   */
+/*   redir_add_heredoc.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/14 17:45:05 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/08/27 16:18:39 by rpadasia         ###   ########.fr       */
+/*   Created: 2025/08/31 00:22:28 by rpadasia          #+#    #+#             */
+/*   Updated: 2025/08/31 01:34:34 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parsing.h"
-#include "../includes/execution.h"
+#include "minishell.h"
+#include "execution.h"
+#include "parsing.h"
 
-extern int g_signal;
+#define REDIRECT_IN     0
+#define REDIRECT_OUT    1
+#define REDIRECT_APPEND 2
+#define REDIRECT_HEREDOC 3
 
-void	handle_sigint_heredoc(int sig)
+int	apply_redirect_heredoc(char *filename, int *saved_fd)
 {
-	if (sig == SIGINT)
+	if (apply_heredoc(filename, saved_fd) != 0)
 	{
-		g_signal = 130;
-		write(STDOUT_FILENO, "\n", 1);
-		exit(g_signal);
+		free(filename);
+		return (1);
 	}
+	return (0);
 }
 
-void	handle_sigeof_heredoc(int sig)
+int	apply_heredoc(char *delimiter, int *saved_fds)
 {
-	(void)sig;
-	printf("\n");
-	g_signal = EXIT_SUCCESS;
-	exit(g_signal);
-}
-
-void	setup_signals_heredoc(void)
-{
-	signal(SIGINT, handle_sigint_heredoc);
-	signal(SIGQUIT, SIG_IGN);
-}
-// Set signals for heredoc context;
-//EOF handling is done by checking readline return value
-
-int	heredoc_with_signals(char *delimiter)
-{
-	char	*line;
 	int		pipe_fd[2];
 	pid_t	pid;
 	int		status;
+	char	*line;
+	char	*clean_delimiter;
+
+	clean_delimiter = remove_quotes(delimiter);
+	if (!clean_delimiter)
+		return (1);
 
 	if (pipe(pipe_fd) == -1)
-		return (error2exit("Couldn't create pipe for heredoc", 1));
+	{
+		perror("pipe");
+		free(clean_delimiter);
+		return (1);
+	}
+
 	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid < 0)
-		return (error2exit("Couldn't fork for heredoc", 1));
+	{
+		perror("fork");
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+		free(clean_delimiter);
+		return (1);
+	}
+
 	if (pid == 0)
 	{
 		close(pipe_fd[0]);
 		setup_signals_heredoc();
+
 		while (1)
 		{
 			line = readline("o-> ");
@@ -66,8 +72,8 @@ int	heredoc_with_signals(char *delimiter)
 				printf("Heredoc delimited by EOF\n");
 				break ;
 			}
-			if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
-				&& line[ft_strlen(delimiter)] == '\0')
+			if (ft_strncmp(line, clean_delimiter, ft_strlen(clean_delimiter)) == 0
+				&& line[ft_strlen(clean_delimiter)] == '\0')
 			{
 				free(line);
 				break ;
@@ -83,14 +89,14 @@ int	heredoc_with_signals(char *delimiter)
 	{
 		close(pipe_fd[1]);
 		waitpid(pid, &status, 0);
-
-		if (WIFEXITED(status))
-			g_signal = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			g_signal = 128 + WTERMSIG(status);
-		reset_signals_interactive();
+		if (saved_fds[0] == -1)
+			saved_fds[0] = dup(STDIN_FILENO);
 		dup2(pipe_fd[0], STDIN_FILENO);
 		close(pipe_fd[0]);
+
+		reset_signals_interactive();
 	}
+
+	free(clean_delimiter);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 21:57:04 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/07/01 00:46:00 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/08/28 22:41:52 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*get_history_path(void)
 		return (NULL);
 	home_len = ft_strlen(home);
 	total_len = home_len + 20;
-	path = malloc(total_len);
+	path = (char *)malloc(total_len);
 	if (!path)
 		return (NULL);
 	ft_strlcpy(path, home, total_len);

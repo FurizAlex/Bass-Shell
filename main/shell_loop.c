@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 10:28:17 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/22 16:55:34 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/08/26 22:24:43 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,54 +19,20 @@ character*/
 
 extern int g_signal;
 
-static void	attach_exec(t_root **root, t_token **tokens)
+void	execute_direct_ast(t_token **tokens)
 {
-	t_minishell	*o;
-	t_micro		shell;
+	t_ast_node	*ast;
+	t_minishell	*msh;
 
-	o = minishell();
-	*root = NULL;
-	shell.id_start = (*tokens)->id;
-	shell.id_end = ft_tokenlst(*tokens)->id;
-	shell.length = 0;
-	t_token *temp = *tokens;
-	while (temp)
+	msh = minishell();
+	ast = parse(*tokens);
+	if (!ast)
 	{
-		shell.length++;
-		temp = temp->next;
-	}
-	*root = create_initial_root(tokens, &shell);
-	o->root = *root;
-	if (!(*root))
-	{
-		o->status = UNDECLARED;
-		o->last_status = 1;
+		msh->last_status = 1;
 		return ;
 	}
-	(*root)->msh = o;
-	o->status = recursive_tree(root, shell, tokens, true);
-	if (o->status == UNDECLARED)
-	{
-		if (o->root)
-			o->last_status = execution(*root);
-		else
-			o->last_status = 1;
-	}
-	terminate_ast(root);
-}
-
-static void	status_clearance(void)
-{
-	t_minishell	*o;
-	t_root		*root;
-
-	o = minishell();
-	if (o->status == UNDECLARED)
-		attach_exec(&root, &o->token);
-	if (o->status == INTERACTIVE)
-		o->last_status = 130;
-	if (o->status == EOFS)
-		return ;
+	msh->last_status = execute_ast(ast);
+	free_ast(ast);
 }
 
 static bool	is_empty_input(char *input)
@@ -83,26 +49,22 @@ static bool	is_empty_input(char *input)
 	return (true);
 }
 
-static void	process_input(char *input)
+void	process_input_new(char *input)
 {
 	t_token		*tokens;
-	t_ast_node	*ast;
-	t_minishell	*o;
+	t_minishell	*msh;
 
-	o = minishell();
-	process_signal_state(o);
+	msh = minishell();
+	process_signal_state(msh);
+
 	tokens = tokenize(input);
 	if (!tokens)
 		return ;
 	set_token_prev_pointers(tokens);
-	o->token = tokens;
-	ast = parse(tokens);
-	if (ast)
-	{
-		o->status = UNDECLARED;
-		status_clearance();
-		free_ast(ast);
-	}
+	msh->token = tokens;
+	execute_direct_ast(&tokens);
+	free_tokens(tokens);
+	msh->token = NULL;
 	reset_signals_interactive();
 }
 
@@ -124,7 +86,7 @@ void	shell_loop(void)
 		if (!is_empty_input(cmd))
 		{
 			add_history(cmd);
-			process_input(cmd);
+			process_input_new(cmd);
 		}
 		free(cmd);
 	}

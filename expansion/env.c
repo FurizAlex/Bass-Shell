@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:13:55 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/06 17:02:55 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/24 19:40:00 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,17 @@ int	variable_len(char *start)
 	return (len);
 }
 
-char	*to_get_env(char *start, int len, t_root *root)
+char	*to_get_env(char *start, int len, t_minishell *msh)
 {
 	char	*variable_name;
 	char	*env_value;
 
+	if (!start || !msh)
+		return (NULL);
 	variable_name = dupnxtra(start, len);
 	if (!variable_name)
 		return (NULL);
-	env_value = getxenv(variable_name, root->msh);
+	env_value = getxenv(variable_name, msh);
 	if (!env_value)
 		env_value = "";
 	free(variable_name);

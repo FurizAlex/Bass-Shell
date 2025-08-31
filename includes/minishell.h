@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:16:53 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/20 16:03:15 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/08/28 22:53:20 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,19 @@ typedef enum s_node_type
 	NODE_HEREDOC
 }	t_node_type;
 
+typedef struct s_redirection
+{
+	int						fd_from;
+	int						type;
+	char					*target;
+	struct s_redirection	*next;
+}	t_redirection;
+
 typedef struct s_ast_node
 {
 	t_node_type			type;
 	char				**args;
-	char				*filename;
+	t_redirection		*redirections;
 	struct s_ast_node	*left;
 	struct s_ast_node	*right;
 }	t_ast_node;
@@ -108,40 +116,12 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-typedef struct s_redir
-{
-	int				type;
-	char			*file;
-	struct s_redir	*next;
-}	t_redir;
-
-typedef struct s_exec
-{
-	char			**argv;
-	char			*cmd_path;
-	int				infile;
-	int				outfile;
-	bool			has_pipe;
-	bool			is_builtin;
-	t_redir			*redirs;
-	struct s_exec	*next;
-}	t_exec;
-
 typedef enum e_status
 {
 	NORMAL,
 	QUOTE,
 	DOUBLE_QUOTE,
 }	t_status;
-
-typedef struct s_micro
-{
-	int	id_start;
-	int	id_end;
-	int	level;
-	int	length;
-	int	err;
-}	t_micro;
 
 typedef struct s_minishell
 {
@@ -151,33 +131,7 @@ typedef struct s_minishell
 	char			**env;
 	t_token			*token;
 	t_env			*env_list;
-	t_exec			*cmds;
 	struct s_env	*lcl_env;
-	struct s_root	*root;
-	struct s_base	*base;
 }	t_minishell;
-
-typedef struct s_root
-{
-	int				level;
-	t_token			**tokens;
-	t_minishell		*msh;
-	t_lexer			*lexer;
-	t_ast_node		*ast;
-	struct s_root	*origin;
-	struct s_root	*left;
-	struct s_root	*right;
-}	t_root;
-
-typedef struct s_base
-{
-	char			**argv;
-	int				size;
-	int				type;
-	int				fd[2];
-	t_token			*token;
-	struct s_base	*next;
-	struct s_base	*prev;
-}	t_base;
 
 #endif

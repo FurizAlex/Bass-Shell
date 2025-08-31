@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:33 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/13 14:51:46 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/24 19:25:03 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	remove_var(t_minishell *msh, char *name)
 	free(temp);
 }
 
-int	koi_unset(char **cmd, t_root *root)
+int	koi_unset(char **cmd, t_minishell *msh)
 {
 	int i;
 
@@ -54,6 +54,6 @@ int	koi_unset(char **cmd, t_root *root)
 		return (0);
 	i = 0;
 	while (cmd[++i])
-		remove_var(root->msh, cmd[i]);
+		remove_var(msh, cmd[i]);
 	return (0);
 }

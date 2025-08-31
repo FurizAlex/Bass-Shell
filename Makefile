@@ -38,25 +38,15 @@ SOURCE = 											\
 	built-ins/unset.c								\
 	execution/export_helper/export_utils01.c		\
 	execution/export_helper/export_utils02.c		\
-	execution/branching.c							\
 	execution/builtin.c								\
 	execution/cleanup.c								\
-	execution/execute.c								\
 	execution/external.c							\
-	execution/operation.c							\
-	execution/new.c									\
 	execution/path.c								\
-	execution/pipe.c								\
-	execution/redir.c								\
-	execution/shell.c								\
-	execution/priority.c							\
-	execution/binary.c								\
 	expansion/dollar.c								\
 	expansion/dollar_helper.c						\
 	expansion/env.c									\
 	expansion/expansion.c							\
 	expansion/helper.c								\
-	expansion/heredoc.c								\
 	expansion/token_list_utils.c					\
 	expansion/quotes.c								\
 	lexer/read_redirect.c							\
@@ -73,6 +63,7 @@ SOURCE = 											\
 	main/initialise.c								\
 	main/history.c									\
 	main/signalling.c								\
+	parser/ast_execution.c							\
 	parser/create_node.c							\
 	parser/freeing.c								\
 	parser/initializing.c							\
@@ -80,6 +71,8 @@ SOURCE = 											\
 	parser/parse_command.c							\
 	parser/parse_pipes.c							\
 	parser/parse_redirections.c						\
+	parser/redir_add_heredoc.c						\
+	parser/redir.c									\
 	parser/transition.c								\
 
 OBJECTS = $(addprefix $(OBJECT_DIRECTORY)/, $(SOURCE:.c=.o))

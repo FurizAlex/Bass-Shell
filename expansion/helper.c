@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:13:38 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/14 16:14:03 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/24 20:20:34 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@ static int	is_empty(char *s)
 	return (0);
 }
 
-char	**remainders(char **cmd, t_root *root, int box, int keep)
+char	**remainders(char **cmd, t_minishell *msh, int box, int keep)
 {
 	char	**new;
 	int		i;
 	int		j;
 
+	(void)msh;
 	i = 0;
 	j = 0;
 	new = malloc((keep + 1) * sizeof(char *));
@@ -36,8 +37,7 @@ char	**remainders(char **cmd, t_root *root, int box, int keep)
 		return (NULL);
 	while (cmd[i])
 	{
-		if (!(i < box && root->tokens[i]->type == TOKEN_WORD
-				&& cmd[i][0] == '\0'))
+		if (!(i < box && cmd[i][0] == '\0'))
 		{
 			new[j] = cmd[i];
 			j++;
@@ -51,14 +51,14 @@ char	**remainders(char **cmd, t_root *root, int box, int keep)
 	return (new);
 }
 
-char	**remove_null(char **cmd, t_root *root)
+char	**remove_null(char **cmd, t_minishell *msh)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
-	(void)root;
+	(void)msh;
 	while (cmd[i])
 	{
 		if (!is_empty(cmd[i]))
@@ -105,7 +105,7 @@ char	*get_raw_area(char *str, int *i)
 	return (ret);
 }
 
-char	*get_next_area(char *str, int *i, t_root *root)
+char	*get_next_area(char *str, int *i, t_minishell *msh)
 {
 	char	*raw;
 	char	*res;
@@ -117,7 +117,7 @@ char	*get_next_area(char *str, int *i, t_root *root)
 		res = raw;
 	else
 	{
-		res = expand_dollar(raw, root);
+		res = expand_dollar(raw, msh);
 		free(raw);
 	}
 	return (res);

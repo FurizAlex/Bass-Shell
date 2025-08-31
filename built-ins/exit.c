@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:27 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/12 10:48:33 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/08/24 19:25:47 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
-int	koi_exit(char **cmd, t_root *root, t_token *token, t_minishell *msh)
+int	koi_exit(char **cmd, t_minishell *msh)
 {
 	int argc;
 	int code;
@@ -36,7 +36,6 @@ int	koi_exit(char **cmd, t_root *root, t_token *token, t_minishell *msh)
 		code = ft_atoi(cmd[1]) & 255;
 	array2clear(cmd);
 	array2clear(msh->env);
-	terminate_ast(&root);
-	terminate_tokens(&token);
+	free(msh->export);
 	exit(code);
 }
