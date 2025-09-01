@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:29 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/14 10:21:16 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/09/01 13:24:33 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static int	valid_identifier(char *str)
 {
-	int i;
+	int	i;
 
 	if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
 		return (0);
@@ -52,8 +52,6 @@ static int	export_with_value(t_minishell *e, char *env)
 	int		i;
 
 	name = ft_substr(env, 0, variable_len(env));
-	if (!name)
-		return (error2exit("export: malloc failed", 1), 1);
 	if (!valid_identifier(name))
 	{
 		free(name);
@@ -101,7 +99,7 @@ int	handle_export(char **cmd, t_minishell *e)
 	while (cmd[++i])
 	{
 		if (!cmd[i] || cmd[i][0] == '\0')
-			continue;
+			continue ;
 		koi_export(e, &cmd[i]);
 	}
 	return (0);

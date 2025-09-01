@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:33:54 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/31 00:37:05 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/09/01 11:51:30 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,6 @@ char			**appends(char **env, t_minishell *e, char *new_variable);
 /* -- Shell Loop -- */
 void			shell_loop(void);
 
-/* ??? */
-
-char 			*expand_var(char *prefix, char *dollar, int vlen, t_minishell *msh);
-char 			*expand_literal_dollar(char *prefix, char *dollar, t_minishell *msh);
-char 			*expand_question(char *prefix, t_minishell *msh, char *rest);
-
-
 /* -- Execution Path -- */
 char			*exec_path(char *cmd, char **env);
 
@@ -91,6 +84,7 @@ void			terminate_tokens(t_token **tokens);
 void			cleanup_execution(t_minishell *msh);
 
 /* -- Initialization -- */
+void			increment_shell_level(t_minishell *e);
 void			initialise(int *argc, char ***argv, t_token **tokens, char **env);
 
 /* -- Tree Binary System -- */
@@ -103,8 +97,6 @@ void			check_quotes_in_value(char *value, bool *s_q, bool *d_q);
 void			free_split(char **arr);
 void			print_export(t_minishell *e);
 char			**sort_env(char **env);
-
-
 
 t_minishell		*minishell(void);
 

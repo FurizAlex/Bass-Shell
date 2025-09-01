@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_loop.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 10:28:17 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/26 22:24:43 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/09/01 13:47:51 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	process_input_new(char *input)
 void	shell_loop(void)
 {
 	char		*cmd;
-	// t_minishell	*o = minishell();
 
 	while (1)
 	{
@@ -82,7 +81,6 @@ void	shell_loop(void)
 			cleanup_history();
 			break ;
 		}
-		printf("Input received: '%s'\n", cmd);
 		if (!is_empty_input(cmd))
 		{
 			add_history(cmd);

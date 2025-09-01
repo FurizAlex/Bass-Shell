@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 00:57:53 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/08/01 17:20:46 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/09/01 11:40:58 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	free_tokens(t_token *tokens)
 	}
 }
 
-/*TEMPORARY MEASURE SO THAT WE CAN CONFIRM IT WORKS
+/*
 void	print_tokens(t_token *tokens)
 {
 	t_token		*current;
