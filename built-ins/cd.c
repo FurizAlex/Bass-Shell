@@ -6,17 +6,17 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:19 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/11 16:41:10 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/09/01 16:50:35 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
-static int arg_count(char **cmd)
+static int	arg_count(char **cmd)
 {
-	int i;
-	int count;
+	int	i;
+	int	count;
 
 	i = 0;
 	count = 0;
@@ -55,25 +55,36 @@ static void	update_pwd_vars(t_minishell *e, char *oldpwd)
 	}
 }
 
-int	koi_cd(char **cmd, t_minishell *e)
+static char	*get_target(char **cmd, t_minishell *e)
 {
-	char oldpwd[4096];
-	char newpwd[4096];
-	char *target;
+	if (!cmd[1] || ft_strlen(cmd[1]) == 0)
+		return (getxenv("HOME", e));
+	if (ft_strncmp(cmd[1], "-", 2) == 0)
+		return (getxenv("OLDPWD", e));
+	return (cmd[1]);
+}
 
+static int	check_args(char **cmd)
+{
 	if (arg_count(cmd) > 2)
 	{
 		error2exit("Fishy Warning: Too many arguments", 1);
 		return (1);
 	}
+	return (0);
+}
+
+int	koi_cd(char **cmd, t_minishell *e)
+{
+	char	oldpwd[4096];
+	char	newpwd[4096];
+	char	*target;
+
+	if (check_args(cmd))
+		return (1);
 	if (!getcwd(oldpwd, sizeof(oldpwd)))
-		return (error2exit("Fishy Error: Couldn't get current directory", 1), 1);
-	if (!cmd[1] || ft_strlen(cmd[1]) == 0)
-		target = getxenv("HOME", e);
-	else if (ft_strncmp(cmd[1], "-", 2) == 0)
-		target = getxenv("OLDPWD", e);
-	else
-		target = cmd[1];
+		return (error2exit("Fishy Error: Couldn't get cwd", 1), 1);
+	target = get_target(cmd, e);
 	if (!target)
 		return (error6exit("Fishy Error: Target not set", 1), 1);
 	if (chdir(target) != 0)

@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:33:54 by alechin           #+#    #+#             */
-/*   Updated: 2025/09/01 11:51:30 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/09/01 17:41:04 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ char			**appends(char **env, t_minishell *e, char *new_variable);
 
 /* -- AST Tree Handling -- */
 
-
 /* -- Shell Loop -- */
 void			shell_loop(void);
 
@@ -53,7 +52,6 @@ char			*exec_path(char *cmd, char **env);
 int				external(char **cmd, t_minishell *msh);
 
 /* -- Pipe -- */
-
 
 /* -- Expansion Main -- */
 char			*remove_quotes(char *str);
@@ -72,6 +70,7 @@ int				variable_len(char *start);
 char			*to_get_env(char *start, int len, t_minishell *msh);
 
 /* -- Dollar -- */
+bool			is_single_quoted_literal(char *s);
 char			*join_free_both(char *a, char *b);
 char			*join_free_first(char *a, char *b);
 char			*expand_dollar(char *prompt, t_minishell *msh);
@@ -85,18 +84,23 @@ void			cleanup_execution(t_minishell *msh);
 
 /* -- Initialization -- */
 void			increment_shell_level(t_minishell *e);
-void			initialise(int *argc, char ***argv, t_token **tokens, char **env);
+void			initialise(int *argc, char ***argv,
+					t_token **tokens, char **env);
 
 /* -- Tree Binary System -- */
 
 void			set_token_prev_pointers(t_token *head);
 void			check_quotes_in_value(char *value, bool *s_q, bool *d_q);
 
-
 /* -- Export Helper -- */
 void			free_split(char **arr);
 void			print_export(t_minishell *e);
 char			**sort_env(char **env);
+
+/* -- Norminettte Helpers -- */
+void			search_path_loop(char **paths, char *cut, char **cmd);
+int				handle_quote(char *str, int *i, char quote);
+int				handle_no_quote(char *str, int *i);
 
 t_minishell		*minishell(void);
 

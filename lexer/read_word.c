@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_word.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 01:08:21 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/08/22 16:54:41 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/09/01 16:33:37 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static bool	handle_quotes(t_lexer *lexer, char *word, int *len)
 	if (lexer->current_char == '\'' && !lexer->in_double_quote)
 	{
 		lexer->in_single_quote = !lexer->in_single_quote;
-		printf("%d\n", lexer->in_single_quote);
 		word[(*len)++] = lexer->current_char;
 		advance_lexer(lexer);
 		return (true);
@@ -67,7 +66,7 @@ t_token	*read_word(t_lexer *lexer)
 	char	*word;
 	int		word_len;
 	bool	has_expansion;
-	char	*processed_word;
+	//char	*processed_word;
 	t_token	*token;
 
 	word = malloc(1024);
@@ -89,9 +88,9 @@ t_token	*read_word(t_lexer *lexer)
 	word[word_len] = '\0';
 	if (word_len == 0)
 		return (free(word), NULL);
-	processed_word = process_word_content(word);
+	//processed_word = process_word_content(word);
+	token = create_token(TOKEN_WORD, word, has_expansion);
 	free(word);
-	token = create_token(TOKEN_WORD, processed_word, has_expansion);
-	free(processed_word);
+	//free(processed_word);
 	return (token);
 }

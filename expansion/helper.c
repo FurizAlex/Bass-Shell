@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:13:38 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/24 20:20:34 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/09/01 17:13:28 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,23 +83,11 @@ char	*get_raw_area(char *str, int *i)
 	quote = 0;
 	start = *i;
 	if (str[*i] == '\'' || str[*i] == '"')
-	{
-		quote = str[*i];
-		(*i)++;
-	}
-	end = *i;
+		quote = str[(*i)++];
 	if (quote)
-	{
-		while (str[end] && str[end] != quote)
-			end++;
-		if (str[end] == quote)
-			end++;
-	}
+		end = handle_quote(str, i, quote);
 	else
-	{
-		while (str[end] && str[end] != '\'' && str[end] != '"')
-			end++;
-	}
+		end = handle_no_quote(str, i);
 	*i = end;
 	ret = dupnxtra(str + start, end - start);
 	return (ret);
