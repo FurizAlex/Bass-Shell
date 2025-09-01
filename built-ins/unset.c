@@ -3,15 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:33 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/24 19:25:03 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/09/01 17:02:03 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
+
+static void	shift_env(char **env, int i)
+{
+	while (env[i + 1])
+	{
+		env[i] = env[i + 1];
+		i++;
+	}
+	env[i] = NULL;
+}
 
 static void	remove_var(t_minishell *msh, char *name)
 {
@@ -28,27 +38,22 @@ static void	remove_var(t_minishell *msh, char *name)
 		return ;
 	env = msh->env;
 	i = 0;
-	while (env[i])
+	while (env[i++])
 	{
-		if (!ft_strncmp(env[i], temp, len) && (env[i][len] == '=' || env[i][len] == '\0'))
+		if (!ft_strncmp(env[i], temp, len)
+			&& (env[i][len] == '=' || env[i][len] == '\0'))
 		{
 			free(env[i]);
-			while (env[i + 1])
-			{
-				env[i] = env[i + 1];
-				i++;
-			}
-			env[i] = NULL;
+			shift_env(env, i);
 			break ;
 		}
-		i++;
 	}
 	free(temp);
 }
 
 int	koi_unset(char **cmd, t_minishell *msh)
 {
-	int i;
+	int	i;
 
 	if (!cmd)
 		return (0);

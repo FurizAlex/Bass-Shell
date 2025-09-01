@@ -42,12 +42,13 @@ SOURCE = 											\
 	execution/cleanup.c								\
 	execution/external.c							\
 	execution/path.c								\
+	execution/utils.c								\
 	expansion/dollar.c								\
 	expansion/dollar_helper.c						\
 	expansion/env.c									\
 	expansion/expansion.c							\
 	expansion/helper.c								\
-	expansion/token_list_utils.c					\
+	expansion/expand_utils.c						\
 	expansion/quotes.c								\
 	lexer/read_redirect.c							\
 	lexer/read_word.c								\

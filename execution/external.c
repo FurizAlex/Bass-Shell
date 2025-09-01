@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 11:14:25 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/31 02:38:33 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/09/01 17:41:13 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,7 @@
 #include "execution.h"
 #include "parsing.h"
 
-extern int g_signal;
-
-/*
-static void	run(char **cmd, t_minishell *msh)
-{
-	if (access(cmd[0], X_OK) == 0)
-		execve(cmd[0], cmd, msh->env);
-	ft_putstr_fd(cmd[0], 2);
-	array2clear(cmd);
-	error2exit(" ", 127);
-}*/
+extern int	g_signal;
 
 static char	*get_env_value(char **envp, char *key)
 {
@@ -37,7 +27,8 @@ static char	*get_env_value(char **envp, char *key)
 	i = 0;
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[i], key, len) == 0 && envp[i][len] == '=')
+		if (ft_strncmp(envp[i], key, len) == 0
+			&& envp[i][len] == '=')
 			return (envp[i] + len + 1);
 		i++;
 	}
@@ -46,9 +37,7 @@ static char	*get_env_value(char **envp, char *key)
 
 static int	search(char **cmd, t_minishell *msh)
 {
-	int		i;
 	char	**paths;
-	char	*candidate;
 	char	*cut;
 	char	*path_env;
 
@@ -61,25 +50,13 @@ static int	search(char **cmd, t_minishell *msh)
 	paths = ft_split(path_env, ':');
 	if (!paths)
 		return (free(cut), 127);
-	i = 0;
-	while (paths[i])
-	{
-		candidate = ft_strjoin(paths[i], cut);
-		if (candidate && access(candidate, X_OK) == 0)
-		{
-			execve(candidate, cmd, msh->env);
-			perror(candidate);
-			_exit(126);
-		}
-		free(candidate);
-		i++;
-	}
+	search_path_loop(paths, cut, cmd);
 	array2clear(paths);
 	free(cut);
 	return (127);
 }
 
-static int	child(char **cmd, t_minishell *msh)
+static void	child(char **cmd, t_minishell *msh)
 {
 	if (!cmd || !cmd[0])
 		_exit(127);
@@ -97,11 +74,27 @@ static int	child(char **cmd, t_minishell *msh)
 	_exit(search(cmd, msh));
 }
 
+static void	handle_child_status(int status, t_minishell *msh)
+{
+	int	sig;
+
+	if (WIFEXITED(status))
+		msh->last_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+	{
+		sig = WTERMSIG(status);
+		msh->last_status = 128 + sig;
+		if (sig == SIGINT)
+			write(1, "\n", 1);
+		else if (sig == SIGQUIT)
+			ft_putendl_fd("Quit (core dumped)", 1);
+	}
+}
+
 int	external(char **cmd, t_minishell *msh)
 {
 	pid_t	pid;
 	int		status;
-	int		sig;
 
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
@@ -118,17 +111,7 @@ int	external(char **cmd, t_minishell *msh)
 		child(cmd, msh);
 	}
 	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		msh->last_status = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-	{
-		sig = WTERMSIG(status);
-		msh->last_status = 128 + sig;
-		if (sig == SIGINT)
-			write(1, "\n", 1);
-		else if (sig == SIGQUIT)
-			ft_putendl_fd("Quit (core dumped)", 1);
-	}
+	handle_child_status(status, msh);
 	reset_signals_interactive();
 	return (msh->last_status);
 }

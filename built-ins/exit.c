@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:27 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/24 19:25:47 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/09/01 16:58:56 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 int	koi_exit(char **cmd, t_minishell *msh)
 {
-	int argc;
-	int code;
+	int	argc;
+	int	code;
 
 	argc = countword(cmd);
 	ft_putstr_fd("Exit\n", 2);

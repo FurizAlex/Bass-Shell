@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 17:12:03 by furizalex         #+#    #+#             */
-/*   Updated: 2025/09/01 16:02:21 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/09/01 16:55:44 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 bool	is_single_quoted_literal(char *s)
 {
-	size_t len;
+	size_t	len;
 
 	if (!s)
 		return (false);

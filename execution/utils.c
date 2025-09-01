@@ -1,28 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_instancer.c                                     :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/22 13:19:31 by furizalex         #+#    #+#             */
-/*   Updated: 2025/09/01 16:46:18 by furizalex        ###   ########.fr       */
+/*   Created: 2025/09/01 17:35:47 by furizalex         #+#    #+#             */
+/*   Updated: 2025/09/01 17:42:19 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "../includes/minishell.h"
+#include "minishell.h"
+#include "execution.h"
 
-t_minishell	*minishell(void)
+void	search_path_loop(char **paths, char *cut, char **cmd)
 {
-	static t_minishell	instance;
+	int			i;
+	char		*candidate;
+	t_minishell	*msh;
 
-	return (&instance);
-}
-
-t_lexer	*lexers(void)
-{
-	static t_lexer	instance;
-
-	return (&instance);
+	i = 0;
+	msh = minishell();
+	while (paths[i])
+	{
+		candidate = ft_strjoin(paths[i], cut);
+		if (candidate && access(candidate, X_OK) == 0)
+		{
+			execve(candidate, cmd, msh->env);
+			perror(candidate);
+			_exit(126);
+		}
+		free(candidate);
+		i++;
+	}
 }
