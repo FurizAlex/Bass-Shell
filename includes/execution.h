@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:33:54 by alechin           #+#    #+#             */
-/*   Updated: 2025/09/01 11:51:30 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/09/01 16:03:07 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int				variable_len(char *start);
 char			*to_get_env(char *start, int len, t_minishell *msh);
 
 /* -- Dollar -- */
+bool			is_single_quoted_literal(char *s);
 char			*join_free_both(char *a, char *b);
 char			*join_free_first(char *a, char *b);
 char			*expand_dollar(char *prompt, t_minishell *msh);

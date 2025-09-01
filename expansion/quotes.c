@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 10:44:13 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/08 11:49:53 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/09/01 16:42:04 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char	*remove_quotes_size(char *str, int *i)
 	int		end;
 	char	quote;
 	char	*size;
+	int		len;
 
 	quote = 0;
 	if (str[*i] == '"' || str[*i] == '\'')
@@ -53,11 +54,15 @@ char	*remove_quotes_size(char *str, int *i)
 		while (str[end] && str[end] != '"' && str[end] != '\'')
 			end++;
 	}
-	while (str[end] && str[end] != quote)
-		end++;
+	else
+	{
+		while (str[end] && str[end] != quote)
+			end++;
+	}
+	len = end - start;
+	size = dupnxtra(str + start, len);
 	if (quote && str[end] == quote)
 		end++;
-	size = dupnxtra(str + start, end - start);
 	*i = end;
 	return (size);
 }
