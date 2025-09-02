@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:39:42 by furizalex         #+#    #+#             */
-/*   Updated: 2025/09/01 17:13:59 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/09/02 10:41:44 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,20 @@ int	handle_no_quote(char *str, int *i)
 	while (str[end] && str[end] != '\'' && str[end] != '"')
 		end++;
 	return (end);
+}
+
+int	is_valid_identifier(char *s)
+{
+	int	i;
+
+	if (!s || (!ft_isalpha((unsigned char)s[0]) && s[0] != '_'))
+		return (0);
+	i = 1;
+	while (s[i])
+	{
+		if (!ft_isalnum((unsigned char)s[i]) && s[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
 }

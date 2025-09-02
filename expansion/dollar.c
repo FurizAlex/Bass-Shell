@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:52:13 by alechin           #+#    #+#             */
-/*   Updated: 2025/09/01 16:55:12 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/09/02 10:31:24 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,7 @@ char	*expand_dollar(char *prompt, t_minishell *msh)
 	if (!prompt)
 		return (NULL);
 	if (is_single_quoted_literal(prompt) == true)
-	{
-		printf("lol\n");
 		return (dupnxtra(prompt + 1, ft_strlen(prompt) - 2));
-	}
 	dollar = ft_strchr(prompt, '$');
 	if (!dollar)
 		return (ft_strdup(prompt));
