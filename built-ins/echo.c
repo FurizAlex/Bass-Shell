@@ -3,51 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alechin <alechin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:22 by alechin           #+#    #+#             */
-/*   Updated: 2025/06/30 17:18:43 by alechin          ###   ########.fr       */
+/*   Updated: 2025/09/02 10:16:50 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/execution.h"
 
-static int	dash_n(char **cmd)
+static int	is_dash_n(char *arg)
 {
 	int	i;
 
-	i = 1;
-	if (ft_strncmp(cmd[1], "-n", 3) == 0)
-	{
-		while (cmd[++i] != NULL)
-		{
-			ft_putstr_fd(cmd[i], 1);
-			if (cmd[i + 1] != NULL)
-				ft_putstr_fd(" ", 1);
-		}
+	if (arg[0] != '-')
 		return (0);
-	}
-	return (1);
+	i = 1;
+	while (arg[i] == 'n')
+		i++;
+	return (arg[i] == '\0');
 }
 
 int	koi_echo(char **cmd)
 {
 	int	i;
+	int	newline;
 
-	i = 0;
-	if (!cmd[1])
-		return (ft_printf("\n"), 0);
-	if (dash_n(cmd) != 0)
+	i = 1;
+	newline = 1;
+	while (cmd[i] && is_dash_n(cmd[i]))
 	{
-		while (cmd[++i])
-		{
-			ft_printf("%s", cmd[i]);
-			if (cmd[i + 1] != NULL)
-				ft_printf(" ");
-		}
+		newline = 0;
+		i++;
 	}
-	return (ft_printf("\n"), 0);
+	while (cmd[i])
+	{
+		ft_printf("%s", cmd[i]);
+		if (cmd[i + 1])
+			ft_printf(" ");
+		i++;
+	}
+	if (newline)
+		ft_printf("\n");
+	return (0);
 }
 
 /*
