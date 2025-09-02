@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 23:03:49 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/08/31 02:41:58 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/09/03 01:33:00 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "minishell.h"
 
-extern int g_signal;
+extern int	g_signal;
 /*TOKENISING FUNCTIONS*/
 
 t_lexer		*init_lexer(char *input);
@@ -24,6 +24,7 @@ char		peek_char(t_lexer *lexer);
 void		skip_whitespace(t_lexer *lexer);
 t_token		*create_token(t_token_type type, char *value, bool has_expansion);
 t_token		*read_word(t_lexer *lexer);
+t_token		*return_token(char *word, bool has_expansion);
 t_token		*read_redirect(t_lexer *lexer);
 t_token		*get_next_token(t_lexer *lexer);
 void		free_tokens(t_token *tokens);
@@ -43,7 +44,6 @@ char		**collect_command_args(t_parser *parser, int *arg_count);
 void		free_ast(t_ast_node *node);
 void		free_parser(t_parser *parser);
 t_ast_node	*parse(t_token *tokens);
-
 
 /* HISTORY*/
 char		*get_history_path(void);
@@ -71,13 +71,21 @@ int			execute_ast(t_ast_node *node);
 int			execute_pipe(t_ast_node *node);
 int			execute_command_and_redirects(t_ast_node *node);
 void		restore_fds(int *saved_fds);
+int			get_exit_status(int status);
+void		setup_right_child(int *pipe_fd, t_ast_node *node);
+void		setup_left_child(int *pipe_fd, t_ast_node *node);
+int			handle_fork_error(int *pipe_fd, pid_t left_pid);
+void		handle_signal_output(int status);
+int			handle_pipe_creation(int *pipe_fd);
+int			create_and_fork_processes(int *pipe_fd, t_ast_node *node,
+				pid_t *left_pid, pid_t *right_pid);
+
 int			apply_redirect_in(char *filename, int *saved_fds);
 int			apply_redirect_out(char *filename, int *saved_fds);
 int			apply_redirect_append(char *filename, int *saved_fds);
 int			apply_redirection(t_redirection *redir, int *saved_fds);
 int			apply_redirect_heredoc(char *filename, int *saved_fds);
 int			apply_heredoc(char *delimiter, int *saved_fds);
-
 
 t_token		*ft_tokenlst(t_token *token);
 t_token		*ft_newtoken(char *cmd, t_token_type type, int id);

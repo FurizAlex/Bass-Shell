@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_loop.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 10:28:17 by alechin           #+#    #+#             */
-/*   Updated: 2025/09/01 13:47:51 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/09/02 23:00:38 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 /*goes through line, returning false when it hits a non-whitespace
 character*/
 
-extern int g_signal;
+extern int	g_signal;
 
 void	execute_direct_ast(t_token **tokens)
 {
@@ -56,7 +56,6 @@ void	process_input_new(char *input)
 
 	msh = minishell();
 	process_signal_state(msh);
-
 	tokens = tokenize(input);
 	if (!tokens)
 		return ;
@@ -75,7 +74,7 @@ void	shell_loop(void)
 	while (1)
 	{
 		reset_shell_state();
-		cmd = readline("\033[33m-- BASS AMATEUR SHELL --\033[36m\n[🐡 FISH BITES] o->\033[0m ");
+		cmd = readline("\033[33m-BASS SHELL-\033[36m\n[🐡FISHBITES]o->\033[0m ");
 		if (handle_eof_input(cmd))
 		{
 			cleanup_history();

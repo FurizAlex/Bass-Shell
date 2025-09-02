@@ -1,40 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   reset_signals.c                                    :+:      :+:    :+:   */
+/*   ast_execution_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/20 17:29:01 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/09/02 22:59:26 by rpadasia         ###   ########.fr       */
+/*   Created: 2025/09/03 01:20:44 by rpadasia          #+#    #+#             */
+/*   Updated: 2025/09/03 01:39:20 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parsing.h"
 #include "../includes/minishell.h"
 #include "../includes/execution.h"
+#include "../includes/parsing.h"
 
-void	reset_signals_for_child(void)
+int	get_exit_status(int status)
 {
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+	return (1);
 }
 
-void	reset_signals_interactive(void)
+void	handle_signal_output(int status)
 {
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
-}
+	int	sig;
 
-void	reset_shell_state(void)
-{
-	t_minishell	*o;
-
-	o = minishell();
-	if (g_signal != 0)
+	if (WIFSIGNALED(status))
 	{
-		o->last_status = g_signal;
-		g_signal = 0;
+		sig = WTERMSIG(status);
+		if (sig == SIGINT)
+			write(1, "\n", 1);
+		else if (sig == SIGQUIT)
+			ft_putendl_fd("Quit (core dumped)", 1);
 	}
-	reset_signals_interactive();
 }

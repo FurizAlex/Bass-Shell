@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 23:59:27 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/08/22 17:02:58 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/09/02 22:22:26 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,27 @@
     char next = peek_char(lexer);
 	Recognizes <, >, <<, >> operators, advances lexer appropriately
 */
+static t_token	*read_infile(t_lexer *lexer, char next)
+{
+	advance_lexer(lexer);
+	if (next == '<')
+	{
+		advance_lexer(lexer);
+		return (create_token(TOKEN_HEREDOC, "<<", false));
+	}
+	return (create_token(TOKEN_REDIRECT_IN, "<", false));
+}
+
+static t_token	*read_outfile(t_lexer *lexer, char next)
+{
+	advance_lexer(lexer);
+	if (next == '>')
+	{
+		advance_lexer(lexer);
+		return (create_token(TOKEN_REDIRECT_APPEND, ">>", false));
+	}
+	return (create_token(TOKEN_REDIRECT_OUT, ">", false));
+}
 
 t_token	*read_redirect(t_lexer *lexer)
 {
@@ -24,26 +45,9 @@ t_token	*read_redirect(t_lexer *lexer)
 
 	current = lexer->current_char;
 	next = peek_char(lexer);
-
 	if (current == '<')
-	{
-		advance_lexer(lexer);
-		if (next == '<')
-		{
-			advance_lexer(lexer);
-			return (create_token(TOKEN_HEREDOC, "<<", false));
-		}
-		return (create_token(TOKEN_REDIRECT_IN, "<", false));
-	}
+		return (read_infile(lexer, next));
 	if (current == '>')
-	{
-		advance_lexer(lexer);
-		if (next == '>')
-		{
-			advance_lexer(lexer);
-			return (create_token(TOKEN_REDIRECT_APPEND, ">>", false));
-		}
-		return (create_token(TOKEN_REDIRECT_OUT, ">", false));
-	}
+		return (read_outfile(lexer, next));
 	return (NULL);
 }

@@ -52,11 +52,13 @@ SOURCE = 											\
 	expansion/quotes.c								\
 	lexer/read_redirect.c							\
 	lexer/read_word.c								\
+	lexer/read_word_utils.c							\
 	lexer/remove_quotes.c							\
 	lexer/token_utils.c								\
 	lexer/tokenize.c								\
 	main/error.c									\
 	main/hd_signals.c								\
+	main/hd_signals_utils.c							\
 	main/main.c										\
 	main/reset_signals.c							\
 	main/shell_level.c								\
@@ -65,7 +67,10 @@ SOURCE = 											\
 	main/initialise.c								\
 	main/history.c									\
 	main/signalling.c								\
+	parser/apply_heredoc.c							\
+	parser/ast_execution_utils.c					\
 	parser/ast_execution.c							\
+	parser/ast_pipe_utils.c							\
 	parser/create_node.c							\
 	parser/freeing.c								\
 	parser/initializing.c							\
@@ -73,7 +78,7 @@ SOURCE = 											\
 	parser/parse_command.c							\
 	parser/parse_pipes.c							\
 	parser/parse_redirections.c						\
-	parser/redir_add_heredoc.c						\
+	parser/redir_utils.c							\
 	parser/redir.c									\
 	parser/transition.c								\
 

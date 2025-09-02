@@ -1,40 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   reset_signals.c                                    :+:      :+:    :+:   */
+/*   read_word_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/20 17:29:01 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/09/02 22:59:26 by rpadasia         ###   ########.fr       */
+/*   Created: 2025/09/02 22:42:55 by rpadasia          #+#    #+#             */
+/*   Updated: 2025/09/02 22:57:57 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
-#include "../includes/minishell.h"
-#include "../includes/execution.h"
 
-void	reset_signals_for_child(void)
+t_token	*return_token(char *word, bool has_expansion)
 {
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-}
+	t_token	*token;
 
-void	reset_signals_interactive(void)
-{
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-void	reset_shell_state(void)
-{
-	t_minishell	*o;
-
-	o = minishell();
-	if (g_signal != 0)
-	{
-		o->last_status = g_signal;
-		g_signal = 0;
-	}
-	reset_signals_interactive();
+	token = create_token(TOKEN_WORD, word, has_expansion);
+	free(word);
+	return (token);
 }

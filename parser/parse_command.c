@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 21:32:17 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/09/01 13:46:00 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/09/02 18:27:39 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@ t_ast_node	*parse_command(t_parser *parser)
 	if (!cmd_node)
 		return (NULL);
 	cmd_node = parse_redirection(parser, cmd_node);
+	if (!cmd_node)
+	{
+		return (NULL);
+	}
 	cmd_node->args = collect_command_args(parser, &arg_count);
 	if (arg_count == 0 && !cmd_node->redirections)
 	{

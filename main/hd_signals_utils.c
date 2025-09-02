@@ -1,60 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signalling.c                                       :+:      :+:    :+:   */
+/*   hd_signals_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 22:09:03 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/09/02 22:39:53 by rpadasia         ###   ########.fr       */
+/*   Created: 2025/09/02 22:38:33 by rpadasia          #+#    #+#             */
+/*   Updated: 2025/09/02 22:39:06 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
+#include "../includes/execution.h"
 
-int	g_signal = 0;
+extern int	g_signal;
 
-void	handle_sigint(int sig)
+void	handle_sigint_heredoc(int sig)
 {
 	if (sig == SIGINT)
 	{
 		g_signal = 130;
 		write(STDOUT_FILENO, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		exit(g_signal);
 	}
 }
 
-void	handle_sigeof(int sig)
+void	handle_sigeof_heredoc(int sig)
 {
 	(void)sig;
-	printf("exit\n");
+	printf("\n");
 	g_signal = EXIT_SUCCESS;
 	exit(g_signal);
 }
 
-bool	handle_eof_input(char *cmd)
+void	setup_signals_heredoc(void)
 {
-	if (!cmd)
-	{
-		write(1, "exit\n", 5);
-		return (true);
-	}
-	return (false);
-}
-
-void	setup_signals(void)
-{
-	signal(SIGINT, handle_sigint);
+	signal(SIGINT, handle_sigint_heredoc);
 	signal(SIGQUIT, SIG_IGN);
-}
-
-void	process_signal_state(t_minishell *msh)
-{
-	if (g_signal != 0)
-	{
-		msh->last_status = g_signal;
-		g_signal = 0;
-	}
 }

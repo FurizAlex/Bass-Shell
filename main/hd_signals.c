@@ -6,47 +6,71 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:45:05 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/08/27 16:18:39 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/09/02 22:39:24 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
 #include "../includes/execution.h"
 
-extern int g_signal;
-
-void	handle_sigint_heredoc(int sig)
+static void	heredoc_child_loop(int pipe_fd, char *delimiter)
 {
-	if (sig == SIGINT)
+	char	*line;
+
+	close(pipe_fd);
+	setup_signals_heredoc();
+	while (1)
 	{
-		g_signal = 130;
-		write(STDOUT_FILENO, "\n", 1);
-		exit(g_signal);
+		line = readline("o-> ");
+		if (!line)
+		{
+			printf("Heredoc delimited by EOF\n");
+			break ;
+		}
+		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
+			&& line[ft_strlen(delimiter)] == '\0')
+		{
+			free(line);
+			break ;
+		}
+		write(pipe_fd, line, ft_strlen(line));
+		write(pipe_fd, "\n", 1);
+		free(line);
 	}
 }
 
-void	handle_sigeof_heredoc(int sig)
+static void	heredoc_child_process(int *pipe_fd, char *delimiter)
 {
-	(void)sig;
-	printf("\n");
-	g_signal = EXIT_SUCCESS;
-	exit(g_signal);
+	close(pipe_fd[0]);
+	heredoc_child_loop(pipe_fd[1], delimiter);
+	close(pipe_fd[1]);
+	exit(EXIT_SUCCESS);
 }
 
-void	setup_signals_heredoc(void)
+static void	handle_child_status(int status)
 {
-	signal(SIGINT, handle_sigint_heredoc);
-	signal(SIGQUIT, SIG_IGN);
+	if (WIFEXITED(status))
+		g_signal = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		g_signal = 128 + WTERMSIG(status);
 }
-// Set signals for heredoc context;
-//EOF handling is done by checking readline return value
+
+static void	heredoc_parent_process(int *pipe_fd, pid_t pid)
+{
+	int	status;
+
+	close(pipe_fd[1]);
+	waitpid(pid, &status, 0);
+	handle_child_status(status);
+	reset_signals_interactive();
+	dup2(pipe_fd[0], STDIN_FILENO);
+	close(pipe_fd[0]);
+}
 
 int	heredoc_with_signals(char *delimiter)
 {
-	char	*line;
 	int		pipe_fd[2];
 	pid_t	pid;
-	int		status;
 
 	if (pipe(pipe_fd) == -1)
 		return (error2exit("Couldn't create pipe for heredoc", 1));
@@ -55,42 +79,8 @@ int	heredoc_with_signals(char *delimiter)
 	if (pid < 0)
 		return (error2exit("Couldn't fork for heredoc", 1));
 	if (pid == 0)
-	{
-		close(pipe_fd[0]);
-		setup_signals_heredoc();
-		while (1)
-		{
-			line = readline("o-> ");
-			if (!line)
-			{
-				printf("Heredoc delimited by EOF\n");
-				break ;
-			}
-			if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
-				&& line[ft_strlen(delimiter)] == '\0')
-			{
-				free(line);
-				break ;
-			}
-			write(pipe_fd[1], line, ft_strlen(line));
-			write(pipe_fd[1], "\n", 1);
-			free(line);
-		}
-		close(pipe_fd[1]);
-		exit(EXIT_SUCCESS);
-	}
+		heredoc_child_process(pipe_fd, delimiter);
 	else
-	{
-		close(pipe_fd[1]);
-		waitpid(pid, &status, 0);
-
-		if (WIFEXITED(status))
-			g_signal = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			g_signal = 128 + WTERMSIG(status);
-		reset_signals_interactive();
-		dup2(pipe_fd[0], STDIN_FILENO);
-		close(pipe_fd[0]);
-	}
+		heredoc_parent_process(pipe_fd, pid);
 	return (0);
 }
