@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 11:33:54 by alechin           #+#    #+#             */
-/*   Updated: 2025/09/02 10:39:02 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/09/03 10:18:45 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void			search_path_loop(char **paths, char *cut, char **cmd);
 int				handle_quote(char *str, int *i, char quote);
 int				handle_no_quote(char *str, int *i);
 int				is_valid_identifier(char *s);
+void			export_pwd_var(t_minishell *e, char *prefix, char *value);
 
 t_minishell		*minishell(void);
 

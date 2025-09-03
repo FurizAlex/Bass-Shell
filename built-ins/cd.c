@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:54:19 by alechin           #+#    #+#             */
-/*   Updated: 2025/09/01 16:50:35 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/09/03 10:18:59 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,27 +31,11 @@ static int	arg_count(char **cmd)
 
 static void	update_pwd_vars(t_minishell *e, char *oldpwd)
 {
-	char	*joined;
-	char	*variables;
-
-	joined = ft_strjoin("OLDPWD=", oldpwd);
-	variables = ft_strdup(joined);
-	if (!joined)
-	{
-		koi_export(e, &variables);
-		free(joined);
-	}
+	export_pwd_var(e, "OLDPWD=", oldpwd);
 	if (getxenv("PWD", e) != NULL)
 	{
-		if (!getcwd(oldpwd, 4096))
-		{
-			joined = ft_strjoin("OLDPWD=", oldpwd);
-			if (!joined)
-			{
-				koi_export(e, &variables);
-				free(joined);
-			}
-		}
+		if (getcwd(oldpwd, 4096))
+			export_pwd_var(e, "PWD=", oldpwd);
 	}
 }
 

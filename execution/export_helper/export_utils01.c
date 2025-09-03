@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 17:22:42 by alechin           #+#    #+#             */
-/*   Updated: 2025/08/13 10:32:55 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/09/03 10:18:30 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,23 @@ void	no_args(t_minishell *e)
 		singularity(env[i]);
 	free(env);
 	free(flags);
+}
+
+void	export_pwd_var(t_minishell *e, char *prefix, char *value)
+{
+	char	*joined;
+	char	*variables;
+
+	joined = ft_strjoin(prefix, value);
+	if (!joined)
+		return ;
+	variables = ft_strdup(joined);
+	if (!variables)
+	{
+		free(joined);
+		return ;
+	}
+	koi_export(e, &variables);
+	free(joined);
+	free(variables);
 }
