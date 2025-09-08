@@ -6,7 +6,7 @@
 /*   By: furizalex <furizalex@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:52:13 by alechin           #+#    #+#             */
-/*   Updated: 2025/09/02 10:31:24 by furizalex        ###   ########.fr       */
+/*   Updated: 2025/09/06 22:44:39 by furizalex        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static char	*expand_question(char *prefix, char *rest, t_minishell *msh)
 	if (!num)
 		return (free(prefix), NULL);
 	tmp = ft_strjoin(prefix, num);
+	free(prefix);
 	free(num);
 	if (!tmp)
 		return (NULL);
