@@ -4,6 +4,8 @@ A Miniture shell project where you create a fairly simple Unix Shell. This shell
 
 <img width="2000" height="500" alt="bassShellHeader" src="https://github.com/user-attachments/assets/bfe940c5-e5ca-4bbd-97f1-9a918726dbab" />
 
+<img width="1920" height="200" alt="bassHeader" src="https://github.com/user-attachments/assets/c2ae96b2-5212-4ba7-baef-b7142b35ed7c" />
+
 INSTRUCTIONS FOR COMPILATION:
 ```
 make
@@ -12,5 +14,7 @@ make clean - Clean up object files
 make fclean - Clean up object files & program
 run ./minishell
 ```
+
+<img width="1920" height="200" alt="bassHeader" src="https://github.com/user-attachments/assets/c2ae96b2-5212-4ba7-baef-b7142b35ed7c" />
 
 ![BassShellHeader](https://github.com/user-attachments/assets/40eee59d-8865-4ef2-98fb-9013d6f2a8b3)
