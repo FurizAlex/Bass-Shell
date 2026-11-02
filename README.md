@@ -1,10 +1,10 @@
 # <img src='bassShellIcon.png' width=48> Our Minature Shell Project
 
+<img width="1920" height="200" alt="bassHeader" src="https://github.com/user-attachments/assets/c2ae96b2-5212-4ba7-baef-b7142b35ed7c" />
+
 A Miniture shell project where you create a fairly simple Unix Shell. This shell has parsing for commands, execution, piping, redirection to name a few. The goal for this project is to essentially understand how shells works. It's an introduction to systems programming & CLI
 
 <img width="2000" height="500" alt="bassShellHeader" src="https://github.com/user-attachments/assets/bfe940c5-e5ca-4bbd-97f1-9a918726dbab" />
-
-<img width="1920" height="200" alt="bassHeader" src="https://github.com/user-attachments/assets/c2ae96b2-5212-4ba7-baef-b7142b35ed7c" />
 
 INSTRUCTIONS FOR COMPILATION:
 ```
