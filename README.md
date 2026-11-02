@@ -1,4 +1,4 @@
-# <img src='bassShellIcon.png' width=32> Our Minature Shell Project
+# <img src='bassShellIcon.png' width=48> Our Minature Shell Project
 
 A Miniture shell project where you create a fairly simple Unix Shell. This shell has parsing for commands, execution, piping, redirection to name a few. The goal for this project is to essentially understand how shells works. It's an introduction to systems programming & CLI
 
