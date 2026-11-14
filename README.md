@@ -8,7 +8,7 @@
 
 ## INSTRUCTIONS FOR COMPILATION:
 ```
-git clone git@github.com:FurizAlex/Bass-Shell.git
+git clone https://github.com/FurizAlex/Bass-Shell.git
 cd Bass-Shell
 make
 make re - Remake Compilation
